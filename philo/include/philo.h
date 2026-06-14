@@ -1,0 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
+/*   Updated: 2026/06/13 21:21:34 by ncruz-ne         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PHILO_H
+# define PHILO_H
+
+/* Standard libraries */
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <string.h>
+# include <sys/time.h>
+# include <pthread.h>
+# include <limits.h>
+
+/* My libraries */
+# include "flair.h"
+
+/* Structs */
+typedef struct s_philo
+{
+	int	n_philo;
+	int	t_die;
+	int	t_eat;
+	int	t_sleep;
+	int	n_eats_x_philo;
+}	t_philo;
+
+/* Utils */
+int		exit_msg(char *out_msg, char *err_msg, t_philo *philo, int exit_status);
+int		exit_cleanup(t_philo *philo, char *err_msg, int exit_status);
+int		ft_isspace(char c);
+int		ft_isdigit(char c);
+int		isdigit_str(char *s);
+int		ft_atoi(const char *nptr);
+long	ft_atol(const char *nptr);
+void	*ft_calloc(size_t nmemb, size_t size);
+void	ft_putchar_fd(int fd, char c);
+void	ft_putstr_fd(int fd, char *s);
+void	ft_puts_fd(int fd, char *s);
+
+#endif

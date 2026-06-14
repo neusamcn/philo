@@ -1,0 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
+/*   Updated: 2026/06/13 22:48:30 by ncruz-ne         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/philo.h"
+
+int	exit_cleanup(t_philo *philo, char *err_msg, int exit_status)
+{
+	if (philo)
+		free(philo);
+	if (err_msg)
+		ft_putstr_fd(STDERR_FILENO, err_msg);
+	return (exit_status);
+}
+
+int	exit_msg(char *out_msg, char *err_msg, t_philo *philo, int exit_status)
+{
+	printf(ERR"%s\nSee "COLOR_RESET, out_msg);
+	printf("root/README.md");
+	printf(ERR" for instructions.\n"COLOR_RESET);
+	return (exit_cleanup(philo, err_msg, exit_status));
+}
