@@ -11,7 +11,6 @@
 	```
 	./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 	```
-
 3. Use `make clean` to remove object files.
 4. Use `make fclean` to remove all generated files.
 5. Use `make re` to rebuild the project from scratch.
@@ -45,4 +44,34 @@ Testing output will be available in the directory defined in `Makefile` as `TEST
 
 ## Resources
 
+### Allowed functions
+memset: https://www.man7.org/linux/man-pages/man3/memset.3.html
+
+printf: https://man7.org/linux/man-pages/man3/printf.3.html
+
+malloc, free: https://man7.org/linux/man-pages/man3/malloc.3.html
+
+write:
+
+usleep:
+
+gettimeofday:
+
 https://www.man7.org/linux/man-pages/man7/pthreads.7.html
+cancellation points and how write() and printf() relate
+nice value
+NPTL: resource limits, interval timers, alternate signal stack, stack size soft resource limit, RLIMIT_STACK, ulimit -s, getconf GNU_LIBPTHREAD_VERSION, LD_ASSUME_KERNEL
+
+pthread_create: https://www.man7.org/linux/man-pages/man3/pthread_create.3.html
+
+pthread_detach: https://www.man7.org/linux/man-pages/man3/pthread_detach.3.html
+
+pthread_join: https://www.man7.org/linux/man-pages/man3/pthread_join.3.html
+
+
+
+Operations on mutexes:
+
+pthread_mutex_init, pthread_mutex_destroy,
+pthread_mutex_lock, pthread_mutex_unlock:
+https://www.man7.org/linux/man-pages/man3/pthread_mutex_init.3.html

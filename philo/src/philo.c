@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/06/14 21:18:37 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/06/14 23:24:14 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static void	print_philos(t_philo *philo)
 {
 	printf("Simulation starting with the following parameters:\n");
 	printf(HOT_PINK"number_of_philosophers: "COLOR_RESET"%d", philo->n_philo);
+	if (philo->n_philo < 9999999)
+		printf("\t");
 	if (philo->n_philo > 200)
 		printf("\t-> "DEEP_PINK"WARNING"COLOR_RESET": you should NOT test "
 			DEEP_PINK"above 200"COLOR_RESET"!");

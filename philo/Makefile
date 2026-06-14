@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/06/14 21:32:49 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/06/14 23:26:34 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ OBJ_DB 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR_DB)/%.o,$(SRC))
 
 HEADERS 	= $(addprefix include/, philo.h flair.h)
 
-CC			= cc
+CC			= cc -pthread # TODO: should -pthread go here or in CFLAGS?
 CPPFLAGS	= -Iinclude
 CFLAGS		= -Wall -Werror -Wextra
 DB_FLAGS	= -g
@@ -62,6 +62,8 @@ PATH_COLOR      := $(ESC)[38;2;221;160;221m
 
 all: $(NAME)
 
+# TODO: should I have a rule to set shell to bash before running program?
+# and for setting ulimit -s ? or LD_ASSUME_KERNEL ?
 $(NAME): $(OBJ)
 	@$(CC) $(OBJ) -o $@
 	@printf "%b compiled.\n" "$(GREEN)$@$(COLOR_RESET)"
@@ -78,7 +80,7 @@ clean:
 
 fclean: clean
 	@$(RM) $(NAME)
-	@printf "$(INFO)Executables and object files libraries removed.$(COLOR_RESET)\n"
+	@printf "$(INFO)Executable removed.$(COLOR_RESET)\n"
 
 re: fclean all
 
@@ -90,7 +92,7 @@ norm:
 	@curl -L -o "../en.norm.pdf" "https://raw.githubusercontent.com/neusamcn/philo/main/en.norm.pdf"
 
 
-######################## Rules for testing ########################
+######################## RULES FOR TESTING ########################
 $(NAME_DB): $(OBJ_DB)
 	@$(CC) $(OBJ_DB) -o $@
 	@printf "%b for debugging compiled.\n" "$(GREEN)$@$(COLOR_RESET)"
@@ -114,16 +116,6 @@ valg: tclean $(NAME_DB) $(TEST_DIR)
 
 test: valg db
 
-# vsupp: re $(TEST_DIR)
-# 	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --trace-children=yes -s --suppressions=$(TEST_DIR)/readline.supp \
-# 	--log-file=$(TEST_DIR)/valg_supp_out.log ./$(NAME)
-# 	@echo "Valgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/valg_supp_out.log$(COLOR_RESET)"
-
-# testset: re $(TEST_DIR)
-# 	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --gen-suppressions=all --num-callers=30 \
-# 	./$(NAME) 2> $(TEST_DIR)/valgrind.raw
-# 	@echo "Valgrind suppression run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/valg_supression_out.log$(COLOR_RESET)"
-
 tclean:
 	@$(RM) -r $(TEST_DIR)
 	@printf "%b for debugging removed.\n" "$(PATH_COLOR)/$(TEST_DIR)$(COLOR_RESET)"
@@ -132,4 +124,4 @@ tclean:
 	@printf "$(INFO)Debugging executable and object files removed.$(COLOR_RESET)\n"
 
 
-.PHONY: all clean fclean re run norm test tclean # testset vsupp
+.PHONY: all clean fclean re run norm db valg test tclean
