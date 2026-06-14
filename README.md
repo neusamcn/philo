@@ -34,7 +34,7 @@ ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
 
 `EXIT_FAILURE` is also the return status when any error occurs during program execution. Information will be added to **standard error** on the error that triggered the program's exit.
 
-Testing output will be available in the directory defined in `Makefile` as `TEST_DIR` at the project's root.
+Testing output will be available in the directory defined in `Makefile` as `TEST_DIR`.
 
 
 ## Resources

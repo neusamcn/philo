@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/06/14 19:05:50 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/06/14 19:21:59 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,9 @@ T_EAT			= 3
 T_SLEEP			= 4
 N_EATS_X_PHILO	= 5
 ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
+
 TEST_DIR		= test_logs
+
 ESC             := $(shell printf '\033')
 COLOR_RESET     := $(ESC)[0m
 # DARK_VIOLET     := $(ESC)[38;2;148;0;211m
