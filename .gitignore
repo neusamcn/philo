@@ -1,0 +1,5 @@
+.vscode/
+philo/obj/
+philo/obj_db/
+philo/philo
+philo/philo_db
