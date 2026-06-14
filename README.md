@@ -15,13 +15,16 @@
 3. Use `make clean` to remove object files.
 4. Use `make fclean` to remove all generated files.
 5. Use `make re` to rebuild the project from scratch.
-6. Use `make test` for debugging with `gdb` and `valgrind`.
+6. Testing rules — using `ARGS` in `Makefile`:
+	1. `make valg` runs `valgrind`;
+	2. `make db` starts debugging session `gdbtui`;
+	3. `make test` runs first `valgrind` and after initiates a `gdbtui` session.
 7. `make tclean` will remove only testing files and directories.
 8. Use `make norm` to download the most updated version of 42 Norm.
 
 Introducing invalid arguments to run the program will cause it to return with `EXIT_FAILURE` and an error message will be printed in **standard ouput** so that the user knows what is the issue.
 
-`philo` will only run successfully if there are **4** or **5** arguments, with all of them being **positive integers** (from `1` to `INT_MAX` = **2147483647** for 32-bit integers), except for `number_of_times_each_philosopher_must_eat` that can be set to `0`, which will mean it will not be considered for the simulation.
+`philo` will only run successfully if there are **4** or **5** arguments, with all of them being **positive integers** (from `1` to `INT_MAX` = **2147483647** for 32-bit integers), except for `number_of_times_each_philosopher_must_eat` that can be set to `0` — which will mean it will not be considered for the simulation.
 
 When using `make run`, user must update the `ARGS` variable in `Makefile` directly or the individual variables that compose `ARGS`:
 ```
