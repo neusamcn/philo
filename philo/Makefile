@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/06/14 19:53:34 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/06/14 21:18:03 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,16 +32,17 @@ DB_FLAGS	= -g
 RM 			= rm -f
 
 N_PHILO			= 1
-T_DIE			= 2
-T_EAT			= 3
-T_SLEEP			= 4
-N_EATS_X_PHILO	= 5
+T_DIE			= 800
+T_EAT			= 200
+T_SLEEP			= 200
+N_EATS_X_PHILO	= 0
 ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
 
 TEST_DIR		= test_logs
 
 ESC             := $(shell printf '\033')
 COLOR_RESET     := $(ESC)[0m
+VIOLET			:= $(ESC)[38;2;180;140;230m
 # DARK_VIOLET     := $(ESC)[38;2;148;0;211m
 GREEN           := $(ESC)[32m
 # RED             := $(ESC)[31m
@@ -82,7 +83,8 @@ fclean: clean
 re: fclean all
 
 run: re $(NAME)
-	./$(NAME) $(ARGS)
+	@printf "Running $(VIOLET)./$(NAME) $(ARGS)$(COLOR_RESET)\n\n"
+	@./$(NAME) $(ARGS)
 
 norm:
 	@curl -L -o "../en.norm.pdf" "https://raw.githubusercontent.com/neusamcn/philo/main/en.norm.pdf"

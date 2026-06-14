@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/06/14 18:19:33 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/06/14 21:18:37 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,31 @@ static int	validate_args(char **av)
 	return (1);
 }
 
-// TODO: DELETE TESTER
 static void	print_philos(t_philo *philo)
 {
-	printf(HOT_PINK"number_of_philosophers: "COLOR_RESET"%d\n", philo->n_philo);
-	printf(HOT_PINK"time_to_die: "COLOR_RESET"%d\n", philo->t_die);
-	printf(HOT_PINK"time_to_eat: "COLOR_RESET"%d\n", philo->t_eat);
-	printf(HOT_PINK"time_to_sleep: "COLOR_RESET"%d\n", philo->t_sleep);
+	printf("Simulation starting with the following parameters:\n");
+	printf(HOT_PINK"number_of_philosophers: "COLOR_RESET"%d", philo->n_philo);
+	if (philo->n_philo > 200)
+		printf("\t-> "DEEP_PINK"WARNING"COLOR_RESET": you should NOT test "
+			DEEP_PINK"above 200"COLOR_RESET"!");
+	printf(HOT_PINK"\ntime_to_die: "COLOR_RESET"%d ms", philo->t_die);
+	if (philo->t_die < 60)
+		printf("\t\t\t-> "DEEP_PINK"WARNING"COLOR_RESET": you should NOT test "
+			DEEP_PINK"below 60 ms"COLOR_RESET"!");
+	printf(HOT_PINK"\ntime_to_eat: "COLOR_RESET"%d ms", philo->t_eat);
+	if (philo->t_eat < 60)
+		printf("\t\t\t-> "DEEP_PINK"WARNING"COLOR_RESET": you should NOT test "
+			DEEP_PINK"below 60 ms"COLOR_RESET"!");
+	printf(HOT_PINK"\ntime_to_sleep: "COLOR_RESET"%d ms", philo->t_sleep);
+	if (philo->t_sleep < 60)
+		printf("\t\t\t-> "DEEP_PINK"WARNING"COLOR_RESET": you should NOT test "
+			DEEP_PINK"below 60 ms"COLOR_RESET"!");
 	if (philo->n_eats_x_philo)
-		printf(HOT_PINK"number_of_times_each_philosopher_must_eat: "COLOR_RESET
-			"%d\n", philo->n_eats_x_philo);
+		printf(HOT_PINK"\nnumber_of_times_each_philosopher_must_eat:"COLOR_RESET
+			" %d\n", philo->n_eats_x_philo);
+	if (philo->n_eats_x_philo == 0)
+		printf("\n");
+	printf("\n");
 }
 
 static t_philo	*init_philo(t_philo *philo, char **av)
@@ -56,7 +71,6 @@ static t_philo	*init_philo(t_philo *philo, char **av)
 	philo->t_sleep = ft_atoi(av[4]);
 	if (av[5])
 		philo->n_eats_x_philo = ft_atoi(av[5]);
-	// TODO: DELETE TESTER
 	print_philos(philo);
 	return (philo);
 }
