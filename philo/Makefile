@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/06/14 19:21:59 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/06/14 19:53:34 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,8 @@ re: fclean all
 run: re $(NAME)
 	./$(NAME) $(ARGS)
 
-norm: # TODO: add rule
+norm:
+	@curl -L -o "../en.norm.pdf" "https://raw.githubusercontent.com/neusamcn/philo/main/en.norm.pdf"
 
 
 ######################## Rules for testing ########################
