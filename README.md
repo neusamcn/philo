@@ -51,9 +51,9 @@ printf: https://man7.org/linux/man-pages/man3/printf.3.html
 
 malloc, free: https://man7.org/linux/man-pages/man3/malloc.3.html
 
-write:
+write: https://man7.org/linux/man-pages/man2/write.2.html
 
-usleep:
+usleep: https://man7.org/linux/man-pages/man3/usleep.3.html
 
 gettimeofday:
 
@@ -75,3 +75,22 @@ Operations on mutexes:
 pthread_mutex_init, pthread_mutex_destroy,
 pthread_mutex_lock, pthread_mutex_unlock:
 https://www.man7.org/linux/man-pages/man3/pthread_mutex_init.3.html
+
+TODO: https://www.geeksforgeeks.org/operating-systems/mutex-vs-semaphore/
+https://pt.wikipedia.org/wiki/Exclus%C3%A3o_m%C3%BAtua
+https://stackoverflow.com/questions/34524/what-is-a-mutex
+
+
+Disorganised notes:
+monitor threads for deaths
+data racing
+mutex prints can have some delay depending on how usleep is used
+work with helgrind
+will have to calculate microseconds to miliseconds from gettimeofday()
+
+before printing need to lock and unlock
+
+use algorithm that determines how forks are used depending on left or right fork
+
+data types: pthread_t pthread_mutex_t uint64_t
+main() is also a thread
