@@ -37,7 +37,7 @@ ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
 
 Note that though all positive integer values are valid, the program shouldn't be tested during evaluation with `number_of_philosophers > 200`, `time_to_die < 60`, `time_to_eat < 60` or `time_to_sleep < 60`. A warning message will be displayed in standard output when user submits any parameter under these conditions.
 
-`EXIT_FAILURE` is also the return status when any error occurs during program execution. Information will be added to **standard error** on the error that triggered the program's exit.
+`EXIT_FAILURE` is also the return status when any error occurs during program execution. Information will be added to **standard error** regarding the error that triggered the program's exit.
 
 Testing output will be available in the directory defined in `Makefile` as `TEST_DIR`.
 
