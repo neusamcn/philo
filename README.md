@@ -3,6 +3,8 @@
 ## Description
 
 These silly philosophers say that they'll die if they only have 1 fork to eat... That seems a bit dramatic... So let's give them chopsticks instead so they can truly worry about their mortal coil :) *gleeful witchy cackle*
+i.e. the subject refers to 'forks' and 'pasta', we will be talking about 'chopsticks' and 'noodles' here.
+
 
 ## Instructions
 
@@ -109,7 +111,7 @@ will have to calculate microseconds to miliseconds from gettimeofday()
 
 before printing need to lock and unlock
 
-use algorithm that determines how forks are used depending on left or right fork
+use algorithm that determines how chopsticks are used depending on left or right chopstick
 
 data types: pthread_t pthread_mutex_t uint64_t
 main() is also a thread
