@@ -2,7 +2,7 @@
 
 ## Description
 
-...
+These silly philosophers say that they'll die if they only have 1 fork to eat... That seems a bit dramatic... So let's give them chopsticks instead so they can truly worry about their mortal coil :) *gleeful witchy cackle*
 
 ## Instructions
 
@@ -55,7 +55,7 @@ write: https://man7.org/linux/man-pages/man2/write.2.html
 
 usleep: https://man7.org/linux/man-pages/man3/usleep.3.html
 
-gettimeofday:
+gettimeofday: https://man7.org/linux/man-pages/man3/gettimeofday.3p.html
 
 https://www.man7.org/linux/man-pages/man7/pthreads.7.html
 cancellation points and how write() and printf() relate
@@ -69,6 +69,14 @@ pthread_detach: https://www.man7.org/linux/man-pages/man3/pthread_detach.3.html
 pthread_join: https://www.man7.org/linux/man-pages/man3/pthread_join.3.html
 
 
+### Important concepts
+
+Inter-Process Communication (IPC): https://www.geeksforgeeks.org/operating-systems/inter-process-communication-ipc/
+
+Introduction to Process Synchronization: https://www.geeksforgeeks.org/operating-systems/introduction-of-process-synchronization/
+
+Mutual Exclusion in Synchronization: https://www.geeksforgeeks.org/operating-systems/mutual-exclusion-in-synchronization/
+
 
 Operations on mutexes:
 
@@ -76,9 +84,20 @@ pthread_mutex_init, pthread_mutex_destroy,
 pthread_mutex_lock, pthread_mutex_unlock:
 https://www.man7.org/linux/man-pages/man3/pthread_mutex_init.3.html
 
+
+Gold!: https://diningphilosophers.eu/
+
+
 TODO: https://www.geeksforgeeks.org/operating-systems/mutex-vs-semaphore/
 https://pt.wikipedia.org/wiki/Exclus%C3%A3o_m%C3%BAtua
 https://stackoverflow.com/questions/34524/what-is-a-mutex
+
+
+### Interesting rabbit holes I went through while working on this project...
+
+Learning from Wikipedia on a tight schedule is always a gamble... I knew about The Year 2000 Problem, but learning about Epochs opened a whole new can of shiny worms for me. Wanna take your chance? Click here. https://en.wikipedia.org/wiki/Epoch_(computing)
+
+
 
 
 Disorganised notes:
