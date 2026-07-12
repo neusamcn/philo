@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/12 23:42:06 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/13 00:00:42 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,10 @@ int	exit_cleanup(t_philo *philo, char *err_msg, int exit_status)
 		if (philo->args)
 			free(philo->args);
 		if (philo->pt_ids)
-		// {
-		// 	i = 0;
-		// 	while (philo->pt_ids[i])
-		// 		free(philo->pt_ids[i++]);
-			// free(philo->pt_ids[i]);
 			free(philo->pt_ids);
-		// }
 		free(philo);
 	}
+	// TODO: destroy threads (see last valg log)
 	if (err_msg)
 		ft_putstr_fd(STDERR_FILENO, err_msg);
 	return (exit_status);
