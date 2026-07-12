@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/12 23:46:45 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/12 23:56:15 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,19 @@ static void	*pt_routine(void *arg)
 	return (NULL);
 }
 
-static t_philo	*init_philo_threads(t_philo *philo)
+static t_philo	*init_philo_threads(t_philo *p)
 {
 	int	n_i;
 
 	n_i = 0;
-	while (n_i < philo->args->n_philo)
+	while (n_i < p->args->n_philo)
 	{
-		philo->valid = pthread_create(&philo->pt_ids[n_i], NULL, pt_routine, philo);
-		if (philo->valid)
+		p->valid = pthread_create(&p->pt_ids[n_i], 0, pt_routine, p);
+		if (p->valid)
 			break ;
 		n_i++;
 	}
-	return (philo);
+	return (p);
 }
 
 t_philo	*init_philo(t_philo *philo, char **av)
