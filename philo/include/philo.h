@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/12 23:01:39 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/12 23:33:44 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_philo_args
 typedef struct s_philo
 {
 	t_philo_args	*args;
-	pthread_t		**pt_ids;
+	pthread_t		*pt_ids;
 	int				valid;
 }	t_philo;
 
@@ -48,6 +48,8 @@ typedef enum e_pt_valid
 	CALLOC_ERR = -1
 }	t_pt_valid;
 
+/* Main functions */
+t_philo	*init_philo(t_philo *philo, char **av);
 
 /* Utils */
 int		exit_msg(char *out_msg, char *err_msg, t_philo *philo, int exit_status);

@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/07/11 16:06:52 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/07/12 23:53:01 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJ_DIR_DB 	= obj_db
 
 UTILS_SRC	= $(addprefix $(SRC_DIR)/utils/, exit.c ft_ato_.c ft_calloc.c \
 				ft_is_.c write.c)
-SRC			= $(SRC_DIR)/philo.c $(UTILS_SRC)
+SRC			= $(addprefix $(SRC_DIR)/, philo.c init.c) $(UTILS_SRC)
 OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 OBJ_DB 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR_DB)/%.o,$(SRC))
 
