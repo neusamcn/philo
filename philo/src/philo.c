@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/06/14 23:24:14 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/12 23:00:48 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,61 @@ static void	print_philos(t_philo *philo)
 	printf("\n");
 }
 
+static t_philo_args	*init_philo_args(t_philo_args *p_args, char **av)
+{
+	p_args->n_philo = ft_atoi(av[1]);
+	p_args->t_die = ft_atoi(av[2]);
+	p_args->t_eat = ft_atoi(av[3]);
+	p_args->t_sleep = ft_atoi(av[4]);
+	if (av[5])
+		p_args->n_eats_x_philo = ft_atoi(av[5]);
+	print_philos(p_args);
+	return (p_args);
+}
+
+static t_philo	*init_philo_threads(t_philo *philo)
+{
+	int	n_i;
+
+	n_i = 0;
+	while (n_i < philo->args->n_philo)
+	{
+		philo->pt_ids[n_i] = ft_calloc(1, sizeof(pthread_t));
+		if (!philo->pt_ids[n_i])
+		{
+			philo->valid = CALLOC_ERR;
+			break ;
+		}
+		philo->valid = pthread_create(philo->pt_ids[n_i], NULL, NULL, NULL);
+		if (philo->valid)
+			break ;
+		n_i++;
+	}
+	if (n_i == philo->args->n_philo)
+	{
+		philo->pt_ids[n_i] = ft_calloc(1, sizeof(pthread_t));
+		if (!philo->pt_ids[n_i])
+			philo->valid = CALLOC_ERR;
+	}
+	return (philo);
+}
+
 static t_philo	*init_philo(t_philo *philo, char **av)
 {
 	philo = ft_calloc(1, sizeof(t_philo));
 	if (!philo)
 		return (NULL);
-	philo->n_philo = ft_atoi(av[1]);
-	philo->t_die = ft_atoi(av[2]);
-	philo->t_eat = ft_atoi(av[3]);
-	philo->t_sleep = ft_atoi(av[4]);
-	if (av[5])
-		philo->n_eats_x_philo = ft_atoi(av[5]);
-	print_philos(philo);
+	philo->args = ft_calloc(1, sizeof(t_philo_args));
+	if (!philo->args)
+		return (NULL);
+	philo->args = init_philo_args(philo->args, av);
+	philo->pt_ids = ft_calloc(1, sizeof(pthread_t *));
+	if (!philo->pt_ids)
+		return (NULL);
+	philo->valid = ft_calloc(1, sizeof(int));
+	philo = init_philo_threads(philo);
+	if (philo->valid)
+		return (NULL);
 	return (philo);
 }
 
@@ -87,6 +130,7 @@ int	main(int ac, char **av)
 	philo = init_philo(philo, av);
 	if (!philo)
 		return (exit_cleanup(philo, "ft_calloc(1, philo)", EXIT_FAILURE));
+	
 	// TODO: philos' stuff
 	return (exit_cleanup(philo, NULL, EXIT_SUCCESS));
 }

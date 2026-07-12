@@ -2,8 +2,8 @@
 
 ## Description
 
-These silly philosophers say that they'll die if they only have 1 fork to eat... That seems a bit dramatic... So let's give them chopsticks instead so they can truly worry about their mortal coil :) *gleeful witchy cackle*
-i.e. the subject refers to 'forks' and 'pasta', we will be talking about 'chopsticks' and 'noodles' here.
+These silly philosophers say that they'll die if they only have 1 fork to eat spaghetti... That seems a bit dramatic... So let's give them chopsticks and noodles instead so they can truly worry about their mortal coil :) [*gleeful witchy cackle*]
+i.e. the subject refers to 'forks' and 'spaghetti', we will be talking about 'chopsticks' and 'noodles' here.
 
 
 ## Instructions
@@ -79,6 +79,16 @@ Introduction to Process Synchronization: https://www.geeksforgeeks.org/operating
 
 Mutual Exclusion in Synchronization: https://www.geeksforgeeks.org/operating-systems/mutual-exclusion-in-synchronization/
 
+Priority Inversion in Operating Systems: https://www.geeksforgeeks.org/operating-systems/priority-inversion/
+
+Introduction of Deadlock in Operating System: https://www.geeksforgeeks.org/operating-systems/introduction-of-deadlock-in-operating-system/
+
+Semaphores in Process Synchronization: https://www.geeksforgeeks.org/operating-systems/semaphores-in-process-synchronization/
+
+Mutex vs Semaphore: https://www.geeksforgeeks.org/operating-systems/mutex-vs-semaphore/
+
+Spinlock: https://en.wikipedia.org/wiki/Spinlock
+
 
 Operations on mutexes:
 
@@ -88,16 +98,21 @@ https://www.man7.org/linux/man-pages/man3/pthread_mutex_init.3.html
 
 
 Gold!: https://diningphilosophers.eu/
+The implementation used in this project is the Multiple Token Solution: https://diningphilosophers.eu/token/#:~:text=Global%20Animation-,Multiple%20Token%20Solution,-The%20Global%20Token
 
 
-TODO: https://www.geeksforgeeks.org/operating-systems/mutex-vs-semaphore/
-https://pt.wikipedia.org/wiki/Exclus%C3%A3o_m%C3%BAtua
+TODO: https://pt.wikipedia.org/wiki/Exclus%C3%A3o_m%C3%BAtua
 https://stackoverflow.com/questions/34524/what-is-a-mutex
 
 
 ### Interesting rabbit holes I went through while working on this project...
 
 Learning from Wikipedia on a tight schedule is always a gamble... I knew about The Year 2000 Problem, but learning about Epochs opened a whole new can of shiny worms for me. Wanna take your chance? Click here. https://en.wikipedia.org/wiki/Epoch_(computing)
+
+Though related to the main concepts explored during this project, microkernels aren't an essential read. However, this is very interesting and useful to understand. Have a look here to start your journey: Microkernel in Operating Systems: https://www.geeksforgeeks.org/operating-systems/microkernel-in-operating-systems/
+
+
+### AI Usage
 
 
 
