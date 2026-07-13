@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/14 00:07:25 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/14 00:08:56 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static void	cleanup_philo(t_philo *philo)
 
 int	exit_cleanup(t_philo *philo, char *err_msg, int exit_status)
 {
-	int	i;
-
 	if (philo)
 		cleanup_philo(philo);
 	if (err_msg)

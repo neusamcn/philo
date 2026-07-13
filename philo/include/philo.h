@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/13 23:37:36 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/14 00:09:50 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef enum e_pt_valid
 t_philo	*init_philo(t_philo *philo, char **av);
 int		exit_cleanup(t_philo *philo, char *err_msg, int exit_status);
 int		exit_msg(char *out_msg, char *err_msg, t_philo *philo, int exit_status);
+void	run_philo_sim(t_philo *philo);
 
 /* Utils */
 int		ft_isspace(char c);
