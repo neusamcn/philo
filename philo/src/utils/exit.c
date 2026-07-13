@@ -6,13 +6,12 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/13 20:12:36 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/13 20:47:31 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
-//  TODO: test threads cleanup
 int	exit_cleanup(t_philo *philo, char *err_msg, int exit_status)
 {
 	int	i;
@@ -23,9 +22,12 @@ int	exit_cleanup(t_philo *philo, char *err_msg, int exit_status)
 		{
 			if (philo->pt_ids)
 			{
-				i = 0;
-				while (i < philo->args->n_philo)
-					pthread_detach(philo->pt_ids[i++]);
+				if (philo->valid == 0)
+				{
+					i = 0;
+					while (i < philo->args->n_philo)
+						pthread_detach(philo->pt_ids[i++]);
+				}
 				free(philo->pt_ids);
 			}
 			free(philo->args);

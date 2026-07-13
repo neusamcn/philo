@@ -117,7 +117,7 @@ Though related to the main concepts explored during this project, microkernels a
 
 ### AI Usage
 
-AI (LLMs) were used as a study and research support, to find more information on the various concepts I needed to learn and to assist in interpretation of texts.
+AI (LLMs) was used as a study and research support, to find more information on the various concepts I needed to learn and to assist in interpretation of texts.
 
 
 Disorganised notes:

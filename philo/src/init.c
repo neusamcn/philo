@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/12 23:56:15 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/13 20:45:14 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,14 @@ t_philo	*init_philo(t_philo *philo, char **av)
 	philo = ft_calloc(1, sizeof(t_philo));
 	if (!philo)
 		return (NULL);
+	philo->valid = 0;
 	philo->args = ft_calloc(1, sizeof(t_philo_args));
 	if (!philo->args)
-		return (NULL);
+		philo->valid = CALLOC_ERR;
 	philo->args = init_philo_args(philo->args, av);
 	philo->pt_ids = ft_calloc(philo->args->n_philo, sizeof(pthread_t));
 	if (!philo->pt_ids)
-		return (NULL);
-	philo->valid = 0;
+		philo->valid = CALLOC_ERR;
 	philo = init_philo_threads(philo);
-	if (philo->valid)
-		return (NULL);
 	return (philo);
 }

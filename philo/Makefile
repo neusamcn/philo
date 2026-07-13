@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/07/13 19:31:13 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/07/13 20:38:10 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ CC			= cc -pthread # TODO: should -pthread go here or in CFLAGS?
 CPPFLAGS	= -Iinclude
 CFLAGS		= -Wall -Werror -Wextra
 DB_FLAGS	= -g
+
 RM 			= rm -f
 
 N_PHILO			= 1
@@ -128,4 +129,4 @@ tclean:
 	@printf "$(INFO)Debugging executable and object files removed.$(COLOR_RESET)\n"
 
 
-.PHONY: all clean fclean re run norm db valg test tclean
+.PHONY: all clean fclean re run norm db valg hel test tclean
