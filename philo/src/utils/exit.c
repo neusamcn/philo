@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/13 20:47:31 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/13 20:57:35 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	exit_cleanup(t_philo *philo, char *err_msg, int exit_status)
 		{
 			if (philo->pt_ids)
 			{
-				if (philo->valid == 0)
+				if (philo->valid == VALID)
 				{
 					i = 0;
 					while (i < philo->args->n_philo)
-						pthread_detach(philo->pt_ids[i++]);
+						pthread_join(philo->pt_ids[i++], NULL);
 				}
 				free(philo->pt_ids);
 			}

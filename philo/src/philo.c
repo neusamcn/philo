@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/13 20:46:15 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/13 20:52:59 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int ac, char **av)
 	if (ac < 5 || ac > 6 || !(validate_args(av)))
 		return (exit_msg("Incorrect arguments.", NULL, philo, EXIT_FAILURE));
 	philo = init_philo(philo, av);
-	if (!philo || (philo && philo->valid != 0))
+	if (!philo || (philo && philo->valid != VALID))
 		return (exit_cleanup(philo, "t_philo *philo init", EXIT_FAILURE));
 	// TODO: DELETE TESTER
 	// print_thread_ids(philo);

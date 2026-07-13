@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/13 20:45:14 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/13 20:55:59 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_philo	*init_philo_threads(t_philo *p)
 	while (n_i < p->args->n_philo)
 	{
 		p->valid = pthread_create(&p->pt_ids[n_i], 0, pt_routine, p);
-		if (p->valid)
+		if (p->valid != VALID)
 			break ;
 		n_i++;
 	}
@@ -79,14 +79,20 @@ t_philo	*init_philo(t_philo *philo, char **av)
 	philo = ft_calloc(1, sizeof(t_philo));
 	if (!philo)
 		return (NULL);
-	philo->valid = 0;
+	philo->valid = VALID;
 	philo->args = ft_calloc(1, sizeof(t_philo_args));
 	if (!philo->args)
+	{
 		philo->valid = CALLOC_ERR;
+		return (philo);
+	}
 	philo->args = init_philo_args(philo->args, av);
 	philo->pt_ids = ft_calloc(philo->args->n_philo, sizeof(pthread_t));
 	if (!philo->pt_ids)
+	{
 		philo->valid = CALLOC_ERR;
+		return (philo);
+	}
 	philo = init_philo_threads(philo);
 	return (philo);
 }

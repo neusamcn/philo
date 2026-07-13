@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/13 20:42:28 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/13 20:49:44 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_philo
 // TODO: delete this enum?
 typedef enum e_pt_valid
 {
+	VALID = 0,
 	CALLOC_ERR = -1,
 
 }	t_pt_valid;
