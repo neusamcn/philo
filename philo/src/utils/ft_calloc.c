@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 19:46:00 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/06/14 18:17:36 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/13 23:37:44 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,3 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	}
 	return (NULL);
 }
-// TODO: create error handling wrapper?

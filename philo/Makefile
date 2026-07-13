@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/07/13 20:38:10 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/07/13 23:53:22 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,8 @@ SRC_DIR 	= src
 OBJ_DIR 	= obj
 OBJ_DIR_DB 	= obj_db
 
-UTILS_SRC	= $(addprefix $(SRC_DIR)/utils/, exit.c ft_ato_.c ft_calloc.c \
-				ft_is_.c write.c)
-SRC			= $(addprefix $(SRC_DIR)/, philo.c init.c) $(UTILS_SRC)
+UTILS_SRC	= $(addprefix $(SRC_DIR)/utils/, ft_ato_.c ft_calloc.c ft_is_.c write.c)
+SRC			= $(addprefix $(SRC_DIR)/, philo.c init.c run_sim.c exit.c) $(UTILS_SRC)
 OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 OBJ_DB 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR_DB)/%.o,$(SRC))
 
@@ -32,7 +31,7 @@ DB_FLAGS	= -g
 
 RM 			= rm -f
 
-N_PHILO			= 1
+N_PHILO			= 5
 T_DIE			= 800
 T_EAT			= 200
 T_SLEEP			= 200
@@ -116,7 +115,7 @@ valg: $(NAME_DB) $(TEST_DIR)
 	@echo "Valgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/valg_out.log$(COLOR_RESET)"
 
 hel: $(NAME_DB) $(TEST_DIR)
-	@valgrind --tool=helgrind --track-destroy=all --log-file=$(TEST_DIR)/helg_out.log ./$(NAME_DB) $(ARGS)
+	@valgrind --tool=helgrind --track-destroy=all -s --log-file=$(TEST_DIR)/helg_out.log ./$(NAME_DB) $(ARGS)
 	@echo "Helgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/helg_out.log$(COLOR_RESET)"
 
 test: tclean valg hel db

@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/13 20:49:44 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/13 23:37:36 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,23 @@ typedef struct s_philo
 	t_philo_args	*args;
 	pthread_t		*pt_ids;
 	int				valid;
+	int				tokens;
+	pthread_mutex_t	*chopsticks;
 }	t_philo;
 
-// TODO: delete this enum?
+/* Enums */
 typedef enum e_pt_valid
 {
 	VALID = 0,
-	CALLOC_ERR = -1,
-
+	CALLOC_ERR = -1
 }	t_pt_valid;
 
 /* Main functions */
 t_philo	*init_philo(t_philo *philo, char **av);
+int		exit_cleanup(t_philo *philo, char *err_msg, int exit_status);
+int		exit_msg(char *out_msg, char *err_msg, t_philo *philo, int exit_status);
 
 /* Utils */
-int		exit_msg(char *out_msg, char *err_msg, t_philo *philo, int exit_status);
-int		exit_cleanup(t_philo *philo, char *err_msg, int exit_status);
 int		ft_isspace(char c);
 int		ft_isdigit(char c);
 int		isdigit_str(char *s);

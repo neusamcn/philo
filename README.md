@@ -5,6 +5,8 @@
 These silly philosophers say that they'll die if they only have 1 fork to eat spaghetti... That seems a bit dramatic... So let's give them chopsticks and noodles instead so they can truly worry about their mortal coil :) [*gleeful witchy cackle*]
 i.e. the subject refers to 'forks' and 'spaghetti', we will be talking about 'chopsticks' and 'noodles' here.
 
+...
+
 
 ## Instructions
 
@@ -73,6 +75,10 @@ pthread_join: https://www.man7.org/linux/man-pages/man3/pthread_join.3.html
 
 ### Important concepts
 
+Multithreading in C: https://www.geeksforgeeks.org/c/multithreading-in-c/
+
+Thread Management Functions in C: https://www.geeksforgeeks.org/c/thread-functions-in-c-c/
+
 Inter-Process Communication (IPC): https://www.geeksforgeeks.org/operating-systems/inter-process-communication-ipc/
 
 Introduction to Process Synchronization: https://www.geeksforgeeks.org/operating-systems/introduction-of-process-synchronization/
@@ -122,14 +128,12 @@ AI (LLMs) was used as a study and research support, to find more information on 
 
 Disorganised notes:
 monitor threads for deaths
-data racing
 mutex prints can have some delay depending on how usleep is used
-work with helgrind
 will have to calculate microseconds to miliseconds from gettimeofday()
 
 before printing need to lock and unlock
 
 use algorithm that determines how chopsticks are used depending on left or right chopstick
 
-data types: pthread_t pthread_mutex_t uint64_t
+data types: pthread_mutex_t uint64_t
 main() is also a thread
