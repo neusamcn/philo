@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/07/12 23:53:01 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/07/13 19:31:13 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,12 +109,16 @@ $(TEST_DIR):
 db:
 	@gdbtui --args ./$(NAME_DB) $(ARGS)
 
-valg: tclean $(NAME_DB) $(TEST_DIR)
+valg: $(NAME_DB) $(TEST_DIR)
 	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all -s \
 	--log-file=$(TEST_DIR)/valg_out.log ./$(NAME_DB) $(ARGS)
 	@echo "Valgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/valg_out.log$(COLOR_RESET)"
 
-test: valg db
+hel: $(NAME_DB) $(TEST_DIR)
+	@valgrind --tool=helgrind --track-destroy=all --log-file=$(TEST_DIR)/helg_out.log ./$(NAME_DB) $(ARGS)
+	@echo "Helgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/helg_out.log$(COLOR_RESET)"
+
+test: tclean valg hel db
 
 tclean:
 	@$(RM) -r $(TEST_DIR)

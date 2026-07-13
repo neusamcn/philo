@@ -101,6 +101,9 @@ Gold!: https://diningphilosophers.eu/
 The implementation used in this project is the Multiple Token Solution: https://diningphilosophers.eu/token/#:~:text=Global%20Animation-,Multiple%20Token%20Solution,-The%20Global%20Token
 
 
+Helgrind: a thread error detector: https://valgrind.org/docs/manual/hg-manual.html
+
+
 TODO: https://pt.wikipedia.org/wiki/Exclus%C3%A3o_m%C3%BAtua
 https://stackoverflow.com/questions/34524/what-is-a-mutex
 
@@ -114,7 +117,7 @@ Though related to the main concepts explored during this project, microkernels a
 
 ### AI Usage
 
-
+AI (LLMs) were used as a study and research support, to find more information on the various concepts I needed to learn and to assist in interpretation of texts.
 
 
 Disorganised notes:
