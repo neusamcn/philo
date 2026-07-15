@@ -7,6 +7,18 @@ i.e. the subject refers to 'forks' and 'spaghetti', we will be talking about 'ch
 
 ...
 
+Our philosophers and chopsticks are listed in arrays in a way that:
+```
+P = philosopher;
+C = chopstick;
+N = total number of philosophers and chopsticks;
+
+P[index] can use C[index] and C[index - 1];
+Exception: P[0] can use C[0] and C[N - 1];
+
+C[index] can be used by P[index] and P[index + 1].
+Exception: C[N - 1] can be used by P[N - 1] and P[0];
+```
 
 ## Instructions
 

@@ -6,13 +6,14 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/14 00:09:50 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/15 22:24:49 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+// # define _GNU_SOURCE
 /* Standard libraries */
 # include <stdlib.h>
 # include <unistd.h>
@@ -43,6 +44,7 @@ typedef struct s_philo
 	int				valid;
 	int				tokens;
 	pthread_mutex_t	*chopsticks;
+	int				*meals_x_ph;
 }	t_philo;
 
 /* Enums */

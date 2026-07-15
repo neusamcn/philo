@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/13 23:47:11 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/15 22:26:06 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ t_philo	*init_philo(t_philo *philo, char **av)
 	i = 0;
 	while (i < philo->args->n_philo)
 		pthread_mutex_init(&philo->chopsticks[i++], NULL);
+	philo->meals_x_ph = ft_calloc(philo->args->n_philo, sizeof(int));
+	if (!philo->meals_x_ph)
+		return (philo);
 	philo->valid = VALID;
 	return (philo);
 }
