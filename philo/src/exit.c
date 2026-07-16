@@ -6,44 +6,45 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/14 00:08:56 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/16 23:55:18 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-static void	cleanup_philo(t_philo *philo)
+// TODO: update according to new structure
+static void	cleanup_table(t_table *table)
 {
 	int	i;
 
-	if (philo->args)
+	if (table->args)
 	{
-		if (philo->pt_ids)
+		if (table->pt_ids)
 		{
-			if (philo->valid == VALID)
+			if (table->valid == VALID)
 			{
 				i = 0;
-				while (i < philo->args->n_philo)
-					pthread_join(philo->pt_ids[i++], NULL);
+				while (i < table->args->n_philo)
+					pthread_join(table->pt_ids[i++], NULL);
 			}
-			free(philo->pt_ids);
+			free(table->pt_ids);
 		}
-		if (philo->chopsticks)
+		if (table->chopsticks)
 		{
 			i = 0;
-			while (i < philo->args->n_philo)
-				pthread_mutex_destroy(&philo->chopsticks[i++]);
-			free(philo->chopsticks);
+			while (i < table->args->n_philo)
+				pthread_mutex_destroy(&table->chopsticks[i++]);
+			free(table->chopsticks);
 		}
-		free(philo->args);
+		free(table->args);
 	}
-	free(philo);
+	free(table);
 }
 
-int	exit_cleanup(t_philo *philo, char *err_msg, int exit_status)
+int	exit_cleanup(t_table *table, char *err_msg, int exit_status)
 {
-	if (philo)
-		cleanup_philo(philo);
+	if (table)
+		cleanup_table(table);
 	if (err_msg)
 		ft_putstr_fd(STDERR_FILENO, err_msg);
 	return (exit_status);
@@ -51,8 +52,8 @@ int	exit_cleanup(t_philo *philo, char *err_msg, int exit_status)
 
 int	exit_msg(char *out_msg, char *err_msg, t_philo *philo, int exit_status)
 {
-	printf(ERR"%s\nSee "COLOR_RESET, out_msg);
+	printf(ERR"%s\nSee "CLR_RST, out_msg);
 	printf("<project root>/README.md");
-	printf(ERR" for instructions.\n"COLOR_RESET);
+	printf(ERR" for instructions.\n"CLR_RST);
 	return (exit_cleanup(philo, err_msg, exit_status));
 }

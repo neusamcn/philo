@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/14 00:09:40 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/16 23:56:38 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	validate_args(char **av)
 	return (1);
 }
 
+// TODO: update according to new structure
 // TODO: DELETE TESTER
 // static void	print_p_struct(t_philo *philo)
 // {
@@ -67,17 +68,17 @@ static int	validate_args(char **av)
 
 int	main(int ac, char **av)
 {
-	t_philo	*philo;
+	t_table	*table;
 
-	philo = NULL;
+	table = NULL;
 	if (ac < 5 || ac > 6 || !(validate_args(av)))
-		return (exit_msg("Incorrect arguments.", NULL, philo, EXIT_FAILURE));
-	philo = init_philo(philo, av);
-	if (!philo || (philo && philo->valid != VALID))
-		return (exit_cleanup(philo, "t_philo *philo init", EXIT_FAILURE));
+		return (exit_msg("Incorrect arguments.", NULL, table, EXIT_FAILURE));
+	table = set_table(table, av);
+	if (!table || (table && table->valid != VALID))
+		return (exit_cleanup(table, "setting table", EXIT_FAILURE));
 	// TODO: DELETE TESTER
-	print_p_struct(philo);
+	print_p_struct(table);
 	// TODO: philos' stuff
-	run_philo_sim(philo);
-	return (exit_cleanup(philo, NULL, EXIT_SUCCESS));
+	run_philo_sim(table); // TODO: update according to new structure
+	return (exit_cleanup(table, NULL, EXIT_SUCCESS));
 }

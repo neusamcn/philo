@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 23:27:47 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/06/13 19:01:53 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/16 23:38:16 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define DARK_VIOLET     "\x1b[38;2;148;0;211m"
 # define REBECCA_PURPLE  "\x1b[38;2;102;51;153m"
 # define INDIGO          "\x1b[38;2;75;0;130m"
-# define COLOR_RESET     "\x1b[0m"
+# define CLR_RST     "\x1b[0m"
 
 # define BANNER          "\n\
                     __ \n\
