@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/16 23:55:18 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/17 00:13:28 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	cleanup_table(t_table *table)
 {
 	int	i;
 
+	// TODO: table frees order: head_philos, args
+	// TODO: head_philos frees order: chopstick, thread_id, next (REPEAT)
 	if (table->args)
 	{
 		if (table->pt_ids)

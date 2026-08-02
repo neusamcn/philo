@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/16 23:56:00 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:25:41 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,40 @@ static t_philo_args	*init_table_args(t_philo_args *tbl_args, char **av)
 }
 
 // TODO: update according to new structure
-t_philo	*init_philo(t_philo *philo, char **av)
+static t_philo	*sit_philos(t_table *tbl)
 {
-	int	i;
+	int		i;
+	int		n_philo;
+	t_philo	*p;
 
-	philo = ft_calloc(1, sizeof(t_philo));
-	if (!philo)
-		return (NULL);
-	philo->valid = CALLOC_ERR;
+	i = 0;
+	n_philo = tbl->args->n_philo;
+	p = tbl->head_philos;
+	while (i < n_philo)
+	{
+		p = ft_calloc(1, sizeof(t_philo));
+		p->valid = CALLOC_ERR;
+		if (!p)
+			break ;
+		p->philo_id = i + 1;
+		if (i == 0)
+		{
+
+		}
+		else if (i == n_philo - 1)
+		{
+
+		}
+		else
+		{
+			
+		}
+		p->chopstick; // init mutex
+		pthread_mutex_init(&p->chopstick, NULL);
+		p->meals = 0;
+		p->valid = VALID;
+		i++;
+	}
 	philo->pt_ids = ft_calloc(philo->args->n_philo, sizeof(pthread_t));
 	if (!philo->pt_ids)
 		return (philo);
@@ -88,7 +114,7 @@ t_table	*set_table(t_table *table, char **av)
 	table->args = init_table_args(table->args, av);
 	table->tokens = table->args->n_philo / 2;
 	// TODO: should init for head be here? or only with run_sim?
-	table->head_philos = ft_calloc(1, sizeof(t_philo));
+	sit_philos(table);
 	table->meals_x_ph = 0;
 	table->valid = VALID;
 	return (table);

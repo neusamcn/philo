@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/16 23:57:05 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/02 19:51:31 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,32 +60,36 @@ static void	*dinner(void *arg)
 }
 
 // TODO: update according to new structure
-static t_philo	*init_philo_threads(t_philo *p)
+static t_philo	*init_philo_threads(t_table *tbl)
 {
-	int	i;
+	t_philo	*p;
 
-	i = 0;
-	while (i < p->args->n_philo)
+	if (tbl->valid != VALID)
+		return (tbl);
+	p = tbl->head_philos;
+	while (p)
 	{
-		p->valid = pthread_create(&p->pt_ids[i], 0, &dinner, p);
+		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
 		if (p->valid != VALID)
-			return (p);
-		i += 2;
+			return (tbl);
+		p = p->next;
+		p = p->next;
 	}
-	i = 1;
-	while (i < p->args->n_philo)
+	p = tbl->head_philos->next;
+	while (p)
 	{
-		p->valid = pthread_create(&p->pt_ids[i], 0, dinner, p);
+		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
 		if (p->valid != VALID)
-			return (p);
-		i += 2;
+			return (tbl);
+		p = p->next;
+		p = p->next;
 	}
-	return (p);
+	return (tbl);
 }
 
 // TODO: update according to new structure
-void	run_philo_sim(t_philo *philo)
+void	run_philo_sim(t_table *table)
 {
-	philo = init_philo_threads(philo);
+	table = init_philo_threads(table);
 	// TODO: handle thread creation fail
 }

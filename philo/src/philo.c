@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/16 23:56:38 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/07/17 00:08:53 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int ac, char **av)
 	if (!table || (table && table->valid != VALID))
 		return (exit_cleanup(table, "setting table", EXIT_FAILURE));
 	// TODO: DELETE TESTER
-	print_p_struct(table);
+	// print_p_struct(table);
 	// TODO: philos' stuff
 	run_philo_sim(table); // TODO: update according to new structure
 	return (exit_cleanup(table, NULL, EXIT_SUCCESS));
