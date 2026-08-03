@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/03 01:42:02 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/03 20:26:42 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,19 @@ static t_philo_args	*init_table_args(t_philo_args *tbl_args, char **av)
 }
 
 // TODO: update according to new structure
-static int	*sit_philos(t_table *tbl)
+static int	sit_philos(t_table *tbl)
 {
 	int		i;
 	int		n_philo;
 	t_philo	*p;
 	t_philo	*prev;
-	t_philo	*next;
+	// t_philo	*next;
 
 	i = 0;
 	n_philo = tbl->args->n_philo;
 	tbl->head_philos = NULL;
-	prev = tbl->head_philos->previous;
-	next = tbl->head_philos->next;
+	prev = NULL;
+	// next = NULL;;
 	while (i < n_philo)
 	{
 		p = ft_calloc(1, sizeof(t_philo));
@@ -74,7 +74,7 @@ static int	*sit_philos(t_table *tbl)
 			return (CALLOC_ERR);
 		p->philo_id = i + 1;
 		// TODO: do I need to calloc() thread_id && chopsticks?
-		pthread_mutex_init(&p->chopstick, NULL);
+		pthread_mutex_init(&p->r_chopstick, NULL);
 		p->meals = 0;
 		p->next = NULL;
 		p->previous = NULL;

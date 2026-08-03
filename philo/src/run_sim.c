@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/02 19:51:31 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/03 20:52:50 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,49 +18,69 @@ static void	state_log(int p_idx, char *state)
 	printf("timestamp_in_ms %d %s\n", p_idx + 1, state);
 }
 
-// TODO: update according to new structure
-static void	eat(t_philo *philo, int ph_idx)
+static int	update_meals_x_ph(t_table *tbl)
 {
-	int	last_idx;
+	t_philo	*p_curr;
+	int		tot_meals;
 
-	last_idx = philo->args->n_philo - 1;
-	if (philo->tokens > 0)
+	p_curr = tbl->head_philos;
+	if (p_curr->philo_id != 1)
+		return (PH_ID_ERR);
+	tot_meals = p_curr->meals;
+	while (p_curr->philo_id != 1)
 	{
-		philo->tokens--;
-		pthread_mutex_lock(&philo->chopsticks[ph_idx]);
-		if (ph_idx == 0)
-			pthread_mutex_lock(&philo->chopsticks[last_idx]);
-		else
-			pthread_mutex_lock(&philo->chopsticks[ph_idx - 1]);
-		state_log(ph_idx, "is sleeping");
-		usleep(philo->args->t_eat * 1000);
-		if (ph_idx == 0)
-			pthread_mutex_unlock(&philo->chopsticks[last_idx]);
-		else
-			pthread_mutex_unlock(&philo->chopsticks[ph_idx - 1]);
-		philo->tokens++;
-		philo->meals_x_ph[ph_idx]++;
+		if (p_curr->meals != tot_meals)
+			break ;
+		p_curr = p_curr->next;
 	}
+	if (p_curr->philo_id == 1)
+		tbl->meals_x_ph = tot_meals;
+	return (VALID);
+}
+
+// TODO: update according to new structure
+static void	eat(t_table *tbl, t_philo *p)
+{
+	if (tbl->tokens > 0)
+	{
+		tbl->tokens--;
+		pthread_mutex_lock(&p->r_chopstick);
+		pthread_mutex_lock(&p->previous->r_chopstick);
+		state_log(p->philo_id, "is sleeping");
+		usleep(tbl->args->t_eat * 1000);
+		pthread_mutex_unlock(&p->r_chopstick);
+		pthread_mutex_unlock(&p->previous->r_chopstick);
+		tbl->tokens++;
+		p->meals++;
+		tbl->valid = update_meals_x_ph(tbl);
+	}
+}
+
+static void	busy_b4_eat(t_table *tbl)
+{
+	if ();
 }
 
 // TODO: update according to new structure
 static void	*dinner(void *arg)
 {
-	t_philo	*philo;
-	int		ph_idx;
+	t_table	*tbl;
+	t_philo	*p;
 
-	philo = (t_philo *)arg;
-	ph_idx = 0;
-	while (philo->tokens > 0)
+	tbl = (t_table *)arg;
+	busy_b4_eat(tbl);
+	while (tbl->tokens > 0)
 	{
-		eat(philo, ph_idx);
-		philo->tokens--;
+		eat(tbl, p);
+		if (tbl->valid != VALID)
+			break ;
+		tbl->tokens--;
 	}
 	return (NULL);
 }
 
 // TODO: update according to new structure
-static t_philo	*init_philo_threads(t_table *tbl)
+t_table	*init_philo_threads(t_table *tbl)
 {
 	t_philo	*p;
 
@@ -69,16 +89,15 @@ static t_philo	*init_philo_threads(t_table *tbl)
 	p = tbl->head_philos;
 	while (p)
 	{
-		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
+		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
 		if (p->valid != VALID)
 			return (tbl);
-		p = p->next;
-		p = p->next;
+		p = p->next->next;
 	}
 	p = tbl->head_philos->next;
 	while (p)
 	{
-		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
+		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
 		if (p->valid != VALID)
 			return (tbl);
 		p = p->next;

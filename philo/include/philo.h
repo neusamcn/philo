@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/02 20:16:29 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/03 20:24:22 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ typedef struct s_philo
 {
 	int				philo_id;
 	pthread_t		thread_id;
-	pthread_mutex_t	chopstick;
+	pthread_mutex_t	r_chopstick;
 	int				meals;
-	t_philo			*previous;
-	t_philo			*next;
+	struct s_philo	*previous;
+	struct s_philo	*next;
 	int				valid;
 }	t_philo;
 
@@ -58,16 +58,18 @@ typedef struct s_table
 }	t_table;
 
 /* Enums */
-typedef enum e_pt_valid
+typedef enum e_valid
 {
 	VALID = 0,
-	CALLOC_ERR = -1
-}	t_pt_valid;
+	CALLOC_ERR = -1,
+	PH_ID_ERR = -1
+}	t_valid;
 
 /* Main functions */
 t_table	*set_table(t_table *table, char **av);
 int		exit_cleanup(t_table *table, char *err_msg, int exit_status);
-int		exit_msg(char *out_msg, char *err_msg, t_philo *philo, int exit_status);
+int		exit_msg(char *out_msg, char *err_msg, t_table *table, int exit_status);
+t_table	*init_philo_threads(t_table *tbl);
 void	run_philo_sim(t_table *table);
 
 /* Utils */
