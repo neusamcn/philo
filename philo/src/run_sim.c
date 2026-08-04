@@ -23,7 +23,7 @@ static int	update_meals_x_ph(t_table *tbl)
 	t_philo	*p_curr;
 	int		tot_meals;
 
-	p_curr = tbl->head_philos;
+	p_curr = tbl->philo_turn;
 	if (p_curr->philo_id != 1)
 		return (PH_ID_ERR);
 	tot_meals = p_curr->meals;
@@ -39,10 +39,15 @@ static int	update_meals_x_ph(t_table *tbl)
 }
 
 // TODO: update according to new structure
-static void	eat(t_table *tbl, t_philo *p)
+static void	eat(t_table *tbl)
 {
+	t_philo	*p;
+
+	p = tbl->philo_turn;
 	if (tbl->tokens > 0)
 	{
+		if (p->has_tkn == 0)
+			p->has_tkn = 1;
 		tbl->tokens--;
 		pthread_mutex_lock(&p->r_chopstick);
 		pthread_mutex_lock(&p->previous->r_chopstick);
@@ -50,31 +55,33 @@ static void	eat(t_table *tbl, t_philo *p)
 		usleep(tbl->args->t_eat * 1000);
 		pthread_mutex_unlock(&p->r_chopstick);
 		pthread_mutex_unlock(&p->previous->r_chopstick);
+		p->has_tkn = 0;
 		tbl->tokens++;
 		p->meals++;
 		tbl->valid = update_meals_x_ph(tbl);
 	}
 }
 
-static void	busy_b4_eat(t_table *tbl)
+static void	busy_wait(t_table *tbl)
 {
-	if ();
+	if (tbl->philo_turn->philo_id % 2 == 0)
+		usleep(tbl->args->t_sleep * 1000);
 }
 
 // TODO: update according to new structure
 static void	*dinner(void *arg)
 {
 	t_table	*tbl;
-	t_philo	*p;
 
 	tbl = (t_table *)arg;
-	busy_b4_eat(tbl);
-	while (tbl->tokens > 0)
+	busy_wait(tbl);
+	while (tbl->meals_x_ph != tbl->args->n_eats_x_philo) // TODO: or 1st death
 	{
-		eat(tbl, p);
+		eat(tbl);
 		if (tbl->valid != VALID)
 			break ;
-		tbl->tokens--;
+		// TODO: check for deaths
+		tbl->philo_turn = tbl->philo_turn->next;
 	}
 	return (NULL);
 }
@@ -86,7 +93,7 @@ t_table	*init_philo_threads(t_table *tbl)
 
 	if (tbl->valid != VALID)
 		return (tbl);
-	p = tbl->head_philos;
+	p = tbl->philo_turn;
 	while (p)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
@@ -94,14 +101,13 @@ t_table	*init_philo_threads(t_table *tbl)
 			return (tbl);
 		p = p->next->next;
 	}
-	p = tbl->head_philos->next;
+	p = tbl->philo_turn->next;
 	while (p)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
 		if (p->valid != VALID)
 			return (tbl);
-		p = p->next;
-		p = p->next;
+		p = p->next->next;
 	}
 	return (tbl);
 }

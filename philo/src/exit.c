@@ -16,18 +16,18 @@
 static void	cleanup_table(t_table *table)
 {
 	t_philo	*curr_p;
-	// TODO: table frees order: head_philos, args
-	// TODO: head_philos frees order: r_chopstick, thread_id, next (REPEAT)
+	// TODO: table frees order: philo_turn, args
+	// TODO: philo_turn frees order: r_chopstick, thread_id, next (REPEAT)
 	if (table)
 	{
-		curr_p = table->head_philos;
+		curr_p = table->philo_turn;
 		while (curr_p)
 		{
 			pthread_mutex_destroy(&curr_p->r_chopstick);
 			pthread_join(curr_p->thread_id, NULL);
-			table->head_philos = table->head_philos->next;
+			table->philo_turn = table->philo_turn->next;
 			free(curr_p);
-			curr_p = table->head_philos;
+			curr_p = table->philo_turn;
 		}
 		if (table->args)
 			free(table->args);

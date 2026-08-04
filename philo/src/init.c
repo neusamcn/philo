@@ -60,13 +60,11 @@ static int	sit_philos(t_table *tbl)
 	int		n_philo;
 	t_philo	*p;
 	t_philo	*prev;
-	// t_philo	*next;
 
 	i = 0;
 	n_philo = tbl->args->n_philo;
-	tbl->head_philos = NULL;
+	tbl->philo_turn = NULL;
 	prev = NULL;
-	// next = NULL;;
 	while (i < n_philo)
 	{
 		p = ft_calloc(1, sizeof(t_philo));
@@ -79,7 +77,7 @@ static int	sit_philos(t_table *tbl)
 		p->next = NULL;
 		p->previous = NULL;
 		if (i == 0)
-			tbl->head_philos = p;
+			tbl->philo_turn = p;
 		else
 		{
 			p->previous = prev;
@@ -89,10 +87,10 @@ static int	sit_philos(t_table *tbl)
 		prev = p;
 		i++;
 	}
-	if (prev && tbl->head_philos)
+	if (prev && tbl->philo_turn)
 	{
-		prev->next = tbl->head_philos;
-		tbl->head_philos->previous = prev;
+		prev->next = tbl->philo_turn;
+		tbl->philo_turn->previous = prev;
 	}
 	return (VALID);
 }
@@ -102,10 +100,12 @@ t_table	*set_table(t_table *table, char **av)
 	table = ft_calloc(1, sizeof(t_table));
 	if (!table)
 		return (NULL);
-	table->valid = CALLOC_ERR;
 	table->args = ft_calloc(1, sizeof(t_philo_args));
 	if (!table->args)
+	{
+		table->valid = CALLOC_ERR;
 		return (table);
+	}
 	table->args = init_table_args(table->args, av);
 	table->tokens = table->args->n_philo / 2;
 	// TODO: should init for head be here? or only with run_sim?

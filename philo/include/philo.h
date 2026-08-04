@@ -42,6 +42,7 @@ typedef struct s_philo
 	int				philo_id;
 	pthread_t		thread_id;
 	pthread_mutex_t	r_chopstick;
+	int				has_tkn;
 	int				meals;
 	struct s_philo	*previous;
 	struct s_philo	*next;
@@ -52,7 +53,7 @@ typedef struct s_table
 {
 	t_philo_args	*args;
 	int				tokens;
-	t_philo			*head_philos;
+	t_philo			*philo_turn;
 	int				meals_x_ph;
 	int				valid;
 }	t_table;

@@ -65,6 +65,27 @@ static int	validate_args(char **av)
 // 	}
 // 	printf("\n");
 // }
+// TODO: DELETE TESTER
+static void	print_table(t_table *tbl)
+{
+	t_philo	*p;
+
+	p = tbl->philo_turn;
+	while (p)
+	{
+		printf("philo_id: %d\n", p->philo_id);
+		// printf("thread_id: %ld\n", p->thread_id);
+		printf("has_tkn: %d\n", p->has_tkn);
+		printf("meals: %d\n", p->meals);
+		if (p->next)
+			printf("next philo_id: %d\n", p->next->philo_id);
+		if (p->previous)
+			printf("previous philo_id: %d\n", p->previous->philo_id);
+		p = p->next;
+		if (p == tbl->philo_turn)
+			break ;
+	}
+}
 
 int	main(int ac, char **av)
 {
@@ -74,6 +95,7 @@ int	main(int ac, char **av)
 	if (ac < 5 || ac > 6 || !(validate_args(av)))
 		return (exit_msg("Incorrect arguments.", NULL, table, EXIT_FAILURE));
 	table = set_table(table, av);
+	// print_table(table); // TODO: DELETE TESTER
 	if (!table || (table && table->valid != VALID))
 		return (exit_cleanup(table, "setting table", EXIT_FAILURE));
 	// TODO: DELETE TESTER

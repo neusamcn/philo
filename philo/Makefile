@@ -35,7 +35,7 @@ N_PHILO			= 5
 T_DIE			= 800
 T_EAT			= 200
 T_SLEEP			= 200
-N_EATS_X_PHILO	= 0
+N_EATS_X_PHILO	= 1
 ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
 
 TEST_DIR		= test_logs
