@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mu <mu@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/03 20:24:22 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/06 10:30:48 by mu               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_table
 {
 	t_philo_args	*args;
 	int				tokens;
-	t_philo			*philo_turn;
+	t_philo			**philo_turn;
 	int				meals_x_ph;
 	int				valid;
 }	t_table;

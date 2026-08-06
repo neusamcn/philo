@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_sim.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mu <mu@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/03 20:52:50 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/06 12:38:28 by mu               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,22 @@ static void	state_log(int p_idx, char *state)
 static int	update_meals_x_ph(t_table *tbl)
 {
 	t_philo	*p_curr;
+	int		p_start_id;
 	int		tot_meals;
 
-	p_curr = tbl->philo_turn;
-	if (p_curr->philo_id != 1)
-		return (PH_ID_ERR);
+	p_curr = *tbl->philo_turn;
+	p_start_id = p_curr->philo_id;
 	tot_meals = p_curr->meals;
-	while (p_curr->philo_id != 1)
+	while (p_curr->philo_id != p_start_id + 1)
 	{
 		if (p_curr->meals != tot_meals)
 			break ;
 		p_curr = p_curr->next;
 	}
-	if (p_curr->philo_id == 1)
+	if (p_curr->philo_id == p_start_id)
 		tbl->meals_x_ph = tot_meals;
+	else
+		return (PH_ID_ERR);
 	return (VALID);
 }
 
@@ -43,7 +45,7 @@ static void	eat(t_table *tbl)
 {
 	t_philo	*p;
 
-	p = tbl->philo_turn;
+	p = *tbl->philo_turn;
 	if (tbl->tokens > 0)
 	{
 		if (p->has_tkn == 0)
@@ -64,7 +66,7 @@ static void	eat(t_table *tbl)
 
 static void	busy_wait(t_table *tbl)
 {
-	if (tbl->philo_turn->philo_id % 2 == 0)
+	if ((*tbl->philo_turn)->philo_id % 2 == 0)
 		usleep(tbl->args->t_sleep * 1000);
 }
 
@@ -81,7 +83,7 @@ static void	*dinner(void *arg)
 		if (tbl->valid != VALID)
 			break ;
 		// TODO: check for deaths
-		tbl->philo_turn = tbl->philo_turn->next;
+		*tbl->philo_turn = (*tbl->philo_turn)->next;
 	}
 	return (NULL);
 }
@@ -90,23 +92,31 @@ static void	*dinner(void *arg)
 t_table	*init_philo_threads(t_table *tbl)
 {
 	t_philo	*p;
+	int		p_id_prev;
 
 	if (tbl->valid != VALID)
 		return (tbl);
-	p = tbl->philo_turn;
-	while (p)
+	p = *tbl->philo_turn;
+	if (p->philo_id != 1)
+	{
+		tbl->valid = PH_ID_ERR;
+		return (tbl);
+	}
+	while (p->philo_id - p_id_prev > 0)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
 		if (p->valid != VALID)
 			return (tbl);
+		p_id_prev = p->philo_id;
 		p = p->next->next;
 	}
-	p = tbl->philo_turn->next;
-	while (p)
+	p = (*tbl->philo_turn)->next;
+	while (p->philo_id - p_id_prev > 0)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
 		if (p->valid != VALID)
 			return (tbl);
+		p_id_prev = p->philo_id;
 		p = p->next->next;
 	}
 	return (tbl);

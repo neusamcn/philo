@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mu <mu@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/03 19:35:59 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/06 12:47:39 by mu               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@ static void	cleanup_table(t_table *table)
 	// TODO: philo_turn frees order: r_chopstick, thread_id, next (REPEAT)
 	if (table)
 	{
-		curr_p = table->philo_turn;
+		curr_p = *table->philo_turn;
 		while (curr_p)
 		{
 			pthread_mutex_destroy(&curr_p->r_chopstick);
 			pthread_join(curr_p->thread_id, NULL);
-			table->philo_turn = table->philo_turn->next;
-			free(curr_p);
-			curr_p = table->philo_turn;
+			curr_p = curr_p->next;
+			free(curr_p->previous);
 		}
 		if (table->args)
 			free(table->args);

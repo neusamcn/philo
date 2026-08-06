@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mu <mu@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/03 20:26:42 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/06 12:04:27 by mu               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,6 @@ static void	print_philos(t_philo_args *tbl_args)
 	printf("\n");
 }
 
-static t_philo_args	*init_table_args(t_philo_args *tbl_args, char **av)
-{
-	tbl_args->n_philo = ft_atoi(av[1]);
-	tbl_args->t_die = ft_atoi(av[2]);
-	tbl_args->t_eat = ft_atoi(av[3]);
-	tbl_args->t_sleep = ft_atoi(av[4]);
-	if (av[5])
-		tbl_args->n_eats_x_philo = ft_atoi(av[5]);
-	print_philos(tbl_args);
-	return (tbl_args);
-}
-
 // TODO: update according to new structure
 static int	sit_philos(t_table *tbl)
 {
@@ -63,7 +51,7 @@ static int	sit_philos(t_table *tbl)
 
 	i = 0;
 	n_philo = tbl->args->n_philo;
-	tbl->philo_turn = NULL;
+	tbl->philo_turn = NULL; // ft_calloc(1, sizeof(t_philo *));
 	prev = NULL;
 	while (i < n_philo)
 	{
@@ -74,25 +62,44 @@ static int	sit_philos(t_table *tbl)
 		// TODO: do I need to calloc() thread_id && chopsticks?
 		pthread_mutex_init(&p->r_chopstick, NULL);
 		p->meals = 0;
-		p->next = NULL;
-		p->previous = NULL;
-		if (i == 0)
-			tbl->philo_turn = p;
+		if (i == n_philo - 1)
+		{
+			p->next = *tbl->philo_turn;
+			(*tbl->philo_turn)->previous = p;
+		}
 		else
 		{
-			p->previous = prev;
-			p->next = p;
+			if (i == 0)
+				tbl->philo_turn = &p;
+			else
+			{
+				p->previous = prev;
+				prev->next = p;
+				prev->valid = VALID;
+			}
 		}
-		p->valid = VALID;
 		prev = p;
+		p = p->next;
 		i++;
 	}
-	if (prev && tbl->philo_turn)
-	{
-		prev->next = tbl->philo_turn;
-		tbl->philo_turn->previous = prev;
-	}
+	// if (prev && *tbl->philo_turn)
+	// {
+	// 	prev->next = tbl->philo_turn;
+	// 	tbl->philo_turn->previous = prev;
+	// }
 	return (VALID);
+}
+
+static t_philo_args	*init_table_args(t_philo_args *tbl_args, char **av)
+{
+	tbl_args->n_philo = ft_atoi(av[1]);
+	tbl_args->t_die = ft_atoi(av[2]);
+	tbl_args->t_eat = ft_atoi(av[3]);
+	tbl_args->t_sleep = ft_atoi(av[4]);
+	if (av[5])
+		tbl_args->n_eats_x_philo = ft_atoi(av[5]);
+	print_philos(tbl_args);
+	return (tbl_args);
 }
 
 t_table	*set_table(t_table *table, char **av)
