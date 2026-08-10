@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 12:23:48 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 12:28:22 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_table	*init_philo_threads(t_table *tbl)
 		tbl->valid = PH_ID_ERR;
 		return (tbl);
 	}
-	p_id_prev = p->previous->previous->philo_id;
+	p_id_prev = 0;
 	while (p->philo_id - p_id_prev > 0)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
@@ -115,7 +115,7 @@ t_table	*init_philo_threads(t_table *tbl)
 		p = p->next->next;
 	}
 	p = (*tbl->philo_turn)->next;
-	p_id_prev = p->previous->previous->philo_id;
+	p_id_prev = 0;
 	while (p->philo_id - p_id_prev > 0)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
