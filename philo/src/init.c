@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 17:25:39 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 19:50:21 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ t_table	*set_table(t_table *table, char **av)
 		table->valid = CALLOC_ERR;
 		return (table);
 	}
-	tkn_max = table->args->n_philo / 2;
 	table->args = init_table_args(table->args, av);
+	tkn_max = table->args->n_philo / 2;
 	table->tokens = ft_calloc(tkn_max, sizeof(pthread_mutex_t));
 	if (!table->tokens)
 	{
