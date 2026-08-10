@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mu <mu@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 11:11:03 by mu               ###   ########.fr       */
+/*   Updated: 2026/08/10 12:05:01 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-#include <bits/pthreadtypes.h>
+// #include <bits/pthreadtypes.h>
 
 static void	print_philos(t_philo_args *tbl_args)
 {
@@ -42,7 +42,7 @@ static void	print_philos(t_philo_args *tbl_args)
 	printf("\n");
 }
 
-// TODO: update according to new structure
+// TODO: norm fix
 static int	sit_philos(t_table *tbl)
 {
 	int		i;
@@ -60,9 +60,9 @@ static int	sit_philos(t_table *tbl)
 		if (!p)
 			return (CALLOC_ERR);
 		p->philo_id = i + 1;
-		// TODO: do I need to calloc() thread_id && chopsticks?
 		pthread_mutex_init(&p->r_chopstick, NULL);
 		p->meals = 0;
+		// TODO: separate function to link nodes?
 		p->previous = prev;
 		p->next = NULL;
 		if (prev)
@@ -72,25 +72,6 @@ static int	sit_philos(t_table *tbl)
 		p->valid = VALID;
 		prev = p;
 		i++;
-		// if (i == n_philo - 1)
-		// {
-		// 	p->next = *tbl->philo_turn;
-		// 	(*tbl->philo_turn)->previous = p;
-		// }
-		// else
-		// {
-		// 	if (i == 0)
-		// 		tbl->philo_turn = &p;
-		// 	else
-		// 	{
-		// 		p->previous = prev;
-		// 		prev->next = p;
-		// 		prev->valid = VALID;
-		// 	}
-		// }
-		// prev = p;
-		// p = p->next;
-		// i++;
 	}
 	if (prev && *tbl->philo_turn)
 	{
@@ -125,7 +106,6 @@ t_table	*set_table(t_table *table, char **av)
 	}
 	table->args = init_table_args(table->args, av);
 	table->tokens = table->args->n_philo / 2;
-	// TODO: should init for head be here? or only with run_sim?
 	table->meals_x_ph = 0;
 	table->philo_turn = ft_calloc(1, sizeof(t_philo *));
 	if (!table->philo_turn)

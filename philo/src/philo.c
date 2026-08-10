@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/17 00:08:53 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 11:43:44 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ int	main(int ac, char **av)
 	// TODO: DELETE TESTER
 	// print_p_struct(table);
 	// TODO: philos' stuff
-	run_philo_sim(table); // TODO: update according to new structure
+	run_philo_sim(table);
 	return (exit_cleanup(table, NULL, EXIT_SUCCESS));
 }

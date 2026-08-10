@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   run_sim.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mu <mu@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 11:30:17 by mu               ###   ########.fr       */
+/*   Updated: 2026/08/10 12:23:48 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-static void	state_log(int p_idx, char *state)
+static void	state_log(int p_id, char *state)
 {
-	// TODO: calc timestamp in ms
-	printf("timestamp_in_ms %d %s\n", p_idx + 1, state);
+	// TODO: calc timestamp in ms - provide as var for time accuracy
+	printf("timestamp_in_ms %d %s\n", p_id, state);
 }
 
 static int	update_meals_x_ph(t_table *tbl)
@@ -40,7 +40,6 @@ static int	update_meals_x_ph(t_table *tbl)
 	return (VALID);
 }
 
-// TODO: update according to new structure
 static void	eat(t_table *tbl)
 {
 	t_philo	*p;
@@ -52,9 +51,11 @@ static void	eat(t_table *tbl)
 			p->has_tkn = 1;
 		tbl->tokens--;
 		pthread_mutex_lock(&p->r_chopstick);
+		state_log(p->philo_id, "has taken a fork");
 		pthread_mutex_lock(&p->previous->r_chopstick);
-		state_log(p->philo_id, "is sleeping");
-		usleep(tbl->args->t_eat * 1000);
+		state_log(p->philo_id, "has taken a fork");
+		state_log(p->philo_id, "is eating");
+		usleep(tbl->args->t_eat * 1000); // TODO: should I sleep or smtg else?
 		pthread_mutex_unlock(&p->r_chopstick);
 		pthread_mutex_unlock(&p->previous->r_chopstick);
 		p->has_tkn = 0;
@@ -67,10 +68,12 @@ static void	eat(t_table *tbl)
 static void	busy_wait(t_table *tbl)
 {
 	if ((*tbl->philo_turn)->philo_id % 2 == 0)
+	{
+		state_log((*tbl->philo_turn)->philo_id, "is sleeping");
 		usleep(tbl->args->t_sleep * 1000);
+	}
 }
 
-// TODO: update according to new structure
 static void	*dinner(void *arg)
 {
 	t_table	*tbl;
@@ -88,7 +91,7 @@ static void	*dinner(void *arg)
 	return (NULL);
 }
 
-// TODO: update according to new structure
+// TODO: fix norm
 t_table	*init_philo_threads(t_table *tbl)
 {
 	t_philo	*p;
@@ -102,7 +105,7 @@ t_table	*init_philo_threads(t_table *tbl)
 		tbl->valid = PH_ID_ERR;
 		return (tbl);
 	}
-	p_id_prev = p->previous->philo_id;
+	p_id_prev = p->previous->previous->philo_id;
 	while (p->philo_id - p_id_prev > 0)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
@@ -112,6 +115,7 @@ t_table	*init_philo_threads(t_table *tbl)
 		p = p->next->next;
 	}
 	p = (*tbl->philo_turn)->next;
+	p_id_prev = p->previous->previous->philo_id;
 	while (p->philo_id - p_id_prev > 0)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
@@ -123,7 +127,6 @@ t_table	*init_philo_threads(t_table *tbl)
 	return (tbl);
 }
 
-// TODO: update according to new structure
 void	run_philo_sim(t_table *table)
 {
 	table = init_philo_threads(table);

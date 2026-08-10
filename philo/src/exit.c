@@ -3,26 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mu <mu@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 11:26:18 by mu               ###   ########.fr       */
+/*   Updated: 2026/08/10 11:46:49 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-// TODO: update according to new structure
 static void	cleanup_table(t_table *table)
 {
 	t_philo	*curr_p;
 	t_philo	*next_p;
-	t_philo	*head_p;
+	t_philo	*head_p; // TODO: update var name?
 	int		start;
-	// TODO: table frees order: philo_turn, args
-	// TODO: philo_turn frees order: r_chopstick, thread_id, next (REPEAT)
-	if (!table)
-		return ;
+
 	if (table->philo_turn && *table->philo_turn)
 	{
 		head_p = *table->philo_turn;
@@ -43,7 +39,6 @@ static void	cleanup_table(t_table *table)
 	if (table->args)
 		free(table->args);
 	free(table);
-	return ;
 }
 
 int	exit_cleanup(t_table *table, char *err_msg, int exit_status)

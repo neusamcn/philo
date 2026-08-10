@@ -1,10 +1,10 @@
-==498952== Helgrind, a thread error detector
-==498952== Copyright (C) 2007-2026, and GNU GPL'd, by OpenWorks LLP et al.
-==498952== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
-==498952== Command: ./philo_db 5 800 200 200 1
-==498952== Parent PID: 498950
-==498952== 
-==498952== 
-==498952== Use --history-level=approx or =none to gain increased speed, at
-==498952== the cost of reduced accuracy of conflicting-access information
-==498952== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==794653== Helgrind, a thread error detector
+==794653== Copyright (C) 2007-2026, and GNU GPL'd, by OpenWorks LLP et al.
+==794653== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
+==794653== Command: ./philo_db 5 800 200 200 1
+==794653== Parent PID: 794651
+==794653== 
+==794653== 
+==794653== Use --history-level=approx or =none to gain increased speed, at
+==794653== the cost of reduced accuracy of conflicting-access information
+==794653== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

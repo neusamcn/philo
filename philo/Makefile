@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+         #
+#    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/07/13 23:53:22 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/10 11:48:30 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,8 +62,7 @@ PATH_COLOR      := $(ESC)[38;2;221;160;221m
 
 all: $(NAME)
 
-# TODO: should I have a rule to set shell to bash before running program?
-# and for setting ulimit -s ? or LD_ASSUME_KERNEL ?
+# should I add a rule for setting ulimit -s ? or LD_ASSUME_KERNEL ?
 $(NAME): $(OBJ)
 	@$(CC) $(OBJ) -o $@
 	@printf "%b compiled.\n" "$(GREEN)$@$(COLOR_RESET)"

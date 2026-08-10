@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mu <mu@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/06 10:30:48 by mu               ###   ########.fr       */
+/*   Updated: 2026/08/10 12:17:00 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_philo
 	int				valid;
 }	t_philo;
 
+// TODO: var for p_head and var for p_turn?
 typedef struct s_table
 {
 	t_philo_args	*args;
@@ -63,7 +64,7 @@ typedef enum e_valid
 {
 	VALID = 0,
 	CALLOC_ERR = -1,
-	PH_ID_ERR = -1
+	PH_ID_ERR = -2
 }	t_valid;
 
 /* Main functions */
