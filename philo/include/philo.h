@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 16:57:24 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 20:44:37 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 # include <stdio.h>
 # include <string.h>
 # include <sys/time.h>
+// # include <signal.h> // TODO: REMOVE TESTER
 # include <pthread.h>
+# include <bits/pthreadtypes.h> // TODO: DELETE ?
 # include <limits.h>
 # include <errno.h>
 
@@ -55,6 +57,8 @@ typedef struct s_philo
 }	t_philo;
 
 // TODO: var for p_head and var for p_turn?
+// TODO: INCLUDE POINTER TO TABLE IN PHILO STRUCT & DELETE **PHILO_HEAD
+// TODO: ADD PHILO_HEAD TO EACH PHILO
 typedef struct s_table
 {
 	t_philo_args	*args;
@@ -90,5 +94,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_putchar_fd(int fd, char c);
 void	ft_putstr_fd(int fd, char *s);
 void	ft_puts_fd(int fd, char *s);
+
+// extern volatile sig_atomic_t	g_stop; // TODO: REMOVE TESTER
 
 #endif

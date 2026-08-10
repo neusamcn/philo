@@ -6,11 +6,20 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 11:43:44 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 20:07:27 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+// TODO: REMOVE TESTER
+// volatile sig_atomic_t	g_stop = 0;
+//
+// static void	handle_sigint(int sig)
+// {
+// 	(void)sig;
+// 	g_stop = 1;
+// }
 
 // TODO: add to /utils if there isn't enough space here
 static int	validate_args(char **av)
@@ -92,6 +101,7 @@ int	main(int ac, char **av)
 	t_table	*table;
 
 	table = NULL;
+	// signal(SIGINT, handle_sigint); // TODO: REMOVE TESTER
 	if (ac < 5 || ac > 6 || !(validate_args(av)))
 		return (exit_msg("Incorrect arguments.", NULL, table, EXIT_FAILURE));
 	table = set_table(table, av);

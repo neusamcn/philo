@@ -6,12 +6,11 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 17:19:28 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 20:17:14 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-#include <pthread.h>
 
 static void	state_log(int p_id, char *state)
 {
@@ -40,6 +39,30 @@ static int	update_meals_x_ph(t_table *tbl)
 		return (PH_ID_ERR);
 	return (VALID);
 }
+// TODO: DELETE TESTER
+// static int	lock_fork(pthread_mutex_t *fork)
+// {
+// 	while (!g_stop)
+// 	{
+// 		if (pthread_mutex_trylock(fork) == 0)
+// 			return (1);
+// 		usleep(100);
+// 	}
+// 	return (0);
+// }
+
+// // TODO: DELETE TESTER
+// static void	stop_aware_sleep(int ms)
+// {
+// 	int	elapsed;
+//
+// 	elapsed = 0;
+// 	while (!g_stop && elapsed < ms)
+// 	{
+// 		usleep(1000);
+// 		elapsed++;
+// 	}
+// }
 
 // static void	busy_wait(t_philo *p)
 // {
@@ -71,7 +94,7 @@ static void	eat_or_wait(t_philo *p)
 		usleep(p->t_sleep * 1000);
 		state_log(p->philo_id, "is thinking");
 	}
-	// TODO: death check? too much time since last emal? new var?
+	// TODO: death check? too much time since last meal? new var?
 }
 
 // static void	give_token(t_table *tbl)
@@ -119,7 +142,11 @@ static void	*dinner(void *arg)
 	t_philo	*p;
 
 	p = (t_philo *)arg;
-	eat_or_wait(p);
+	// TODO: REMOVE TESTER
+	// while (!g_stop && p->alive == 1)
+	// 	eat_or_wait(p);
+	while (p->alive == 1)
+		eat_or_wait(p);
 	if (p->alive == 0)
 		return (NULL);
 	// TODO: Check for max meals? add var?
@@ -132,6 +159,7 @@ t_table	*init_philo_threads(t_table *tbl)
 	t_philo	*p;
 	int		p_id_prev;
 	int		i;
+	int		tkns_max;
 
 	if (tbl->valid != VALID)
 		return (tbl);
@@ -143,14 +171,15 @@ t_table	*init_philo_threads(t_table *tbl)
 	}
 	p_id_prev = 0;
 	i = 0;
-	while (p->philo_id - p_id_prev > 0 && i < tbl->args->n_philo / 2)
+	tkns_max = (tbl->args->n_philo / 2) + (tbl->args->n_philo % 2);
+	while (p->philo_id - p_id_prev > 0 && i < tkns_max)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
 		if (p->valid != VALID)
 			return (tbl);
 		pthread_mutex_lock(&tbl->tokens[i++]);
 		p->has_tkn = 1;
-		// tbl->philo_turn[p->philo_id - 1] = 1;
+		tbl->philo_turn[p->philo_id - 1] = 1;
 		p_id_prev = p->philo_id;
 		p = p->next->next;
 	}
@@ -161,14 +190,19 @@ t_table	*init_philo_threads(t_table *tbl)
 	p = (*tbl->philo_head)->next;
 	p_id_prev = 0;
 	i = 0;
-	while (p->philo_id - p_id_prev > 0 && i < tbl->args->n_philo / 2)
+	while (tbl->philo_turn[0] == 1)
+	{
+		usleep(10);
+		continue ;
+	}
+	while (p->philo_id - p_id_prev > 0 && i < tkns_max)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
 		if (p->valid != VALID)
 			return (tbl);
 		p->has_tkn = 1;
 		pthread_mutex_lock(&tbl->tokens[i++]);
-		// tbl->philo_turn[p->philo_id - 1] = 1;
+		tbl->philo_turn[p->philo_id - 1] = 1;
 		p_id_prev = p->philo_id;
 		p = p->next->next;
 	}

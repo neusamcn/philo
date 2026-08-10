@@ -6,14 +6,11 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 19:50:21 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 20:08:55 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-#include <bits/pthreadtypes.h>
-#include <pthread.h>
-// #include <bits/pthreadtypes.h>
 
 static void	print_philos(t_philo_args *tbl_args)
 {
@@ -114,7 +111,7 @@ t_table	*set_table(t_table *table, char **av)
 		return (table);
 	}
 	table->args = init_table_args(table->args, av);
-	tkn_max = table->args->n_philo / 2;
+	tkn_max = (table->args->n_philo / 2) + (table->args->n_philo % 2);
 	table->tokens = ft_calloc(tkn_max, sizeof(pthread_mutex_t));
 	if (!table->tokens)
 	{
