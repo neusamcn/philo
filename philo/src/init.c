@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 13:41:26 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 17:25:39 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ static int	sit_philos(t_table *tbl)
 		if (!p)
 			return (CALLOC_ERR);
 		p->philo_id = i + 1;
+		p->alive = 1;
 		pthread_mutex_init(&p->r_chopstick, NULL);
+		p->t_eat = tbl->args->t_eat;
+		p->t_sleep = tbl->args->t_sleep;
 		p->meals = 0;
 		// TODO: separate function to link nodes?
 		p->previous = prev;
@@ -127,6 +130,12 @@ t_table	*set_table(t_table *table, char **av)
 	table->meals_x_ph = 0;
 	table->philo_head = ft_calloc(1, sizeof(t_philo *));
 	if (!table->philo_head)
+	{
+		table->valid = CALLOC_ERR;
+		return (table);
+	}
+	table->philo_turn = ft_calloc((table->args->n_philo), sizeof(int));
+	if (!table->philo_turn)
 	{
 		table->valid = CALLOC_ERR;
 		return (table);

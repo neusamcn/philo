@@ -1,16 +1,303 @@
-==807254== Memcheck, a memory error detector
-==807254== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
-==807254== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
-==807254== Command: ./philo_db 5 800 200 200 1
-==807254== Parent PID: 807243
-==807254== 
-==807254== 
-==807254== FILE DESCRIPTORS: 3 open (3 inherited) at exit.
-==807254== 
-==807254== HEAP SUMMARY:
-==807254==     in use at exit: 0 bytes in 0 blocks
-==807254==   total heap usage: 14 allocs, 14 frees, 2,924 bytes allocated
-==807254== 
-==807254== All heap blocks were freed -- no leaks are possible
-==807254== 
-==807254== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==2480310== Memcheck, a memory error detector
+==2480310== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
+==2480310== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
+==2480310== Command: ./philo_db 5 800 200 200 1
+==2480310== Parent PID: 2480295
+==2480310== 
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F6E8: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:74)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae560 is 16 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F720: lll_mutex_lock_optimized (pthread_mutex_lock.c:44)
+==2480310==    by 0x496F720: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:87)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae560 is 16 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== Invalid read of size 4
+==2480310==    at 0x4A2E67C: __aarch64_cas4_acq (in /usr/lib/aarch64-linux-gnu/libc.so.6)
+==2480310==    by 0x496F73F: lll_mutex_lock_optimized (pthread_mutex_lock.c:48)
+==2480310==    by 0x496F73F: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:87)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae550 is 0 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F74C: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:88)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae558 is 8 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F758: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:160)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae55c is 12 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== Invalid write of size 4
+==2480310==    at 0x496F760: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:160)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae558 is 8 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F140: __pthread_mutex_lock_full (pthread_mutex_lock.c:512)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae588 is 8 bytes before a block of size 8 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001BD7: ft_calloc (ft_calloc.c:43)
+==2480310==    by 0x4001237: set_table (init.c:131)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F144: __pthread_mutex_lock_full (pthread_mutex_lock.c:509)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae580 is 16 bytes before a block of size 8 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001BD7: ft_calloc (ft_calloc.c:43)
+==2480310==    by 0x4001237: set_table (init.c:131)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 
+==2480310== Process terminating with default action of signal 6 (SIGABRT)
+==2480310==    at 0x496E0FC: __pthread_kill_implementation (pthread_kill.c:44)
+==2480310==    by 0x49185FB: raise (raise.c:26)
+==2480310==    by 0x490271F: abort (abort.c:77)
+==2480310==    by 0x4960A57: __libc_message_impl (libc_fatal.c:138)
+==2480310==    by 0x4911013: __libc_message_wrapper (stdio.h:203)
+==2480310==    by 0x4911013: __libc_assert_fail (__libc_assert_fail.c:31)
+==2480310==    by 0x4975EB3: __pthread_tpp_change_priority (tpp.c:83)
+==2480310==    by 0x496F17B: __pthread_mutex_lock_full (pthread_mutex_lock.c:543)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310== 
+==2480310== FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+==2480310== 
+==2480310== HEAP SUMMARY:
+==2480310==     in use at exit: 2,616 bytes in 14 blocks
+==2480310==   total heap usage: 14 allocs, 0 frees, 2,616 bytes allocated
+==2480310== 
+==2480310== 0 bytes in 1 blocks are still reachable in loss record 1 of 9
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 8 bytes in 1 blocks are still reachable in loss record 2 of 9
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001BD7: ft_calloc (ft_calloc.c:43)
+==2480310==    by 0x4001237: set_table (init.c:131)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 20 bytes in 1 blocks are still reachable in loss record 3 of 9
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001BD7: ft_calloc (ft_calloc.c:43)
+==2480310==    by 0x4001133: set_table (init.c:110)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 20 bytes in 1 blocks are still reachable in loss record 4 of 9
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001BD7: ft_calloc (ft_calloc.c:43)
+==2480310==    by 0x400127F: set_table (init.c:137)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 40 bytes in 1 blocks are still reachable in loss record 5 of 9
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001BD7: ft_calloc (ft_calloc.c:43)
+==2480310==    by 0x400110F: set_table (init.c:107)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 400 bytes in 1 blocks are still reachable in loss record 6 of 9
+==2480310==    at 0x48AC7D0: calloc (vg_replace_malloc.c:1616)
+==2480310==    by 0x4975D63: __pthread_tpp_change_priority (tpp.c:76)
+==2480310==    by 0x496F17B: __pthread_mutex_lock_full (pthread_mutex_lock.c:543)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310== 
+==2480310== 544 bytes in 2 blocks are possibly lost in loss record 7 of 9
+==2480310==    at 0x48AC7D0: calloc (vg_replace_malloc.c:1616)
+==2480310==    by 0x40310B3: calloc (rtld-malloc.h:44)
+==2480310==    by 0x40310B3: allocate_dtv (dl-tls.c:470)
+==2480310==    by 0x4031C57: _dl_allocate_tls (dl-tls.c:722)
+==2480310==    by 0x496CD67: allocate_stack (allocatestack.c:568)
+==2480310==    by 0x496CD67: pthread_create@@GLIBC_2.34 (pthread_create.c:680)
+==2480310==    by 0x400159B: init_philo_threads (run_sim.c:148)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310== 
+==2480310== 560 bytes in 5 blocks are still reachable in loss record 8 of 9
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001BD7: ft_calloc (ft_calloc.c:43)
+==2480310==    by 0x4000EFB: sit_philos (init.c:61)
+==2480310==    by 0x40012B7: set_table (init.c:143)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 1,024 bytes in 1 blocks are still reachable in loss record 9 of 9
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4953C67: _IO_file_doallocate (filedoalloc.c:91)
+==2480310==    by 0x496519F: _IO_doallocbuf (genops.c:373)
+==2480310==    by 0x496519F: _IO_doallocbuf (genops.c:368)
+==2480310==    by 0x49631B7: _IO_file_overflow@@GLIBC_2.17 (fileops.c:779)
+==2480310==    by 0x4963D37: _IO_new_file_xsputn (fileops.c:1305)
+==2480310==    by 0x4963D37: _IO_file_xsputn@@GLIBC_2.17 (fileops.c:1258)
+==2480310==    by 0x4956BCF: puts (ioputs.c:40)
+==2480310==    by 0x4000D77: print_philos (init.c:20)
+==2480310==    by 0x40010E7: init_table_args (init.c:97)
+==2480310==    by 0x400118F: set_table (init.c:117)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== LEAK SUMMARY:
+==2480310==    definitely lost: 0 bytes in 0 blocks
+==2480310==    indirectly lost: 0 bytes in 0 blocks
+==2480310==      possibly lost: 544 bytes in 2 blocks
+==2480310==    still reachable: 2,072 bytes in 12 blocks
+==2480310==         suppressed: 0 bytes in 0 blocks
+==2480310== 
+==2480310== ERROR SUMMARY: 11 errors from 9 contexts (suppressed: 0 from 0)
+==2480310== 
+==2480310== 1 errors in context 1 of 9:
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F144: __pthread_mutex_lock_full (pthread_mutex_lock.c:509)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae580 is 16 bytes before a block of size 8 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001BD7: ft_calloc (ft_calloc.c:43)
+==2480310==    by 0x4001237: set_table (init.c:131)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 
+==2480310== 1 errors in context 2 of 9:
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F140: __pthread_mutex_lock_full (pthread_mutex_lock.c:512)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae588 is 8 bytes before a block of size 8 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001BD7: ft_calloc (ft_calloc.c:43)
+==2480310==    by 0x4001237: set_table (init.c:131)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 
+==2480310== 1 errors in context 3 of 9:
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F758: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:160)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae55c is 12 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 
+==2480310== 1 errors in context 4 of 9:
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F74C: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:88)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae558 is 8 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 
+==2480310== 1 errors in context 5 of 9:
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F720: lll_mutex_lock_optimized (pthread_mutex_lock.c:44)
+==2480310==    by 0x496F720: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:87)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae560 is 16 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 
+==2480310== 1 errors in context 6 of 9:
+==2480310== Invalid read of size 4
+==2480310==    at 0x496F6E8: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:74)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae560 is 16 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 
+==2480310== 2 errors in context 7 of 9:
+==2480310== Invalid write of size 4
+==2480310==    at 0x496F760: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:160)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae558 is 8 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== 
+==2480310== 2 errors in context 8 of 9:
+==2480310== Invalid read of size 4
+==2480310==    at 0x4A2E67C: __aarch64_cas4_acq (in /usr/lib/aarch64-linux-gnu/libc.so.6)
+==2480310==    by 0x496F73F: lll_mutex_lock_optimized (pthread_mutex_lock.c:48)
+==2480310==    by 0x496F73F: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:87)
+==2480310==    by 0x40015EF: init_philo_threads (run_sim.c:151)
+==2480310==    by 0x40017AB: run_philo_sim (run_sim.c:180)
+==2480310==    by 0x4000D47: main (philo.c:104)
+==2480310==  Address 0x4aae550 is 0 bytes after a block of size 0 alloc'd
+==2480310==    at 0x48A54AC: malloc (vg_replace_malloc.c:447)
+==2480310==    by 0x4001B93: ft_calloc (ft_calloc.c:37)
+==2480310==    by 0x40011A7: set_table (init.c:118)
+==2480310==    by 0x4000CFB: main (philo.c:97)
+==2480310== 
+==2480310== ERROR SUMMARY: 11 errors from 9 contexts (suppressed: 0 from 0)

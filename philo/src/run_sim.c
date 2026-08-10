@@ -6,11 +6,12 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 13:11:11 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 17:19:28 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <pthread.h>
 
 static void	state_log(int p_id, char *state)
 {
@@ -40,54 +41,88 @@ static int	update_meals_x_ph(t_table *tbl)
 	return (VALID);
 }
 
-static void	eat(t_table *tbl)
-{
-	t_philo	*p;
+// static void	busy_wait(t_philo *p)
+// {
+// 	if (p->philo_id % 2 == 0)
+// 	{
+// 		state_log((*tbl->philo_head)->philo_id, "is sleeping");
+// 		usleep(tbl->args->t_sleep * 1000);
+// 	}
+// }
 
-	p = *tbl->philo_head;
-	if (tbl->tokens > 0)
+static void	eat_or_wait(t_philo *p)
+{
+	if (p->has_tkn == 1)
 	{
-		if (p->has_tkn == 0)
-			p->has_tkn = 1;
-		tbl->tokens--;
 		pthread_mutex_lock(&p->r_chopstick);
 		state_log(p->philo_id, "has taken a fork");
 		pthread_mutex_lock(&p->previous->r_chopstick);
 		state_log(p->philo_id, "has taken a fork");
 		state_log(p->philo_id, "is eating");
-		usleep(tbl->args->t_eat * 1000); // TODO: should I sleep or smtg else?
+		usleep(p->t_eat * 1000);
 		pthread_mutex_unlock(&p->r_chopstick);
 		pthread_mutex_unlock(&p->previous->r_chopstick);
 		p->has_tkn = 0;
-		tbl->tokens++;
 		p->meals++;
-		tbl->valid = update_meals_x_ph(tbl);
 	}
+	else if (p->has_tkn == 0)
+	{
+		state_log(p->philo_id, "is sleeping");
+		usleep(p->t_sleep * 1000);
+		state_log(p->philo_id, "is thinking");
+	}
+	// TODO: death check? too much time since last emal? new var?
 }
 
-static void	busy_wait(t_table *tbl)
-{
-	if ((*tbl->philo_head)->philo_id % 2 == 0)
-	{
-		state_log((*tbl->philo_head)->philo_id, "is sleeping");
-		usleep(tbl->args->t_sleep * 1000);
-	}
-}
+// static void	give_token(t_table *tbl)
+// {
+// 	int		i;
+// 	int		max_tkns;
+// 	t_philo	*curr_p;
+// 	int		start;
+//
+// 	curr_p = *tbl->philo_head;
+// 	if (curr_p->philo_id != 1)
+// 	{
+// 		tbl->valid = PH_ID_ERR;
+// 		return ;
+// 	}
+// 	start = 1;
+// 	while (curr_p->has_tkn == 1 && (start || curr_p != *tbl->philo_head))
+// 	{
+// 		start = 0;
+// 		curr_p = curr_p->next;
+// 	}
+// 	if (curr_p->has_tkn == 0)
+// 	i = 0;
+// 	start = 1;
+// 	while (i < max_tkns && (start || curr_p != *tbl->philo_head))
+// 	{
+// 		if (curr_p->has_tkn == 0)
+// 		{
+// 			start = 0;
+// 			pthread_mutex_lock(&tbl->tokens[i]);
+// 			i++;
+// 			curr_p->has_tkn = 1;
+// 			curr_p = curr_p->next->next;
+// 		}
+// 		else
+// 		{
+// 			start = 0;
+// 			curr_p = curr_p->next;
+// 		}
+// 	}
+// }
 
 static void	*dinner(void *arg)
 {
-	t_table	*tbl;
+	t_philo	*p;
 
-	tbl = (t_table *)arg;
-	busy_wait(tbl);
-	while (tbl->meals_x_ph != tbl->args->n_eats_x_philo) // TODO: or 1st death
-	{
-		eat(tbl);
-		if (tbl->valid != VALID)
-			break ;
-		// TODO: check for deaths
-		*tbl->philo_head = (*tbl->philo_head)->next;
-	}
+	p = (t_philo *)arg;
+	eat_or_wait(p);
+	if (p->alive == 0)
+		return (NULL);
+	// TODO: Check for max meals? add var?
 	return (NULL);
 }
 
@@ -96,6 +131,7 @@ t_table	*init_philo_threads(t_table *tbl)
 {
 	t_philo	*p;
 	int		p_id_prev;
+	int		i;
 
 	if (tbl->valid != VALID)
 		return (tbl);
@@ -106,21 +142,33 @@ t_table	*init_philo_threads(t_table *tbl)
 		return (tbl);
 	}
 	p_id_prev = 0;
-	while (p->philo_id - p_id_prev > 0)
+	i = 0;
+	while (p->philo_id - p_id_prev > 0 && i < tbl->args->n_philo / 2)
 	{
-		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
+		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
 		if (p->valid != VALID)
 			return (tbl);
+		pthread_mutex_lock(&tbl->tokens[i++]);
+		p->has_tkn = 1;
+		// tbl->philo_turn[p->philo_id - 1] = 1;
 		p_id_prev = p->philo_id;
 		p = p->next->next;
 	}
+	// MONITOR CHECKS
+	tbl->valid = update_meals_x_ph(tbl);
+	if (tbl->meals_x_ph >= tbl->args->n_eats_x_philo)
+		return (tbl);
 	p = (*tbl->philo_head)->next;
 	p_id_prev = 0;
-	while (p->philo_id - p_id_prev > 0)
+	i = 0;
+	while (p->philo_id - p_id_prev > 0 && i < tbl->args->n_philo / 2)
 	{
-		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);
+		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
 		if (p->valid != VALID)
 			return (tbl);
+		p->has_tkn = 1;
+		pthread_mutex_lock(&tbl->tokens[i++]);
+		// tbl->philo_turn[p->philo_id - 1] = 1;
 		p_id_prev = p->philo_id;
 		p = p->next->next;
 	}

@@ -6,11 +6,12 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 13:11:52 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 13:59:00 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <unistd.h>
 
 static void	cleanup_table(t_table *table)
 {
@@ -47,6 +48,7 @@ int	exit_cleanup(t_table *table, char *err_msg, int exit_status)
 		cleanup_table(table);
 	if (err_msg)
 		ft_putstr_fd(STDERR_FILENO, err_msg);
+	ft_puts_fd(STDOUT_FILENO, "Simulation has ended.");
 	return (exit_status);
 }
 

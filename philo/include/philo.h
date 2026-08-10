@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 13:26:02 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 16:57:24 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,17 @@ typedef struct s_philo_args
 	int	n_eats_x_philo;
 }	t_philo_args;
 
+// TODO: add int doa, doa = 1 => alive and doa = 0 => dead ?
+// and state full, full = 1 => yes, full = 0 => No ?
 typedef struct s_philo
 {
 	int				philo_id;
 	pthread_t		thread_id;
+	int				alive;
 	pthread_mutex_t	r_chopstick;
 	int				has_tkn;
+	int				t_eat;
+	int				t_sleep;
 	int				meals;
 	struct s_philo	*previous;
 	struct s_philo	*next;
@@ -55,6 +60,7 @@ typedef struct s_table
 	t_philo_args	*args;
 	pthread_mutex_t	*tokens;
 	t_philo			**philo_head;
+	int				*philo_turn;
 	int				meals_x_ph;
 	int				valid;
 }	t_table;
