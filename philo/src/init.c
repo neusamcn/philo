@@ -6,11 +6,13 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 12:05:01 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 13:41:26 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <bits/pthreadtypes.h>
+#include <pthread.h>
 // #include <bits/pthreadtypes.h>
 
 static void	print_philos(t_philo_args *tbl_args)
@@ -52,7 +54,7 @@ static int	sit_philos(t_table *tbl)
 
 	i = 0;
 	n_philo = tbl->args->n_philo;
-	*tbl->philo_turn = NULL;
+	*tbl->philo_head = NULL;
 	prev = NULL;
 	while (i < n_philo)
 	{
@@ -68,15 +70,15 @@ static int	sit_philos(t_table *tbl)
 		if (prev)
 			prev->next = p;
 		else
-		 	*tbl->philo_turn = p;
+		 	*tbl->philo_head = p;
 		p->valid = VALID;
 		prev = p;
 		i++;
 	}
-	if (prev && *tbl->philo_turn)
+	if (prev && *tbl->philo_head)
 	{
-		prev->next = *tbl->philo_turn;
-		(*tbl->philo_turn)->previous = prev;
+		prev->next = *tbl->philo_head;
+		(*tbl->philo_head)->previous = prev;
 	}
 	return (VALID);
 }
@@ -93,8 +95,12 @@ static t_philo_args	*init_table_args(t_philo_args *tbl_args, char **av)
 	return (tbl_args);
 }
 
+// TODO: norm fix
 t_table	*set_table(t_table *table, char **av)
 {
+	int	tkn_max;
+	int	i;
+
 	table = ft_calloc(1, sizeof(t_table));
 	if (!table)
 		return (NULL);
@@ -104,11 +110,23 @@ t_table	*set_table(t_table *table, char **av)
 		table->valid = CALLOC_ERR;
 		return (table);
 	}
+	tkn_max = table->args->n_philo / 2;
 	table->args = init_table_args(table->args, av);
-	table->tokens = table->args->n_philo / 2;
+	table->tokens = ft_calloc(tkn_max, sizeof(pthread_mutex_t));
+	if (!table->tokens)
+	{
+		table->valid = CALLOC_ERR;
+		return (table);
+	}
+	i = 0;
+	while (i < tkn_max)
+	{
+		pthread_mutex_init(&table->tokens[i], NULL);
+		i++;
+	}
 	table->meals_x_ph = 0;
-	table->philo_turn = ft_calloc(1, sizeof(t_philo *));
-	if (!table->philo_turn)
+	table->philo_head = ft_calloc(1, sizeof(t_philo *));
+	if (!table->philo_head)
 	{
 		table->valid = CALLOC_ERR;
 		return (table);

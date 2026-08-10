@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 12:17:00 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 13:26:02 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ typedef struct s_philo
 typedef struct s_table
 {
 	t_philo_args	*args;
-	int				tokens;
-	t_philo			**philo_turn;
+	pthread_mutex_t	*tokens;
+	t_philo			**philo_head;
 	int				meals_x_ph;
 	int				valid;
 }	t_table;

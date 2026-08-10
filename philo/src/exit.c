@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 11:46:49 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 13:11:52 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static void	cleanup_table(t_table *table)
 {
 	t_philo	*curr_p;
 	t_philo	*next_p;
-	t_philo	*head_p; // TODO: update var name?
+	t_philo	*head_p;
 	int		start;
 
-	if (table->philo_turn && *table->philo_turn)
+	if (table->philo_head && *table->philo_head)
 	{
-		head_p = *table->philo_turn;
+		head_p = *table->philo_head;
 		curr_p = head_p;
 		start = 1;
 		while (curr_p && (start || curr_p != head_p))
@@ -34,7 +34,7 @@ static void	cleanup_table(t_table *table)
 			free(curr_p);
 			curr_p = next_p;
 		}
-		free(table->philo_turn);
+		free(table->philo_head);
 	}
 	if (table->args)
 		free(table->args);

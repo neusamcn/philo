@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 12:28:22 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/10 13:11:11 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	update_meals_x_ph(t_table *tbl)
 	int		p_start_id;
 	int		tot_meals;
 
-	p_curr = *tbl->philo_turn;
+	p_curr = *tbl->philo_head;
 	p_start_id = p_curr->philo_id;
 	tot_meals = p_curr->meals;
 	while (p_curr->philo_id != p_start_id + 1)
@@ -44,7 +44,7 @@ static void	eat(t_table *tbl)
 {
 	t_philo	*p;
 
-	p = *tbl->philo_turn;
+	p = *tbl->philo_head;
 	if (tbl->tokens > 0)
 	{
 		if (p->has_tkn == 0)
@@ -67,9 +67,9 @@ static void	eat(t_table *tbl)
 
 static void	busy_wait(t_table *tbl)
 {
-	if ((*tbl->philo_turn)->philo_id % 2 == 0)
+	if ((*tbl->philo_head)->philo_id % 2 == 0)
 	{
-		state_log((*tbl->philo_turn)->philo_id, "is sleeping");
+		state_log((*tbl->philo_head)->philo_id, "is sleeping");
 		usleep(tbl->args->t_sleep * 1000);
 	}
 }
@@ -86,7 +86,7 @@ static void	*dinner(void *arg)
 		if (tbl->valid != VALID)
 			break ;
 		// TODO: check for deaths
-		*tbl->philo_turn = (*tbl->philo_turn)->next;
+		*tbl->philo_head = (*tbl->philo_head)->next;
 	}
 	return (NULL);
 }
@@ -99,7 +99,7 @@ t_table	*init_philo_threads(t_table *tbl)
 
 	if (tbl->valid != VALID)
 		return (tbl);
-	p = *tbl->philo_turn;
+	p = *tbl->philo_head;
 	if (p->philo_id != 1)
 	{
 		tbl->valid = PH_ID_ERR;
@@ -114,7 +114,7 @@ t_table	*init_philo_threads(t_table *tbl)
 		p_id_prev = p->philo_id;
 		p = p->next->next;
 	}
-	p = (*tbl->philo_turn)->next;
+	p = (*tbl->philo_head)->next;
 	p_id_prev = 0;
 	while (p->philo_id - p_id_prev > 0)
 	{
