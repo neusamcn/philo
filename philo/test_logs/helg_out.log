@@ -1,92 +1,10 @@
-==1532143== Helgrind, a thread error detector
-==1532143== Copyright (C) 2007-2026, and GNU GPL'd, by OpenWorks LLP et al.
-==1532143== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
-==1532143== Command: ./philo_db 5 800 200 200 1
-==1532143== Parent PID: 1532141
-==1532143== 
-==1532143== ---Thread-Announcement------------------------------------------
-==1532143== 
-==1532143== Thread #1 is the program's root thread
-==1532143== 
-==1532143== ----------------------------------------------------------------
-==1532143== 
-==1532143== Thread #1: pthread_mutex_destroy with invalid argument
-==1532143==    at 0x48B07E0: mutex_destroy_WRK (hg_intercepts.c:899)
-==1532143==    by 0x48B575B: pthread_mutex_destroy (hg_intercepts.c:917)
-==1532143==    by 0x400171B: cleanup_table (exit.c:26)
-==1532143==    by 0x40017A7: exit_cleanup (exit.c:40)
-==1532143==    by 0x4000E17: main (philo.c:105)
-==1532143== 
-==1532143== ----------------------------------------------------------------
-==1532143== 
-==1532143== Thread #1's call to pthread_mutex_destroy failed
-==1532143==    with error code 16 (EBUSY: Device or resource busy)
-==1532143==    at 0x48B0894: mutex_destroy_WRK (hg_intercepts.c:905)
-==1532143==    by 0x48B575B: pthread_mutex_destroy (hg_intercepts.c:917)
-==1532143==    by 0x400171B: cleanup_table (exit.c:26)
-==1532143==    by 0x40017A7: exit_cleanup (exit.c:40)
-==1532143==    by 0x4000E17: main (philo.c:105)
-==1532143== 
-==1532143== 
-==1532143== Process terminating with default action of signal 7 (SIGBUS)
-==1532143==  Invalid address alignment at address 0x0
-==1532143==    at 0x497DDC4: __pthread_clockjoin_ex (pthread_join_common.c:46)
-==1532143==    by 0x48B05A7: pthread_join_WRK (hg_intercepts.c:588)
-==1532143==    by 0x48B5363: pthread_join (hg_intercepts.c:607)
-==1532143==    by 0x400172B: cleanup_table (exit.c:27)
-==1532143==    by 0x40017A7: exit_cleanup (exit.c:40)
-==1532143==    by 0x4000E17: main (philo.c:105)
-==1532143== 
-==1532143== Use --history-level=approx or =none to gain increased speed, at
-==1532143== the cost of reduced accuracy of conflicting-access information
-==1532143== 5 lock(s) were not destroyed before exit.
-==1532143== Undestroyed mutex at address 0x4ABE7D0, first observed at:
-==1532143==    at 0x48B56B4: pthread_mutex_init (hg_intercepts.c:828)
-==1532143==    by 0x4001007: sit_philos (init.c:63)
-==1532143==    by 0x4001277: set_table (init.c:120)
-==1532143==    by 0x4000DBB: main (philo.c:97)
-==1532143== Undestroyed mutex at address 0x4ABE730, first observed at:
-==1532143==    at 0x48B56B4: pthread_mutex_init (hg_intercepts.c:828)
-==1532143==    by 0x4001007: sit_philos (init.c:63)
-==1532143==    by 0x4001277: set_table (init.c:120)
-==1532143==    by 0x4000DBB: main (philo.c:97)
-==1532143== Undestroyed mutex at address 0x4ABE690, first observed at:
-==1532143==    at 0x48B56B4: pthread_mutex_init (hg_intercepts.c:828)
-==1532143==    by 0x4001007: sit_philos (init.c:63)
-==1532143==    by 0x4001277: set_table (init.c:120)
-==1532143==    by 0x4000DBB: main (philo.c:97)
-==1532143== Undestroyed mutex at address 0x4ABE5F0, first observed at:
-==1532143==    at 0x48B56B4: pthread_mutex_init (hg_intercepts.c:828)
-==1532143==    by 0x4001007: sit_philos (init.c:63)
-==1532143==    by 0x4001277: set_table (init.c:120)
-==1532143==    by 0x4000DBB: main (philo.c:97)
-==1532143== Undestroyed mutex at address 0x4ABE550, first observed at:
-==1532143==    at 0x48B56B4: pthread_mutex_init (hg_intercepts.c:828)
-==1532143==    by 0x4001007: sit_philos (init.c:63)
-==1532143==    by 0x4001277: set_table (init.c:120)
-==1532143==    by 0x4000DBB: main (philo.c:97)
-==1532143== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
-==1532143== 
-==1532143== 1 errors in context 1 of 2:
-==1532143== ----------------------------------------------------------------
-==1532143== 
-==1532143== Thread #1's call to pthread_mutex_destroy failed
-==1532143==    with error code 16 (EBUSY: Device or resource busy)
-==1532143==    at 0x48B0894: mutex_destroy_WRK (hg_intercepts.c:905)
-==1532143==    by 0x48B575B: pthread_mutex_destroy (hg_intercepts.c:917)
-==1532143==    by 0x400171B: cleanup_table (exit.c:26)
-==1532143==    by 0x40017A7: exit_cleanup (exit.c:40)
-==1532143==    by 0x4000E17: main (philo.c:105)
-==1532143== 
-==1532143== 
-==1532143== 1 errors in context 2 of 2:
-==1532143== ----------------------------------------------------------------
-==1532143== 
-==1532143== Thread #1: pthread_mutex_destroy with invalid argument
-==1532143==    at 0x48B07E0: mutex_destroy_WRK (hg_intercepts.c:899)
-==1532143==    by 0x48B575B: pthread_mutex_destroy (hg_intercepts.c:917)
-==1532143==    by 0x400171B: cleanup_table (exit.c:26)
-==1532143==    by 0x40017A7: exit_cleanup (exit.c:40)
-==1532143==    by 0x4000E17: main (philo.c:105)
-==1532143== 
-==1532143== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+==498952== Helgrind, a thread error detector
+==498952== Copyright (C) 2007-2026, and GNU GPL'd, by OpenWorks LLP et al.
+==498952== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
+==498952== Command: ./philo_db 5 800 200 200 1
+==498952== Parent PID: 498950
+==498952== 
+==498952== 
+==498952== Use --history-level=approx or =none to gain increased speed, at
+==498952== the cost of reduced accuracy of conflicting-access information
+==498952== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

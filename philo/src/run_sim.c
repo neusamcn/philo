@@ -6,7 +6,7 @@
 /*   By: mu <mu@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/06 12:38:28 by mu               ###   ########.fr       */
+/*   Updated: 2026/08/10 11:30:17 by mu               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_table	*init_philo_threads(t_table *tbl)
 		tbl->valid = PH_ID_ERR;
 		return (tbl);
 	}
+	p_id_prev = p->previous->philo_id;
 	while (p->philo_id - p_id_prev > 0)
 	{
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, tbl);

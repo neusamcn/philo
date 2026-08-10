@@ -6,7 +6,7 @@
 /*   By: mu <mu@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/06 12:47:39 by mu               ###   ########.fr       */
+/*   Updated: 2026/08/10 11:26:18 by mu               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,34 @@
 static void	cleanup_table(t_table *table)
 {
 	t_philo	*curr_p;
+	t_philo	*next_p;
+	t_philo	*head_p;
+	int		start;
 	// TODO: table frees order: philo_turn, args
 	// TODO: philo_turn frees order: r_chopstick, thread_id, next (REPEAT)
-	if (table)
+	if (!table)
+		return ;
+	if (table->philo_turn && *table->philo_turn)
 	{
-		curr_p = *table->philo_turn;
-		while (curr_p)
+		head_p = *table->philo_turn;
+		curr_p = head_p;
+		start = 1;
+		while (curr_p && (start || curr_p != head_p))
 		{
+			start = 0;
+			next_p = curr_p->next;
+			if (curr_p->thread_id)
+				pthread_join(curr_p->thread_id, NULL);
 			pthread_mutex_destroy(&curr_p->r_chopstick);
-			pthread_join(curr_p->thread_id, NULL);
-			curr_p = curr_p->next;
-			free(curr_p->previous);
+			free(curr_p);
+			curr_p = next_p;
 		}
-		if (table->args)
-			free(table->args);
-		free(table);
+		free(table->philo_turn);
 	}
+	if (table->args)
+		free(table->args);
+	free(table);
+	return ;
 }
 
 int	exit_cleanup(t_table *table, char *err_msg, int exit_status)
