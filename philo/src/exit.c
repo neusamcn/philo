@@ -6,12 +6,13 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 20:11:21 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 14:38:38 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
+// TODO: UPDATE ACCORDING TO NEW STRUCTS
 static void	cleanup_table(t_table *table)
 {
 	t_philo	*curr_p;

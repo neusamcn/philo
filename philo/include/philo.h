@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/11 13:36:02 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 14:38:10 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 // # define _GNU_SOURCE
 /* Standard libraries */
+# include <stdint.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -24,6 +25,7 @@
 // # include <signal.h> // TODO: REMOVE TESTER
 # include <pthread.h>
 # include <bits/pthreadtypes.h> // TODO: DELETE ?
+# include <bits/types/struct_timeval.h> // TODO: DELETE ?
 # include <limits.h>
 # include <errno.h>
 
@@ -35,7 +37,8 @@ typedef enum e_err
 {
 	VALID = 0,
 	CALLOC_ERR = -1,
-	PH_ID_ERR = -2
+	PH_ID_ERR = -2,
+	TIME_ERR = -3
 }	t_err;
 
 typedef enum s_expo_calls
@@ -65,7 +68,7 @@ typedef struct s_philo
 	pthread_mutex_t	*r_chopstick;
 	// int				t_eat; // needed?
 	// int				t_sleep; // needed?
-	long long		t_last_meal; // ms?
+	int64_t			t_last_meal; // ms
 	int				meals;
 	bool			sated;
 	struct s_philo	*previous;
@@ -82,7 +85,7 @@ typedef struct s_table
 	pthread_mutex_t	*chits; // == available tokens
 	pthread_mutex_t	*chopsticks;
 	t_philo			**philo_head;
-	long long		t_dinner_start; // ms ?
+	int64_t			t_dinner_start; // ms
 	// int				*philo_turn; // TODO: DELETE ?
 	int				meals_x_ph;
 	pthread_mutex_t	*expo;
@@ -107,6 +110,8 @@ void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_putchar_fd(int fd, char c);
 void	ft_putstr_fd(int fd, char *s);
 void	ft_puts_fd(int fd, char *s);
+
+int64_t time_in_ms(void);
 
 // extern volatile sig_atomic_t	g_stop; // TODO: REMOVE TESTER
 

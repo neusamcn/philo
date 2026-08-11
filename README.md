@@ -155,5 +155,6 @@ before printing need to lock and unlock
 
 use algorithm that determines how chopsticks are used depending on left or right chopstick
 
-data types: uint64_t
 main() is also a thread
+
+Restaurant: The Ford et Tu, The Ford/Fort Ate Too, The For Tea Ate Too
