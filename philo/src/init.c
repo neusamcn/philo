@@ -6,37 +6,39 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 20:08:55 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 15:35:39 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <bits/pthreadtypes.h>
+#include <pthread.h>
 
-static void	print_philos(t_philo_args *tbl_args)
+static void	print_philos(t_sim_args *sim_args)
 {
 	printf("Simulation starting with the following parameters:\n");
-	printf(HOT_PINK"number_of_philosophers: "CLR_RST"%d", tbl_args->n_philo);
-	if (tbl_args->n_philo < 9999999)
+	printf(HOT_PINK"number_of_philosophers: "CLR_RST"%d", sim_args->n_philo);
+	if (sim_args->n_philo < 9999999)
 		printf("\t");
-	if (tbl_args->n_philo > 200)
+	if (sim_args->n_philo > 200)
 		printf("\t-> "DEEP_PINK"WARNING"CLR_RST": you should NOT test "
 			DEEP_PINK"above 200"CLR_RST"!");
-	printf(HOT_PINK"\ntime_to_die: "CLR_RST"%d ms", tbl_args->t_die);
-	if (tbl_args->t_die < 60)
+	printf(HOT_PINK"\ntime_to_die: "CLR_RST"%d ms", sim_args->t_die);
+	if (sim_args->t_die < 60)
 		printf("\t\t\t-> "DEEP_PINK"WARNING"CLR_RST": you should NOT test "
 			DEEP_PINK"below 60 ms"CLR_RST"!");
-	printf(HOT_PINK"\ntime_to_eat: "CLR_RST"%d ms", tbl_args->t_eat);
-	if (tbl_args->t_eat < 60)
+	printf(HOT_PINK"\ntime_to_eat: "CLR_RST"%d ms", sim_args->t_eat);
+	if (sim_args->t_eat < 60)
 		printf("\t\t\t-> "DEEP_PINK"WARNING"CLR_RST": you should NOT test "
 			DEEP_PINK"below 60 ms"CLR_RST"!");
-	printf(HOT_PINK"\ntime_to_sleep: "CLR_RST"%d ms", tbl_args->t_sleep);
-	if (tbl_args->t_sleep < 60)
+	printf(HOT_PINK"\ntime_to_sleep: "CLR_RST"%d ms", sim_args->t_sleep);
+	if (sim_args->t_sleep < 60)
 		printf("\t\t\t-> "DEEP_PINK"WARNING"CLR_RST": you should NOT test "
 			DEEP_PINK"below 60 ms"CLR_RST"!");
-	if (tbl_args->n_eats_x_philo)
+	if (sim_args->n_eats_x_philo)
 		printf(HOT_PINK"\nnumber_of_times_each_philosopher_must_eat:"CLR_RST
-			" %d\n", tbl_args->n_eats_x_philo);
-	if (tbl_args->n_eats_x_philo == 0)
+			" %d\n", sim_args->n_eats_x_philo);
+	if (sim_args->n_eats_x_philo == 0)
 		printf("\n");
 	printf("\n");
 }
@@ -83,60 +85,128 @@ static int	sit_philos(t_table *tbl)
 	return (VALID);
 }
 
-static t_philo_args	*init_table_args(t_philo_args *tbl_args, char **av)
+static t_sim_args	*init_table_args(t_sim_args *sim_args, char **av)
 {
-	tbl_args->n_philo = ft_atoi(av[1]);
-	tbl_args->t_die = ft_atoi(av[2]);
-	tbl_args->t_eat = ft_atoi(av[3]);
-	tbl_args->t_sleep = ft_atoi(av[4]);
+	sim_args->n_philo = ft_atoi(av[1]);
+	sim_args->t_die = ft_atoi(av[2]);
+	sim_args->t_eat = ft_atoi(av[3]);
+	sim_args->t_sleep = ft_atoi(av[4]);
 	if (av[5])
-		tbl_args->n_eats_x_philo = ft_atoi(av[5]);
-	print_philos(tbl_args);
-	return (tbl_args);
+		sim_args->n_eats_x_philo = ft_atoi(av[5]);
+	print_philos(sim_args);
+	return (sim_args);
+}
+
+static int	place_chopsticks(t_table *tbl)
+{
+	int	max_chopsticks;
+	int	i;
+
+	max_chopsticks = tbl->args->n_philo;
+	tbl->chopsticks = ft_calloc(max_chopsticks, sizeof(pthread_mutex_t));
+	if (!tbl->chopsticks)
+		return (CALLOC_ERR);
+	i = 0;
+	while (i < max_chopsticks)
+	{
+		pthread_mutex_init(&tbl->chopsticks[i], NULL);
+		i++;
+	}
+	return (VALID);
+}
+
+static int	prep_chits(t_table *tbl)
+{
+	int	max_chits;
+	int	i;
+
+	max_chits = (tbl->args->n_philo / 2) + (tbl->args->n_philo % 2);
+	tbl->chits = ft_calloc(max_chits, sizeof(pthread_mutex_t));
+	if (!tbl->chits)
+		return (CALLOC_ERR);
+	i = 0;
+	while (i < max_chits)
+	{
+		pthread_mutex_init(&tbl->chits[i], NULL);
+		i++;
+	}
+	return (VALID);
+}
+
+static int	expo_clock_in(t_table *tbl)
+{
+	int	i;
+
+	tbl->expo = ft_calloc(3, sizeof(pthread_mutex_t));
+	if (!tbl->expo)
+		return (CALLOC_ERR);
+	i = 0;
+	while (i < 3)
+	{
+		pthread_mutex_init(&tbl->expo[i], NULL);
+		i++;
+	}
+	return (VALID);
 }
 
 // TODO: norm fix
 t_table	*set_table(t_table *table, char **av)
 {
-	int	tkn_max;
-	int	i;
+	// int	max_chits;
+	// int	i;
 
 	table = ft_calloc(1, sizeof(t_table));
 	if (!table)
 		return (NULL);
-	table->args = ft_calloc(1, sizeof(t_philo_args));
+	table->args = ft_calloc(1, sizeof(t_sim_args));
 	if (!table->args)
 	{
 		table->valid = CALLOC_ERR;
 		return (table);
 	}
 	table->args = init_table_args(table->args, av);
-	tkn_max = (table->args->n_philo / 2) + (table->args->n_philo % 2);
-	table->tokens = ft_calloc(tkn_max, sizeof(pthread_mutex_t));
-	if (!table->tokens)
+	table->valid = prep_chits(table);
+	if (table->valid != VALID)
+		return (table);
+	// max_chits = (table->args->n_philo / 2) + (table->args->n_philo % 2);
+	// table->chits = ft_calloc(max_chits, sizeof(pthread_mutex_t));
+	// if (!table->chits)
+	// {
+	// 	table->valid = CALLOC_ERR;
+	// 	return (table);
+	// }
+	// i = 0;
+	// while (i < max_chits)
+	// {
+	// 	pthread_mutex_init(&table->chits[i], NULL);
+	// 	i++;
+	// }
+	table->valid = place_chopsticks(table);
+	if (table->valid != VALID)
+		return (table);
+	table->t_dinner_start = time_in_ms();
+	if (table->t_dinner_start == TIME_ERR)
 	{
-		table->valid = CALLOC_ERR;
+		table->valid = TIME_ERR;
 		return (table);
 	}
-	i = 0;
-	while (i < tkn_max)
-	{
-		pthread_mutex_init(&table->tokens[i], NULL);
-		i++;
-	}
 	table->meals_x_ph = 0;
+	table->valid = expo_clock_in(table);
+	if (table->valid != VALID)
+		return (table);
+	table->end_dinner = false;
 	table->philo_head = ft_calloc(1, sizeof(t_philo *));
 	if (!table->philo_head)
 	{
 		table->valid = CALLOC_ERR;
 		return (table);
 	}
-	table->philo_turn = ft_calloc((table->args->n_philo), sizeof(int));
-	if (!table->philo_turn)
-	{
-		table->valid = CALLOC_ERR;
-		return (table);
-	}
+	// table->philo_turn = ft_calloc((table->args->n_philo), sizeof(int));
+	// if (!table->philo_turn)
+	// {
+	// 	table->valid = CALLOC_ERR;
+	// 	return (table);
+	// }
 	table->valid = sit_philos(table);
 	return (table);
 }

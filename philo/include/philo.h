@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/11 14:38:10 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 14:51:16 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_putchar_fd(int fd, char c);
 void	ft_putstr_fd(int fd, char *s);
 void	ft_puts_fd(int fd, char *s);
-
 int64_t time_in_ms(void);
 
 // extern volatile sig_atomic_t	g_stop; // TODO: REMOVE TESTER
