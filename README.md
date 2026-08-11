@@ -143,7 +143,7 @@ https://youtu.be/PeihcfYft9w?si=xeRVQsNubFrNYeZ3
 
 ### AI Usage
 
-AI (LLMs) was used as a study and research support, to find more information on the various concepts I needed to learn and to assist in interpretation of texts.
+AI (LLMs) was used as a study and research support, to find more information on the various concepts I needed to learn and to assist in interpretation of technical texts.
 
 
 Disorganised notes:
@@ -155,5 +155,5 @@ before printing need to lock and unlock
 
 use algorithm that determines how chopsticks are used depending on left or right chopstick
 
-data types: pthread_mutex_t uint64_t
+data types: uint64_t
 main() is also a thread
