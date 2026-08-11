@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 20:44:37 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 13:17:41 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
+# include <stdbool.h>
 # include <sys/time.h>
 // # include <signal.h> // TODO: REMOVE TESTER
 # include <pthread.h>
@@ -29,53 +30,65 @@
 /* My libraries */
 # include "flair.h"
 
+/* Enums */
+typedef enum e_err
+{
+	VALID = 0,
+	CALLOC_ERR = -1,
+	PH_ID_ERR = -2
+}	t_err;
+
+typedef enum s_expo_calls
+{
+	PRINT_LOG,
+	RUN_DISH, // == using token
+	END_DINNER
+}	t_expo_calls;
+
 /* Structs */
-typedef struct s_philo_args
+typedef struct s_sim_args
 {
 	int	n_philo;
 	int	t_die;
 	int	t_eat;
 	int	t_sleep;
 	int	n_eats_x_philo;
-}	t_philo_args;
+}	t_sim_args;
 
-// TODO: add int doa, doa = 1 => alive and doa = 0 => dead ?
-// and state full, full = 1 => yes, full = 0 => No ?
 typedef struct s_philo
 {
 	int				philo_id;
 	pthread_t		thread_id;
-	int				alive;
-	pthread_mutex_t	r_chopstick;
-	int				has_tkn;
-	int				t_eat;
-	int				t_sleep;
+	bool			alive;
+	pthread_mutex_t	*call_server; // will point to the called waiter/server == token
+	pthread_mutex_t	*l_chopstick;
+	pthread_mutex_t	*r_chopstick;
+	// int				t_eat; // needed?
+	// int				t_sleep; // needed?
+	long long		t_last_meal;
 	int				meals;
+	bool			sated;
 	struct s_philo	*previous;
 	struct s_philo	*next;
-	int				valid;
+	struct s_table	**table;
+	t_err			valid;
 }	t_philo;
 
 // TODO: var for p_head and var for p_turn?
-// TODO: INCLUDE POINTER TO TABLE IN PHILO STRUCT & DELETE **PHILO_HEAD
-// TODO: ADD PHILO_HEAD TO EACH PHILO
+// TODO: ADD PHILO_HEAD TO EACH PHILO ?
 typedef struct s_table
 {
-	t_philo_args	*args;
-	pthread_mutex_t	*tokens;
+	t_sim_args		*args;
+	pthread_mutex_t	*chits; // == available tokens
+	pthread_mutex_t	*chopsticks;
 	t_philo			**philo_head;
-	int				*philo_turn;
+	long long		t_dinner_start;
+	// int				*philo_turn; // TODO: DELETE ?
 	int				meals_x_ph;
-	int				valid;
+	pthread_mutex_t	*expo;
+	bool			end_dinner;
+	t_err			valid;
 }	t_table;
-
-/* Enums */
-typedef enum e_valid
-{
-	VALID = 0,
-	CALLOC_ERR = -1,
-	PH_ID_ERR = -2
-}	t_valid;
 
 /* Main functions */
 t_table	*set_table(t_table *table, char **av);

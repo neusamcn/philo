@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 20:17:14 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 13:10:28 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	update_meals_x_ph(t_table *tbl)
 
 static void	eat_or_wait(t_philo *p)
 {
-	if (p->has_tkn == 1)
+	if (p->call_server == 1)
 	{
 		pthread_mutex_lock(&p->r_chopstick);
 		state_log(p->philo_id, "has taken a fork");
@@ -85,10 +85,10 @@ static void	eat_or_wait(t_philo *p)
 		usleep(p->t_eat * 1000);
 		pthread_mutex_unlock(&p->r_chopstick);
 		pthread_mutex_unlock(&p->previous->r_chopstick);
-		p->has_tkn = 0;
+		p->call_server = 0;
 		p->meals++;
 	}
-	else if (p->has_tkn == 0)
+	else if (p->call_server == 0)
 	{
 		state_log(p->philo_id, "is sleeping");
 		usleep(p->t_sleep * 1000);
@@ -145,7 +145,7 @@ static void	*dinner(void *arg)
 	// TODO: REMOVE TESTER
 	// while (!g_stop && p->alive == 1)
 	// 	eat_or_wait(p);
-	while (p->alive == 1)
+	while (p->alive == 1) // and if max meals for all haven't been reached
 		eat_or_wait(p);
 	if (p->alive == 0)
 		return (NULL);
@@ -177,8 +177,8 @@ t_table	*init_philo_threads(t_table *tbl)
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
 		if (p->valid != VALID)
 			return (tbl);
-		pthread_mutex_lock(&tbl->tokens[i++]);
-		p->has_tkn = 1;
+		pthread_mutex_lock(&tbl->chits[i++]);
+		p->call_server = 1;
 		tbl->philo_turn[p->philo_id - 1] = 1;
 		p_id_prev = p->philo_id;
 		p = p->next->next;
@@ -200,8 +200,8 @@ t_table	*init_philo_threads(t_table *tbl)
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
 		if (p->valid != VALID)
 			return (tbl);
-		p->has_tkn = 1;
-		pthread_mutex_lock(&tbl->tokens[i++]);
+		p->call_server = 1;
+		pthread_mutex_lock(&tbl->chits[i++]);
 		tbl->philo_turn[p->philo_id - 1] = 1;
 		p_id_prev = p->philo_id;
 		p = p->next->next;
