@@ -157,4 +157,4 @@ use algorithm that determines how chopsticks are used depending on left or right
 
 main() is also a thread
 
-Restaurant: The Ford et Tu, The Ford/Fort Ate Too, The For Tea Ate Too
+Restaurant: The Ford et Tu, The Ford/Fort Ate Too, The For Tea Ate Too, The Restaur4n2

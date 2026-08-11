@@ -6,13 +6,12 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 13:37:18 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/11 14:52:41 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 19:14:56 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
-// TODO: DECIDE LATER WHERE TO USE AND HOW TO HANDLE
 int64_t   time_in_ms(void)
 {
     struct timeval  tv;

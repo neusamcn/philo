@@ -6,13 +6,11 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/11 15:35:39 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 21:01:16 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-#include <bits/pthreadtypes.h>
-#include <pthread.h>
 
 static void	print_philos(t_sim_args *sim_args)
 {
@@ -44,7 +42,7 @@ static void	print_philos(t_sim_args *sim_args)
 }
 
 // TODO: norm fix
-static int	sit_philos(t_table *tbl)
+static int	sit_philos(t_sim *sim)
 {
 	int		i;
 	int		n_philo;
@@ -52,8 +50,8 @@ static int	sit_philos(t_table *tbl)
 	t_philo	*prev;
 
 	i = 0;
-	n_philo = tbl->args->n_philo;
-	*tbl->philo_head = NULL;
+	n_philo = sim->args->n_philo;
+	*sim->table->philo_head = NULL;
 	prev = NULL;
 	while (i < n_philo)
 	{
@@ -61,152 +59,152 @@ static int	sit_philos(t_table *tbl)
 		if (!p)
 			return (CALLOC_ERR);
 		p->philo_id = i + 1;
-		p->alive = 1;
-		pthread_mutex_init(&p->r_chopstick, NULL);
-		p->t_eat = tbl->args->t_eat;
-		p->t_sleep = tbl->args->t_sleep;
+		p->alive = true;
+		p->call_server = &sim->pass->rail[i / 2];
+		p->l_chopstick = &sim->table->chopsticks[i];
+		p->r_chopstick = &sim->table->chopsticks[(i + 1) % n_philo]; // TODO: handle case n_philo = 1
+		p->t_last_meal = sim->table->t_dinner_start;
 		p->meals = 0;
+		p->sated = false;
+		*p->table = sim->table;
 		// TODO: separate function to link nodes?
 		p->previous = prev;
 		p->next = NULL;
 		if (prev)
 			prev->next = p;
 		else
-		 	*tbl->philo_head = p;
+		 	*sim->table->philo_head = p;
 		p->valid = VALID;
 		prev = p;
 		i++;
 	}
-	if (prev && *tbl->philo_head)
+	if (prev && *sim->table->philo_head)
 	{
-		prev->next = *tbl->philo_head;
-		(*tbl->philo_head)->previous = prev;
+		prev->next = *sim->table->philo_head;
+		(*sim->table->philo_head)->previous = prev;
 	}
 	return (VALID);
 }
 
-static t_sim_args	*init_table_args(t_sim_args *sim_args, char **av)
+void	setup_sim_args(t_sim *sim, char **av)
 {
-	sim_args->n_philo = ft_atoi(av[1]);
-	sim_args->t_die = ft_atoi(av[2]);
-	sim_args->t_eat = ft_atoi(av[3]);
-	sim_args->t_sleep = ft_atoi(av[4]);
+	sim->args = ft_calloc(1, sizeof(t_sim_args));
+	if (!sim->args)
+	{
+		sim->valid = CALLOC_ERR;
+		return ;
+	}
+	sim->args->n_philo = ft_atoi(av[1]);
+	sim->args->t_die = ft_atoi(av[2]);
+	sim->args->t_eat = ft_atoi(av[3]);
+	sim->args->t_sleep = ft_atoi(av[4]);
 	if (av[5])
-		sim_args->n_eats_x_philo = ft_atoi(av[5]);
-	print_philos(sim_args);
-	return (sim_args);
+		sim->args->n_eats_x_philo = ft_atoi(av[5]);
+	print_philos(sim->args);
+	return ;
 }
 
-static int	place_chopsticks(t_table *tbl)
+static int	place_chopsticks(t_sim *sim)
 {
 	int	max_chopsticks;
 	int	i;
 
-	max_chopsticks = tbl->args->n_philo;
-	tbl->chopsticks = ft_calloc(max_chopsticks, sizeof(pthread_mutex_t));
-	if (!tbl->chopsticks)
+	max_chopsticks = sim->args->n_philo;
+	sim->table->chopsticks = ft_calloc(max_chopsticks, sizeof(pthread_mutex_t));
+	if (!sim->table->chopsticks)
 		return (CALLOC_ERR);
 	i = 0;
 	while (i < max_chopsticks)
 	{
-		pthread_mutex_init(&tbl->chopsticks[i], NULL);
+		pthread_mutex_init(&sim->table->chopsticks[i], NULL);
 		i++;
 	}
 	return (VALID);
 }
 
-static int	prep_chits(t_table *tbl)
-{
-	int	max_chits;
-	int	i;
-
-	max_chits = (tbl->args->n_philo / 2) + (tbl->args->n_philo % 2);
-	tbl->chits = ft_calloc(max_chits, sizeof(pthread_mutex_t));
-	if (!tbl->chits)
-		return (CALLOC_ERR);
-	i = 0;
-	while (i < max_chits)
-	{
-		pthread_mutex_init(&tbl->chits[i], NULL);
-		i++;
-	}
-	return (VALID);
-}
-
-static int	expo_clock_in(t_table *tbl)
+void	mise_en_place(t_sim *sim)
 {
 	int	i;
 
-	tbl->expo = ft_calloc(3, sizeof(pthread_mutex_t));
-	if (!tbl->expo)
-		return (CALLOC_ERR);
-	i = 0;
-	while (i < 3)
+	sim->pass = ft_calloc(1, sizeof(t_pass));
+	if (!sim->pass)
 	{
-		pthread_mutex_init(&tbl->expo[i], NULL);
+		sim->valid = CALLOC_ERR;
+		return ;
+	}
+	sim->pass->max_chits = (sim->args->n_philo / 2) + (sim->args->n_philo % 2);
+	sim->pass->rail = ft_calloc(sim->pass->max_chits, sizeof(pthread_mutex_t));
+	if (!sim->pass->rail)
+	{
+		sim->pass->valid = CALLOC_ERR;
+		return ;
+	}
+	i = 0;
+	while (i < sim->pass->max_chits)
+	{
+		pthread_mutex_init(&sim->pass->rail[i], NULL);
 		i++;
 	}
-	return (VALID);
+	pthread_mutex_init(&sim->pass->run_dish, NULL);
+	sim->pass->valid = VALID;
 }
+// ABOVE FUNCTION REPLACED prep_chits() and expo_clock_in()
+// static int	prep_chits(t_table *tbl)
+// {
+// 	int	max_chits;
+// 	int	i;
+//
+// 	max_chits = (tbl->args->n_philo / 2) + (tbl->args->n_philo % 2);
+// 	tbl->rail = ft_calloc(max_chits, sizeof(pthread_mutex_t));
+// 	if (!tbl->rail)
+// 		return (CALLOC_ERR);
+// 	i = 0;
+// 	while (i < max_chits)
+// 	{
+// 		pthread_mutex_init(&tbl->rail[i], NULL);
+// 		i++;
+// 	}
+// 	return (VALID);
+// }
+//
+// static int	expo_clock_in(t_table *tbl)
+// {
+// 	int	i;
+//
+// 	tbl->expo = ft_calloc(3, sizeof(pthread_mutex_t));
+// 	if (!tbl->expo)
+// 		return (CALLOC_ERR);
+// 	i = 0;
+// 	while (i < 3)
+// 	{
+// 		pthread_mutex_init(&tbl->expo[i], NULL);
+// 		i++;
+// 	}
+// 	return (VALID);
+// }
 
-// TODO: norm fix
-t_table	*set_table(t_table *table, char **av)
+void	set_table(t_sim *sim)
 {
-	// int	max_chits;
-	// int	i;
-
-	table = ft_calloc(1, sizeof(t_table));
-	if (!table)
-		return (NULL);
-	table->args = ft_calloc(1, sizeof(t_sim_args));
-	if (!table->args)
+	sim->table = ft_calloc(1, sizeof(t_table));
+	if (!sim->table)
+		return ;
+	sim->table->valid = place_chopsticks(sim);
+	if (sim->table->valid != VALID)
+		return ;
+	sim->table->t_dinner_start = time_in_ms();
+	if (sim->table->t_dinner_start == TIME_ERR)
 	{
-		table->valid = CALLOC_ERR;
-		return (table);
+		sim->table->valid = TIME_ERR;
+		return ;
 	}
-	table->args = init_table_args(table->args, av);
-	table->valid = prep_chits(table);
-	if (table->valid != VALID)
-		return (table);
-	// max_chits = (table->args->n_philo / 2) + (table->args->n_philo % 2);
-	// table->chits = ft_calloc(max_chits, sizeof(pthread_mutex_t));
-	// if (!table->chits)
-	// {
-	// 	table->valid = CALLOC_ERR;
-	// 	return (table);
-	// }
-	// i = 0;
-	// while (i < max_chits)
-	// {
-	// 	pthread_mutex_init(&table->chits[i], NULL);
-	// 	i++;
-	// }
-	table->valid = place_chopsticks(table);
-	if (table->valid != VALID)
-		return (table);
-	table->t_dinner_start = time_in_ms();
-	if (table->t_dinner_start == TIME_ERR)
+	sim->table->meals_x_ph = 0; // TODO: needed? delete?
+	sim->table->end_dinner = false;
+	sim->table->philo_head = ft_calloc(1, sizeof(t_philo *)); // TODO: needed?
+	if (!sim->table->philo_head)
 	{
-		table->valid = TIME_ERR;
-		return (table);
+		sim->table->valid = CALLOC_ERR;
+		return ;
 	}
-	table->meals_x_ph = 0;
-	table->valid = expo_clock_in(table);
-	if (table->valid != VALID)
-		return (table);
-	table->end_dinner = false;
-	table->philo_head = ft_calloc(1, sizeof(t_philo *));
-	if (!table->philo_head)
-	{
-		table->valid = CALLOC_ERR;
-		return (table);
-	}
-	// table->philo_turn = ft_calloc((table->args->n_philo), sizeof(int));
-	// if (!table->philo_turn)
-	// {
-	// 	table->valid = CALLOC_ERR;
-	// 	return (table);
-	// }
-	table->valid = sit_philos(table);
-	return (table);
+	sim->table->valid = sit_philos(sim);
+	return ;
 }

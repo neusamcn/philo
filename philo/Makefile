@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/10 11:48:30 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/11 21:05:10 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ SRC_DIR 	= src
 OBJ_DIR 	= obj
 OBJ_DIR_DB 	= obj_db
 
-UTILS_SRC	= $(addprefix $(SRC_DIR)/utils/, ft_ato_.c ft_calloc.c ft_is_.c write.c)
+UTILS_SRC	= $(addprefix $(SRC_DIR)/utils/, ft_ato_.c ft_calloc.c ft_is_.c \
+				time.c write.c)
 SRC			= $(addprefix $(SRC_DIR)/, philo.c init.c run_sim.c exit.c) $(UTILS_SRC)
 OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 OBJ_DB 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR_DB)/%.o,$(SRC))

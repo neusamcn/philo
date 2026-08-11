@@ -6,11 +6,13 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/10 20:07:27 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 21:03:41 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <stdlib.h>
+#include <time.h>
 
 // TODO: REMOVE TESTER
 // volatile sig_atomic_t	g_stop = 0;
@@ -32,14 +34,14 @@ static int	validate_args(char **av)
 		if ((i < 5))
 		{
 			if (av[i][0] == 0 || !(isdigit_str(av[i])) || ft_atoi(av[i]) <= 0)
-				return (0);
+				return (ARGS_ERR);
 		}
 		else if (!(isdigit_str(av[i]))
 			|| ft_atol(av[i]) < 0 || ft_atol(av[i]) > INT_MAX)
-			return (0);
+			return (ARGS_ERR);
 		i++;
 	}
-	return (1);
+	return (VALID);
 }
 
 // TODO: update according to new structure
@@ -96,21 +98,36 @@ static int	validate_args(char **av)
 //	}
 // }
 
+// TODO: create validation functions(s)?
 int	main(int ac, char **av)
 {
-	t_table	*table;
+	t_sim	*sim;
 
-	table = NULL;
 	// signal(SIGINT, handle_sigint); // TODO: REMOVE TESTER
-	if (ac < 5 || ac > 6 || !(validate_args(av)))
-		return (exit_msg("Incorrect arguments.", NULL, table, EXIT_FAILURE));
-	table = set_table(table, av);
-	// print_table(table); // TODO: DELETE TESTER
-	if (!table || (table && table->valid != VALID))
-		return (exit_cleanup(table, "setting table", EXIT_FAILURE));
+	sim = NULL;
+	if (ac < 5 || ac > 6 || validate_args(av) != VALID)
+		return (exit_msg("Incorrect arguments.", NULL, sim, EXIT_FAILURE));
+	sim = ft_calloc(1, sizeof(t_sim));
+	if (!sim)
+		return (exit_cleanup(sim, "Simulation ft_calloc()", EXIT_FAILURE));
+	setup_sim_args(sim, av);
+	if (!sim->args || sim->valid != VALID)
+		return (exit_cleanup(sim, "Failed sim->args setup", EXIT_FAILURE));
+	mise_en_place(sim);
+	if (!sim->pass || sim->valid != VALID
+		|| (sim->pass && sim->pass->valid != VALID))
+		return (exit_cleanup(sim, "Failed mise en place", EXIT_FAILURE));
+	set_table(sim);
+	if (!sim->table || sim->valid != VALID
+		|| (sim->table && sim->table->valid != VALID))
+		return (exit_cleanup(sim, "Failed setting table", EXIT_FAILURE));
+	// print_table(sim->table); // TODO: DELETE TESTER
 	// TODO: DELETE TESTER
 	// print_p_struct(table);
 	// TODO: philos' stuff
-	run_philo_sim(table);
-	return (exit_cleanup(table, NULL, EXIT_SUCCESS));
+	pthread_mutex_init(&sim->print_log, NULL);
+	pthread_mutex_init(&sim->end_sim, NULL);
+	sim->valid = VALID;
+	run_philo_sim(sim->table);
+	return (exit_cleanup(sim, NULL, EXIT_SUCCESS));
 }

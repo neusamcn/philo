@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/11 14:51:16 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 20:44:10 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,19 @@
 typedef enum e_err
 {
 	VALID = 0,
-	CALLOC_ERR = -1,
-	PH_ID_ERR = -2,
-	TIME_ERR = -3
+	ARGS_ERR = -1,
+	CALLOC_ERR = -2,
+	PH_ID_ERR = -3,
+	TIME_ERR = -4
 }	t_err;
 
-typedef enum s_expo_calls
+// TODO: FIX OR SCRAP
+typedef enum s_run_pass
 {
-	PRINT_LOG,
+	// PRINT_LOG,
 	RUN_DISH, // == using token
 	END_DINNER
-}	t_expo_calls;
+}	t_run_pass;
 
 /* Structs */
 typedef struct s_sim_args
@@ -58,12 +60,33 @@ typedef struct s_sim_args
 	int	n_eats_x_philo;
 }	t_sim_args;
 
+typedef struct s_pass
+{
+	int				max_chits;
+	pthread_mutex_t	*rail; // == available tokens/chits
+	pthread_mutex_t	run_dish;
+	t_err			valid;
+}	t_pass;
+
+typedef struct s_table
+{
+	// t_sim_args		*args;
+	// pthread_mutex_t	*rail; // == available tokens/chits
+	pthread_mutex_t	*chopsticks; // floor/table
+	struct s_philo	**philo_head; // floor/table
+	int64_t			t_dinner_start; // ms // floor/table
+	int				meals_x_ph; // floor/table
+	// pthread_mutex_t	*expo;
+	bool			end_dinner; // floor/table
+	t_err			valid;
+}	t_table;
+
 typedef struct s_philo
 {
 	int				philo_id;
 	pthread_t		thread_id;
 	bool			alive;
-	pthread_mutex_t	*call_server; // will point to the called waiter/server == token
+	pthread_mutex_t	*call_server; // will point to the chit for order that server took == token
 	pthread_mutex_t	*l_chopstick;
 	pthread_mutex_t	*r_chopstick;
 	// int				t_eat; // needed?
@@ -71,32 +94,28 @@ typedef struct s_philo
 	int64_t			t_last_meal; // ms
 	int				meals;
 	bool			sated;
+	struct s_table	**table;
 	struct s_philo	*previous;
 	struct s_philo	*next;
-	struct s_table	**table;
 	t_err			valid;
 }	t_philo;
 
-// TODO: var for p_head and var for p_turn?
-// TODO: ADD PHILO_HEAD TO EACH PHILO ?
-typedef struct s_table
+typedef struct s_sim
 {
 	t_sim_args		*args;
-	pthread_mutex_t	*chits; // == available tokens
-	pthread_mutex_t	*chopsticks;
-	t_philo			**philo_head;
-	int64_t			t_dinner_start; // ms
-	// int				*philo_turn; // TODO: DELETE ?
-	int				meals_x_ph;
-	pthread_mutex_t	*expo;
-	bool			end_dinner;
+	t_pass			*pass;
+	t_table			*table;
+	pthread_mutex_t	print_log;
+	pthread_mutex_t	end_sim;
 	t_err			valid;
-}	t_table;
+}	t_sim;
 
 /* Main functions */
-t_table	*set_table(t_table *table, char **av);
-int		exit_cleanup(t_table *table, char *err_msg, int exit_status);
-int		exit_msg(char *out_msg, char *err_msg, t_table *table, int exit_status);
+void	setup_sim_args(t_sim *sim, char **av);
+void	mise_en_place(t_sim *sim);
+void	set_table(t_sim *sim);
+int		exit_cleanup(t_sim *sim, char *err_msg, int exit_status);
+int		exit_msg(char *out_msg, char *err_msg, t_sim *sim, int exit_status);
 t_table	*init_philo_threads(t_table *tbl);
 void	run_philo_sim(t_table *table);
 

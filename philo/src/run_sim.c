@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/11 13:10:28 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/11 18:40:44 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ t_table	*init_philo_threads(t_table *tbl)
 		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
 		if (p->valid != VALID)
 			return (tbl);
-		pthread_mutex_lock(&tbl->chits[i++]);
+		pthread_mutex_lock(&tbl->rail[i++]);
 		p->call_server = 1;
 		tbl->philo_turn[p->philo_id - 1] = 1;
 		p_id_prev = p->philo_id;
@@ -201,7 +201,7 @@ t_table	*init_philo_threads(t_table *tbl)
 		if (p->valid != VALID)
 			return (tbl);
 		p->call_server = 1;
-		pthread_mutex_lock(&tbl->chits[i++]);
+		pthread_mutex_lock(&tbl->rail[i++]);
 		tbl->philo_turn[p->philo_id - 1] = 1;
 		p_id_prev = p->philo_id;
 		p = p->next->next;
