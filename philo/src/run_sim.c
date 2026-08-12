@@ -6,11 +6,14 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/11 18:40:44 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 11:04:12 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <pthread.h>
+#include <stdbool.h>
+#include <unistd.h>
 
 static void	state_log(int p_id, char *state)
 {
@@ -137,19 +140,54 @@ static void	eat_or_wait(t_philo *p)
 // 	}
 // }
 
+static void	think(t_philo *p)
+{
+	
+}
+
+static void	ph_sleep(t_philo *p)
+{
+	
+}
+
+static void	take_plate(t_philo *p)
+{
+	
+}
+
+static void	eat(t_philo *p)
+{
+	
+}
+
+static void	order_meal(t_philo *p)
+{
+
+}
+
+static bool	dining(t_table *tbl)
+{
+	pthread_mutex_lock(pthread_mutex_t *mutex)
+}
+
 static void	*dinner(void *arg)
 {
 	t_philo	*p;
 
 	p = (t_philo *)arg;
+	if (p->philo_id % 2 == 0)
+		usleep(1);
 	// TODO: REMOVE TESTER
 	// while (!g_stop && p->alive == 1)
 	// 	eat_or_wait(p);
-	while (p->alive == 1) // and if max meals for all haven't been reached
-		eat_or_wait(p);
-	if (p->alive == 0)
-		return (NULL);
-	// TODO: Check for max meals? add var?
+	while (dining(*p->table) == true) // ph is alive and if max meals for all haven't been reached
+	{
+		order_meal(p);
+		eat(p);
+		take_plate(p);
+		ph_sleep(p);
+		think(p);
+	}
 	return (NULL);
 }
 
@@ -209,8 +247,21 @@ t_table	*init_philo_threads(t_table *tbl)
 	return (tbl);
 }
 
-void	run_philo_sim(t_table *table)
+t_err	start_dinner(t_sim *sim)
 {
-	table = init_philo_threads(table);
-	// TODO: handle thread creation fail
+	int		start;
+	t_philo	*curr_p;
+
+	start = 1;
+	curr_p = *sim->table->philo_head;
+	while (start && curr_p != *sim->table->philo_head)
+	{
+		start = 0;
+		curr_p->valid = pthread_create(&curr_p->thread_id, 0, &dinner, curr_p);
+		if (curr_p->valid != VALID)
+			return (curr_p->valid);
+		curr_p = curr_p->next;
+	}
+	// sim = init_philo_threads(sim);
+	return (VALID);
 }

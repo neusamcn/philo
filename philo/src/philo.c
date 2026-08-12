@@ -6,13 +6,12 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/11 21:03:41 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 10:38:46 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 #include <stdlib.h>
-#include <time.h>
 
 // TODO: REMOVE TESTER
 // volatile sig_atomic_t	g_stop = 0;
@@ -119,7 +118,7 @@ int	main(int ac, char **av)
 		return (exit_cleanup(sim, "Failed mise en place", EXIT_FAILURE));
 	set_table(sim);
 	if (!sim->table || sim->valid != VALID
-		|| (sim->table && sim->table->valid != VALID))
+		|| (sim->table && (sim->table->valid != VALID || (*sim->table->philo_head)->philo_id != 1)))
 		return (exit_cleanup(sim, "Failed setting table", EXIT_FAILURE));
 	// print_table(sim->table); // TODO: DELETE TESTER
 	// TODO: DELETE TESTER
@@ -128,6 +127,7 @@ int	main(int ac, char **av)
 	pthread_mutex_init(&sim->print_log, NULL);
 	pthread_mutex_init(&sim->end_sim, NULL);
 	sim->valid = VALID;
-	run_philo_sim(sim->table);
+	if (start_dinner(sim) != VALID)
+		return (exit_cleanup(sim, "Dinner couldn't start", EXIT_FAILURE));
 	return (exit_cleanup(sim, NULL, EXIT_SUCCESS));
 }

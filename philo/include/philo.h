@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/11 20:44:10 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 11:06:26 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ typedef enum s_run_pass
 }	t_run_pass;
 
 /* Structs */
+typedef struct s_philo	t_philo;
+typedef struct s_sim	t_sim;
+
 typedef struct s_sim_args
 {
 	int	n_philo;
@@ -78,6 +81,7 @@ typedef struct s_table
 	int				meals_x_ph; // floor/table
 	// pthread_mutex_t	*expo;
 	bool			end_dinner; // floor/table
+	t_sim			**sim;
 	t_err			valid;
 }	t_table;
 
@@ -117,7 +121,7 @@ void	set_table(t_sim *sim);
 int		exit_cleanup(t_sim *sim, char *err_msg, int exit_status);
 int		exit_msg(char *out_msg, char *err_msg, t_sim *sim, int exit_status);
 t_table	*init_philo_threads(t_table *tbl);
-void	run_philo_sim(t_table *table);
+t_err	start_dinner(t_sim *sim);
 
 /* Utils */
 int		ft_isspace(char c);
