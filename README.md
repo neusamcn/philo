@@ -134,6 +134,7 @@ Though related to the main concepts explored during this project, microkernels a
 
 Professional kitchen lingo was a fun and useful way to help me organise this project and name my variables:
 https://www.webstaurantstore.com/article/511/kitchen-slang-phrases.html?srsltid=AfmBOop-4NBlJYLfwhyFTRSqtXx04c-K_S0arZ36thQ8fB62ycA93oMd
+https://www.reddit.com/r/KitchenConfidential/comments/eytwy6/made_a_list_of_slang_for_new_staff_looking_for/
 
 If you haven't worked in a kitchen but watched The Bear, these terms will be familiar.
 
