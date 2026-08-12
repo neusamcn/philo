@@ -6,12 +6,11 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 17:22:16 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 22:42:57 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-#include <bits/pthreadtypes.h>
 
 // TODO: REMOVE TESTER
 // volatile sig_atomic_t	g_stop = 0;

@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 17:09:54 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 22:43:05 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <sys/time.h>
 // # include <signal.h> // TODO: REMOVE TESTER
 # include <pthread.h>
-# include <bits/pthreadtypes.h> // TODO: DELETE ?
-# include <bits/types/struct_timeval.h> // TODO: DELETE ?
+// # include <bits/pthreadtypes.h> // TODO: DELETE ?
+// # include <bits/types/struct_timeval.h> // TODO: DELETE ?
 # include <limits.h>
 # include <errno.h>
 # include <inttypes.h>

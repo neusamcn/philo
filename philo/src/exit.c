@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 22:37:19 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 22:42:46 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ int	exit_cleanup(t_sim *sim, char *err_msg, int exit_status)
 		{
 			cleanup_table(sim->table, sim->args->n_philo);
 			free(sim->table);
-			clear_pass(sim->pass);
 		}
+		clear_pass(sim->pass);
 		if (sim->args)
 			free(sim->args);
 		pthread_mutex_destroy(&sim->print_log);

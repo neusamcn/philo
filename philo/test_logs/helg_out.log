@@ -1,14 +1,14 @@
-==35765== Helgrind, a thread error detector
-==35765== Copyright (C) 2007-2026, and GNU GPL'd, by OpenWorks LLP et al.
-==35765== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
-==35765== Command: ./philo_db 5 800 200 200 7
-==35765== Parent PID: 35764
-==35765== 
-==35765== 
-==35765== Use --history-level=approx or =none to gain increased speed, at
-==35765== the cost of reduced accuracy of conflicting-access information
-==35765== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 554412 from 41)
---35765-- 
---35765-- used_suppression: 554412 helgrind-glibc2X-005 /snap/valgrind/188/usr/libexec/valgrind/default.supp:1022
-==35765== 
-==35765== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 554412 from 41)
+==67190== Helgrind, a thread error detector
+==67190== Copyright (C) 2007-2026, and GNU GPL'd, by OpenWorks LLP et al.
+==67190== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
+==67190== Command: ./philo_db 5 800 200 200 7
+==67190== Parent PID: 67189
+==67190== 
+==67190== 
+==67190== Use --history-level=approx or =none to gain increased speed, at
+==67190== the cost of reduced accuracy of conflicting-access information
+==67190== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 544544 from 41)
+--67190-- 
+--67190-- used_suppression: 544544 helgrind-glibc2X-005 /snap/valgrind/188/usr/libexec/valgrind/default.supp:1022
+==67190== 
+==67190== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 544544 from 41)
