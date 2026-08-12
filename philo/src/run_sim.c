@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 17:11:48 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 17:23:53 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,7 @@ t_err	start_dinner(t_sim *sim)
 
 	start = 1;
 	curr_p = *sim->table->philo_head;
-	while (start && curr_p != *sim->table->philo_head)
+	while (curr_p && (start || curr_p != *sim->table->philo_head))
 	{
 		start = 0;
 		curr_p->valid = pthread_create(&curr_p->thread_id, 0, &dinner, curr_p);

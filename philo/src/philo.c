@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 17:05:00 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 17:22:16 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static bool	philo_dead(t_sim *sim)
 
 	curr_p = *sim->table->philo_head;
 	start = 1;
-	while (start && curr_p != *sim->table->philo_head)
+	while (curr_p && (start || curr_p != *sim->table->philo_head))
 	{
 		start = 0;
 		t_since_last_meal = time_in_ms() - curr_p->t_last_meal;
@@ -129,7 +129,7 @@ static bool	philos_sated(t_sim *sim)
 		return (false);
 	curr_p = *sim->table->philo_head;
 	start = 1;
-	while (start && curr_p != *sim->table->philo_head)
+	while (curr_p && (start || curr_p != *sim->table->philo_head))
 	{
 		start = 0;
 		if (curr_p->meals < sim->args->n_eats_x_philo)
