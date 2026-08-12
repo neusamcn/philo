@@ -121,6 +121,22 @@ The implementation used in this project is the Multiple Token Solution: https://
 
 Helgrind: a thread error detector: https://valgrind.org/docs/manual/hg-manual.html
 
+#### Why do I have usleep_precise() ?
+- `usleep_precise` is used so a philosopher thread waits for a given number of milliseconds but wakes up frequently (every 100 µs) to check whether the simulation should stop — this keeps threads responsive and improves timing accuracy compared to a single long sleep.
+
+Why that's necessary (key reasons)
+- Prompt termination: if the monitor detects a death or that all meals are done, threads sleeping inside `eat()` or `ph_sleep()` must stop quickly. A single long usleep(ms*1000) could leave threads blocked for the whole interval and delay shutdown/logging.
+- Correctness of the simulation: the project requires that actions stop as soon as the simulation ends (e.g., no further "is eating" or "is thinking" messages after a death). Frequent wake-ups let threads observe the shared dinner->dining flag and exit early.
+- Better effective timing: splitting a long sleep into many short sleeps generally gives finer-grained responsiveness and can reduce oversleep caused by scheduler delays, making small durations (ms-level) more precise for this simulation.
+- Simplicity: it’s an easy-to-read solution that only uses portable primitives (gettimeofday + usleep + mutex-protected flag) without adding more complex synchronization.
+
+Tradeoffs and alternatives
+- Tradeoff: more wake-ups increases context switches and small overhead (but sleeping 100 µs avoids busy-waiting).
+- Alternatives that avoid periodic polling: condition variables or futex-like notifications, pthread_cond_timedwait/clock_nanosleep with absolute time, or having the monitor signal threads when dining changes. Those can be more efficient but add complexity.
+  
+Bottom line
+- `usleep_precise` balances simplicity and correctness: it ensures threads stop quickly when the simulation ends and gives more consistent millisecond-level timing for the philosophers.
+
 
 TODO: https://pt.wikipedia.org/wiki/Exclus%C3%A3o_m%C3%BAtua
 https://stackoverflow.com/questions/34524/what-is-a-mutex

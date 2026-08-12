@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 14:23:35 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 15:00:41 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,14 +153,10 @@ static void	eat_or_wait(t_philo *p)
 // 	}
 // }
 
-static void	think(t_philo *p)
-{
-	
-}
-
 static void	ph_sleep(t_philo *p)
 {
-	
+	state_log(p, "is sleeping");
+	usleep_precise();	
 }
 
 static void	take_plate(t_philo *p)
@@ -210,7 +206,7 @@ static void	*dinner(void *arg)
 		eat(p);
 		take_plate(p);
 		ph_sleep(p);
-		think(p);
+		state_log(p, "is thinking");
 	}
 	return (NULL);
 }
