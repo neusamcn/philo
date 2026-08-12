@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 16:17:50 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 16:42:17 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	set_table(t_sim *sim);
 int		exit_cleanup(t_sim *sim, char *err_msg, int exit_status);
 int		exit_msg(char *out_msg, char *err_msg, t_sim *sim, int exit_status);
 t_table	*init_philo_threads(t_table *tbl);
+void	state_log(t_philo *p, char *state);
 t_err	start_dinner(t_sim *sim);
 bool	dinner_is_over(t_table *tbl);
 void	update_end_dinner_status(t_table *tbl, bool new_status);

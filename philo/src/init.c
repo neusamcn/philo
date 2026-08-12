@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 11:13:16 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 16:56:06 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	sit_philos(t_sim *sim)
 		p->t_last_meal = sim->table->t_dinner_start;
 		p->meals = 0;
 		p->sated = false;
-		*p->table = sim->table;
+		p->table = &sim->table;
 		// TODO: separate function to link nodes?
 		p->previous = prev;
 		p->next = NULL;

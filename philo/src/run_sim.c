@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 16:18:06 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 16:48:36 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	dinner_is_over(t_table *tbl)
 	return (end_dinner);
 }
 
-static void	state_log(t_philo *p, char *state)
+void	state_log(t_philo *p, char *state)
 {
 	int64_t	t_dinner_start;
 
@@ -178,9 +178,11 @@ static void	take_plate(t_philo *p)
 static void	eat(t_philo *p)
 {
 	// TODO: should i (un)lock tkns here?
+	pthread_mutex_lock(&(*(*p->table)->sim)->pass->run_dish);
 	p->t_last_meal = time_in_ms();
 	state_log(p, "is eating");
 	p->meals++;
+	pthread_mutex_unlock(&(*(*p->table)->sim)->pass->run_dish);
 	usleep_precise((*(*p->table)->sim)->args->t_eat, *p->table);
 }
 

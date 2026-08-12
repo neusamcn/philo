@@ -6,14 +6,12 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 16:27:20 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 17:05:00 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-#include <pthread.h>
-#include <stdbool.h>
-#include <stdlib.h>
+#include <bits/pthreadtypes.h>
 
 // TODO: REMOVE TESTER
 // volatile sig_atomic_t	g_stop = 0;
@@ -101,7 +99,25 @@ static int	validate_args(char **av)
 
 static bool	philo_dead(t_sim *sim)
 {
+	t_philo	*curr_p;
+	int		start;
+	int64_t	t_since_last_meal;
 
+	curr_p = *sim->table->philo_head;
+	start = 1;
+	while (start && curr_p != *sim->table->philo_head)
+	{
+		start = 0;
+		t_since_last_meal = time_in_ms() - curr_p->t_last_meal;
+		if (t_since_last_meal >= sim->args->t_die)
+		{
+			state_log(curr_p, "died");
+			update_end_dinner_status(sim->table, true);
+			return (true);
+		}
+		curr_p = curr_p->next;
+	}
+	return (false);
 }
 
 static bool	philos_sated(t_sim *sim)
@@ -113,7 +129,7 @@ static bool	philos_sated(t_sim *sim)
 		return (false);
 	curr_p = *sim->table->philo_head;
 	start = 1;
-	while (curr_p != *sim->table->philo_head)
+	while (start && curr_p != *sim->table->philo_head)
 	{
 		start = 0;
 		if (curr_p->meals < sim->args->n_eats_x_philo)
@@ -151,6 +167,8 @@ int	main(int ac, char **av)
 	sim = ft_calloc(1, sizeof(t_sim));
 	if (!sim)
 		return (exit_cleanup(sim, "Simulation ft_calloc()", EXIT_FAILURE));
+	pthread_mutex_init(&sim->print_log, NULL);
+	pthread_mutex_init(&sim->end_sim, NULL);
 	setup_sim_args(sim, av);
 	if (!sim->args || sim->valid != VALID)
 		return (exit_cleanup(sim, "Failed sim->args setup", EXIT_FAILURE));
@@ -166,8 +184,6 @@ int	main(int ac, char **av)
 	// TODO: DELETE TESTER
 	// print_p_struct(table);
 	// TODO: philos' stuff
-	pthread_mutex_init(&sim->print_log, NULL);
-	pthread_mutex_init(&sim->end_sim, NULL);
 	sim->valid = VALID;
 	if (start_dinner(sim) != VALID)
 		return (exit_cleanup(sim, "Dinner couldn't start", EXIT_FAILURE));
