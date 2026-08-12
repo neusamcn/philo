@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 17:14:14 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 17:40:11 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	exit_cleanup(t_sim *sim, char *err_msg, int exit_status)
 	}
 	if (err_msg)
 		ft_putstr_fd(STDERR_FILENO, err_msg);
-	ft_puts_fd(STDOUT_FILENO, "Dinner simulation has ended.");
+	printf("Dinner simulation has ended.");
 	return (exit_status);
 }
 
