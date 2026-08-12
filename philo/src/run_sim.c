@@ -6,13 +6,14 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 15:00:41 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 16:18:06 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <pthread.h>
 
-static bool	dinner_is_over(t_table *tbl)
+bool	dinner_is_over(t_table *tbl)
 {
 	bool	end_dinner;
 
@@ -34,27 +35,27 @@ static void	state_log(t_philo *p, char *state)
 	pthread_mutex_unlock(&(*(*p->table)->sim)->print_log);
 }
 
-static int	update_meals_x_ph(t_table *tbl)
-{
-	t_philo	*p_curr;
-	int		p_start_id;
-	int		tot_meals;
-
-	p_curr = *tbl->philo_head;
-	p_start_id = p_curr->philo_id;
-	tot_meals = p_curr->meals;
-	while (p_curr->philo_id != p_start_id + 1)
-	{
-		if (p_curr->meals != tot_meals)
-			break ;
-		p_curr = p_curr->next;
-	}
-	if (p_curr->philo_id == p_start_id)
-		tbl->meals_x_ph = tot_meals;
-	else
-		return (PH_ID_ERR);
-	return (VALID);
-}
+// static int	update_meals_x_ph(t_table *tbl)
+// {
+// 	t_philo	*p_curr;
+// 	int		p_start_id;
+// 	int		tot_meals;
+//
+// 	p_curr = *tbl->philo_head;
+// 	p_start_id = p_curr->philo_id;
+// 	tot_meals = p_curr->meals;
+// 	while (p_curr->philo_id != p_start_id + 1)
+// 	{
+// 		if (p_curr->meals != tot_meals)
+// 			break ;
+// 		p_curr = p_curr->next;
+// 	}
+// 	if (p_curr->philo_id == p_start_id)
+// 		tbl->meals_x_ph = tot_meals;
+// 	else
+// 		return (PH_ID_ERR);
+// 	return (VALID);
+// }
 // TODO: DELETE TESTER
 // static int	lock_fork(pthread_mutex_t *fork)
 // {
@@ -89,29 +90,29 @@ static int	update_meals_x_ph(t_table *tbl)
 // 	}
 // }
 
-static void	eat_or_wait(t_philo *p)
-{
-	if (p->call_server == 1)
-	{
-		pthread_mutex_lock(&p->r_chopstick);
-		state_log(p, "has taken a fork");
-		pthread_mutex_lock(&p->previous->r_chopstick);
-		state_log(p, "has taken a fork");
-		state_log(p, "is eating");
-		usleep(p->t_eat * 1000);
-		pthread_mutex_unlock(&p->r_chopstick);
-		pthread_mutex_unlock(&p->previous->r_chopstick);
-		p->call_server = 0;
-		p->meals++;
-	}
-	else if (p->call_server == 0)
-	{
-		state_log(p, "is sleeping");
-		usleep(p->t_sleep * 1000);
-		state_log(p, "is thinking");
-	}
-	// TODO: death check? too much time since last meal? new var?
-}
+// static void	eat_or_wait(t_philo *p)
+// {
+// 	if (p->call_server == 1)
+// 	{
+// 		pthread_mutex_lock(&p->r_chopstick);
+// 		state_log(p, "has taken a fork");
+// 		pthread_mutex_lock(&p->previous->r_chopstick);
+// 		state_log(p, "has taken a fork");
+// 		state_log(p, "is eating");
+// 		usleep(p->t_eat * 1000);
+// 		pthread_mutex_unlock(&p->r_chopstick);
+// 		pthread_mutex_unlock(&p->previous->r_chopstick);
+// 		p->call_server = 0;
+// 		p->meals++;
+// 	}
+// 	else if (p->call_server == 0)
+// 	{
+// 		state_log(p, "is sleeping");
+// 		usleep(p->t_sleep * 1000);
+// 		state_log(p, "is thinking");
+// 	}
+// 	// TODO: death check? too much time since last meal? new var?
+// }
 
 // static void	give_token(t_table *tbl)
 // {
@@ -156,12 +157,22 @@ static void	eat_or_wait(t_philo *p)
 static void	ph_sleep(t_philo *p)
 {
 	state_log(p, "is sleeping");
-	usleep_precise();	
+	usleep_precise((*(*p->table)->sim)->args->t_sleep, *p->table);	
 }
 
 static void	take_plate(t_philo *p)
 {
-	
+	if (p->philo_id % 2 == 0)
+	{
+		pthread_mutex_unlock(&*p->l_chopstick);
+		pthread_mutex_unlock(&*p->r_chopstick);
+	}
+	else
+	{
+		pthread_mutex_unlock(&*p->r_chopstick);
+		pthread_mutex_unlock(&*p->l_chopstick);
+	}
+	pthread_mutex_unlock(&*p->call_server); // TODO: rethink how this works ?
 }
 
 static void	eat(t_philo *p)
@@ -170,6 +181,7 @@ static void	eat(t_philo *p)
 	p->t_last_meal = time_in_ms();
 	state_log(p, "is eating");
 	p->meals++;
+	usleep_precise((*(*p->table)->sim)->args->t_eat, *p->table);
 }
 
 static void	order_meal(t_philo *p)
@@ -212,60 +224,60 @@ static void	*dinner(void *arg)
 }
 
 // TODO: fix norm
-t_table	*init_philo_threads(t_table *tbl)
-{
-	t_philo	*p;
-	int		p_id_prev;
-	int		i;
-	int		tkns_max;
-
-	if (tbl->valid != VALID)
-		return (tbl);
-	p = *tbl->philo_head;
-	if (p->philo_id != 1)
-	{
-		tbl->valid = PH_ID_ERR;
-		return (tbl);
-	}
-	p_id_prev = 0;
-	i = 0;
-	tkns_max = (tbl->args->n_philo / 2) + (tbl->args->n_philo % 2);
-	while (p->philo_id - p_id_prev > 0 && i < tkns_max)
-	{
-		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
-		if (p->valid != VALID)
-			return (tbl);
-		pthread_mutex_lock(&tbl->rail[i++]);
-		p->call_server = 1;
-		tbl->philo_turn[p->philo_id - 1] = 1;
-		p_id_prev = p->philo_id;
-		p = p->next->next;
-	}
-	// MONITOR CHECKS
-	tbl->valid = update_meals_x_ph(tbl);
-	if (tbl->meals_x_ph >= tbl->args->n_eats_x_philo)
-		return (tbl);
-	p = (*tbl->philo_head)->next;
-	p_id_prev = 0;
-	i = 0;
-	while (tbl->philo_turn[0] == 1)
-	{
-		usleep(10);
-		continue ;
-	}
-	while (p->philo_id - p_id_prev > 0 && i < tkns_max)
-	{
-		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
-		if (p->valid != VALID)
-			return (tbl);
-		p->call_server = 1;
-		pthread_mutex_lock(&tbl->rail[i++]);
-		tbl->philo_turn[p->philo_id - 1] = 1;
-		p_id_prev = p->philo_id;
-		p = p->next->next;
-	}
-	return (tbl);
-}
+// t_table	*init_philo_threads(t_table *tbl)
+// {
+// 	t_philo	*p;
+// 	int		p_id_prev;
+// 	int		i;
+// 	int		tkns_max;
+//
+// 	if (tbl->valid != VALID)
+// 		return (tbl);
+// 	p = *tbl->philo_head;
+// 	if (p->philo_id != 1)
+// 	{
+// 		tbl->valid = PH_ID_ERR;
+// 		return (tbl);
+// 	}
+// 	p_id_prev = 0;
+// 	i = 0;
+// 	tkns_max = (tbl->args->n_philo / 2) + (tbl->args->n_philo % 2);
+// 	while (p->philo_id - p_id_prev > 0 && i < tkns_max)
+// 	{
+// 		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
+// 		if (p->valid != VALID)
+// 			return (tbl);
+// 		pthread_mutex_lock(&tbl->rail[i++]);
+// 		p->call_server = 1;
+// 		tbl->philo_turn[p->philo_id - 1] = 1;
+// 		p_id_prev = p->philo_id;
+// 		p = p->next->next;
+// 	}
+// 	// MONITOR CHECKS
+// 	tbl->valid = update_meals_x_ph(tbl);
+// 	if (tbl->meals_x_ph >= tbl->args->n_eats_x_philo)
+// 		return (tbl);
+// 	p = (*tbl->philo_head)->next;
+// 	p_id_prev = 0;
+// 	i = 0;
+// 	while (tbl->philo_turn[0] == 1)
+// 	{
+// 		usleep(10);
+// 		continue ;
+// 	}
+// 	while (p->philo_id - p_id_prev > 0 && i < tkns_max)
+// 	{
+// 		p->valid = pthread_create(&p->thread_id, 0, &dinner, p);
+// 		if (p->valid != VALID)
+// 			return (tbl);
+// 		p->call_server = 1;
+// 		pthread_mutex_lock(&tbl->rail[i++]);
+// 		tbl->philo_turn[p->philo_id - 1] = 1;
+// 		p_id_prev = p->philo_id;
+// 		p = p->next->next;
+// 	}
+// 	return (tbl);
+// }
 
 t_err	start_dinner(t_sim *sim)
 {
@@ -284,4 +296,11 @@ t_err	start_dinner(t_sim *sim)
 	}
 	// sim = init_philo_threads(sim);
 	return (VALID);
+}
+
+void	update_end_dinner_status(t_table *tbl, bool new_status)
+{
+	pthread_mutex_lock(&(*tbl->sim)->end_sim);
+	tbl->end_dinner = new_status;
+	pthread_mutex_unlock(&(*tbl->sim)->end_sim);
 }

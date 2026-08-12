@@ -6,13 +6,11 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 13:37:18 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 15:05:56 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 15:18:10 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
-#include <stdint.h>
-#include <unistd.h>
 
 int64_t   time_in_ms(void)
 {
@@ -26,15 +24,15 @@ int64_t   time_in_ms(void)
     return (time_ms);
 }
 
-void    usleep_precise(int64_t t_ms)
+void    usleep_precise(int64_t t_ms, t_table *tbl)
 {
-    int64_t end;
+    int64_t t_end_ms;
 
-    end = time_in_ms() + t_ms;
-    while (time_in_ms() < end)
+    t_end_ms = time_in_ms() + t_ms;
+    while (time_in_ms() < t_end_ms)
     {
         usleep(100);
-        if ()
+        if (dinner_is_over(tbl) == false)
             break ;
     }
 }

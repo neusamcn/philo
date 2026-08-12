@@ -6,11 +6,13 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 10:38:46 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 16:27:20 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <pthread.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 // TODO: REMOVE TESTER
@@ -97,6 +99,46 @@ static int	validate_args(char **av)
 //	}
 // }
 
+static bool	philo_dead(t_sim *sim)
+{
+
+}
+
+static bool	philos_sated(t_sim *sim)
+{
+	t_philo	*curr_p;
+	int		start;
+
+	if (sim->args->n_eats_x_philo == 0)
+		return (false);
+	curr_p = *sim->table->philo_head;
+	start = 1;
+	while (curr_p != *sim->table->philo_head)
+	{
+		start = 0;
+		if (curr_p->meals < sim->args->n_eats_x_philo)
+			return (false);
+		curr_p = curr_p->next;
+	}
+	update_end_dinner_status(sim->table, true);
+	return (true);
+}
+
+static void	monitor_dinner(t_sim *sim)
+{
+	bool	dinner_ended;
+
+	dinner_ended = false;
+	while (dinner_ended == false)
+	{
+		pthread_mutex_lock(&sim->pass->run_dish);
+		if (philo_dead(sim) == true || philos_sated(sim) == true)
+			dinner_ended = true;
+		pthread_mutex_unlock(&sim->pass->run_dish);
+		usleep(1);
+	}
+}
+
 // TODO: create validation functions(s)?
 int	main(int ac, char **av)
 {
@@ -129,5 +171,6 @@ int	main(int ac, char **av)
 	sim->valid = VALID;
 	if (start_dinner(sim) != VALID)
 		return (exit_cleanup(sim, "Dinner couldn't start", EXIT_FAILURE));
+	monitor_dinner(sim);
 	return (exit_cleanup(sim, NULL, EXIT_SUCCESS));
 }
