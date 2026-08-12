@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 13:37:18 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 17:38:20 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 17:48:51 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void    usleep_precise(int64_t t_ms, t_table *tbl)
     while (time_in_ms() < t_end_ms)
     {
         usleep(100);
-        if (dinner_is_over(tbl) == false)
+        if (dinner_is_over(tbl) == true)
             break ;
         usleep(100);
     }
