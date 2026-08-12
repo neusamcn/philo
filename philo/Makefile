@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/12 17:16:54 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/12 17:31:11 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,12 +111,13 @@ db:
 
 valg: $(NAME_DB) $(TEST_DIR)
 	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all -s \
-	--log-file=$(TEST_DIR)/valg_out.log ./$(NAME_DB) $(ARGS)
-	@echo "Valgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/valg_out.log$(COLOR_RESET)"
+	--log-file=$(TEST_DIR)/valg_out.log ./$(NAME_DB) $(ARGS) > $(TEST_DIR)/valg_print_sim_log.txt
+	@echo "Valgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/valg_out.log$(COLOR_RESET) and simulation logs in $(TEST_DIR)/valg_print_sim_log.txt"
 
 hel: $(NAME_DB) $(TEST_DIR)
-	@valgrind --tool=helgrind --track-destroy=all -s --log-file=$(TEST_DIR)/helg_out.log ./$(NAME_DB) $(ARGS)
-	@echo "Helgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/helg_out.log$(COLOR_RESET)"
+	@valgrind --tool=helgrind --track-destroy=all -s --log-file=$(TEST_DIR)/helg_out.log \
+	./$(NAME_DB) $(ARGS) > $(TEST_DIR)/helg_print_sim_log.txt
+	@echo "Helgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/helg_out.log$(COLOR_RESET) and simulation logs in $(TEST_DIR)/helg_print_sim_log.txt."
 
 test: tclean valg hel db
 
