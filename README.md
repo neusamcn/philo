@@ -132,7 +132,9 @@ Learning from Wikipedia on a tight schedule is always a gamble... I knew about T
 
 Though related to the main concepts explored during this project, microkernels aren't an essential read. However, this is very interesting and useful to understand. Have a look here to start your journey: Microkernel in Operating Systems: https://www.geeksforgeeks.org/operating-systems/microkernel-in-operating-systems/
 
-Professional kitchen lingo was a fun and useful way to help me organise this project and name my variables: https://www.webstaurantstore.com/article/511/kitchen-slang-phrases.html?srsltid=AfmBOop-4NBlJYLfwhyFTRSqtXx04c-K_S0arZ36thQ8fB62ycA93oMd
+Professional kitchen lingo was a fun and useful way to help me organise this project and name my variables:
+https://www.webstaurantstore.com/article/511/kitchen-slang-phrases.html?srsltid=AfmBOop-4NBlJYLfwhyFTRSqtXx04c-K_S0arZ36thQ8fB62ycA93oMd
+
 If you haven't worked in a kitchen but watched The Bear, these terms will be familiar.
 
 Bonus rabbit hole / fun fact (just because this was on my mind a lot for some reason...): https://en.wikipedia.org/wiki/Democracy_Manifest

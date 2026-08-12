@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 11:04:12 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 11:37:43 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,12 +162,20 @@ static void	eat(t_philo *p)
 
 static void	order_meal(t_philo *p)
 {
-
+	if (p->philo_id % 2 == 0)
+	{
+		
+	}
 }
 
-static bool	dining(t_table *tbl)
+static bool	dinner_is_over(t_table *tbl)
 {
-	pthread_mutex_lock(pthread_mutex_t *mutex)
+	bool	end_dinner;
+
+	pthread_mutex_lock(&(*tbl->sim)->end_sim);
+	end_dinner = tbl->end_dinner;
+	pthread_mutex_unlock(&(*tbl->sim)->end_sim);
+	return (end_dinner);
 }
 
 static void	*dinner(void *arg)
@@ -180,7 +188,7 @@ static void	*dinner(void *arg)
 	// TODO: REMOVE TESTER
 	// while (!g_stop && p->alive == 1)
 	// 	eat_or_wait(p);
-	while (dining(*p->table) == true) // ph is alive and if max meals for all haven't been reached
+	while (dinner_is_over(*p->table) == false) // all ph are alive and if max meals for all haven't been reached
 	{
 		order_meal(p);
 		eat(p);
