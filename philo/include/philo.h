@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 16:42:17 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 17:09:54 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_table
 	int				meals_x_ph; // floor/table // NEEDED?
 	// pthread_mutex_t	*expo;
 	bool			end_dinner; // floor/table
-	t_sim			**sim;
+	t_sim			*sim;
 	t_err			valid;
 }	t_table;
 

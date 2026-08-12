@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/11 21:05:10 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/12 17:16:54 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ N_PHILO			= 5
 T_DIE			= 800
 T_EAT			= 200
 T_SLEEP			= 200
-N_EATS_X_PHILO	= 1
+N_EATS_X_PHILO	= 7
 ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
 
 TEST_DIR		= test_logs

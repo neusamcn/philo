@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 16:48:36 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 17:11:48 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ bool	dinner_is_over(t_table *tbl)
 {
 	bool	end_dinner;
 
-	pthread_mutex_lock(&(*tbl->sim)->end_sim);
+	pthread_mutex_lock(&tbl->sim->end_sim);
 	end_dinner = tbl->end_dinner;
-	pthread_mutex_unlock(&(*tbl->sim)->end_sim);
+	pthread_mutex_unlock(&tbl->sim->end_sim);
 	return (end_dinner);
 }
 
@@ -27,12 +27,12 @@ void	state_log(t_philo *p, char *state)
 {
 	int64_t	t_dinner_start;
 
-	pthread_mutex_lock(&(*(*p->table)->sim)->print_log);
+	pthread_mutex_lock(&(*p->table)->sim->print_log);
 	t_dinner_start = (*p->table)->t_dinner_start;
 	if (dinner_is_over(*p->table) == false)
 		printf("%" PRId64 " %d %s\n",
 			time_in_ms() - t_dinner_start, p->philo_id, state);
-	pthread_mutex_unlock(&(*(*p->table)->sim)->print_log);
+	pthread_mutex_unlock(&(*p->table)->sim->print_log);
 }
 
 // static int	update_meals_x_ph(t_table *tbl)
@@ -157,7 +157,7 @@ void	state_log(t_philo *p, char *state)
 static void	ph_sleep(t_philo *p)
 {
 	state_log(p, "is sleeping");
-	usleep_precise((*(*p->table)->sim)->args->t_sleep, *p->table);	
+	usleep_precise((*p->table)->sim->args->t_sleep, *p->table);	
 }
 
 static void	take_plate(t_philo *p)
@@ -178,12 +178,12 @@ static void	take_plate(t_philo *p)
 static void	eat(t_philo *p)
 {
 	// TODO: should i (un)lock tkns here?
-	pthread_mutex_lock(&(*(*p->table)->sim)->pass->run_dish);
+	pthread_mutex_lock(&(*p->table)->sim->pass->run_dish);
 	p->t_last_meal = time_in_ms();
 	state_log(p, "is eating");
 	p->meals++;
-	pthread_mutex_unlock(&(*(*p->table)->sim)->pass->run_dish);
-	usleep_precise((*(*p->table)->sim)->args->t_eat, *p->table);
+	pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
+	usleep_precise((*p->table)->sim->args->t_eat, *p->table);
 }
 
 static void	order_meal(t_philo *p)
@@ -302,7 +302,7 @@ t_err	start_dinner(t_sim *sim)
 
 void	update_end_dinner_status(t_table *tbl, bool new_status)
 {
-	pthread_mutex_lock(&(*tbl->sim)->end_sim);
+	pthread_mutex_lock(&tbl->sim->end_sim);
 	tbl->end_dinner = new_status;
-	pthread_mutex_unlock(&(*tbl->sim)->end_sim);
+	pthread_mutex_unlock(&tbl->sim->end_sim);
 }

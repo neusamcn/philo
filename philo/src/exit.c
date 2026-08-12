@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/11 21:32:20 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 17:14:14 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	clear_pass(t_pass *pass)
 		pthread_mutex_destroy(&pass->rail[i++]);
 	free(pass->rail);
 	pthread_mutex_destroy(&pass->run_dish);
+	free(pass);
 }
 
 static void	cleanup_table(t_table *table, int max_chopsticks)
