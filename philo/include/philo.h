@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 11:06:26 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 13:41:28 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <bits/types/struct_timeval.h> // TODO: DELETE ?
 # include <limits.h>
 # include <errno.h>
+# include <inttypes.h>
 
 /* My libraries */
 # include "flair.h"

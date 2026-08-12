@@ -6,19 +6,32 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 11:37:43 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/12 14:23:35 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-#include <pthread.h>
-#include <stdbool.h>
-#include <unistd.h>
 
-static void	state_log(int p_id, char *state)
+static bool	dinner_is_over(t_table *tbl)
 {
-	// TODO: calc timestamp in ms - provide as var for time accuracy
-	printf("timestamp_in_ms %d %s\n", p_id, state);
+	bool	end_dinner;
+
+	pthread_mutex_lock(&(*tbl->sim)->end_sim);
+	end_dinner = tbl->end_dinner;
+	pthread_mutex_unlock(&(*tbl->sim)->end_sim);
+	return (end_dinner);
+}
+
+static void	state_log(t_philo *p, char *state)
+{
+	int64_t	t_dinner_start;
+
+	pthread_mutex_lock(&(*(*p->table)->sim)->print_log);
+	t_dinner_start = (*p->table)->t_dinner_start;
+	if (dinner_is_over(*p->table) == false)
+		printf("%" PRId64 " %d %s\n",
+			time_in_ms() - t_dinner_start, p->philo_id, state);
+	pthread_mutex_unlock(&(*(*p->table)->sim)->print_log);
 }
 
 static int	update_meals_x_ph(t_table *tbl)
@@ -81,10 +94,10 @@ static void	eat_or_wait(t_philo *p)
 	if (p->call_server == 1)
 	{
 		pthread_mutex_lock(&p->r_chopstick);
-		state_log(p->philo_id, "has taken a fork");
+		state_log(p, "has taken a fork");
 		pthread_mutex_lock(&p->previous->r_chopstick);
-		state_log(p->philo_id, "has taken a fork");
-		state_log(p->philo_id, "is eating");
+		state_log(p, "has taken a fork");
+		state_log(p, "is eating");
 		usleep(p->t_eat * 1000);
 		pthread_mutex_unlock(&p->r_chopstick);
 		pthread_mutex_unlock(&p->previous->r_chopstick);
@@ -93,9 +106,9 @@ static void	eat_or_wait(t_philo *p)
 	}
 	else if (p->call_server == 0)
 	{
-		state_log(p->philo_id, "is sleeping");
+		state_log(p, "is sleeping");
 		usleep(p->t_sleep * 1000);
-		state_log(p->philo_id, "is thinking");
+		state_log(p, "is thinking");
 	}
 	// TODO: death check? too much time since last meal? new var?
 }
@@ -157,25 +170,28 @@ static void	take_plate(t_philo *p)
 
 static void	eat(t_philo *p)
 {
-	
+	// TODO: should i (un)lock tkns here?
+	p->t_last_meal = time_in_ms();
+	state_log(p, "is eating");
+	p->meals++;
 }
 
 static void	order_meal(t_philo *p)
 {
+	pthread_mutex_lock(&*p->call_server); // TODO: rethink how this works ?
 	if (p->philo_id % 2 == 0)
 	{
-		
+		pthread_mutex_lock(&*p->l_chopstick);
+		state_log(p, "has taken a fork");
+		pthread_mutex_lock(&*p->r_chopstick);
 	}
-}
-
-static bool	dinner_is_over(t_table *tbl)
-{
-	bool	end_dinner;
-
-	pthread_mutex_lock(&(*tbl->sim)->end_sim);
-	end_dinner = tbl->end_dinner;
-	pthread_mutex_unlock(&(*tbl->sim)->end_sim);
-	return (end_dinner);
+	else
+	{
+		pthread_mutex_lock(&*p->r_chopstick);
+		state_log(p, "has taken a fork");
+		pthread_mutex_lock(&*p->l_chopstick);
+	}
+	state_log(p, "has taken a fork");
 }
 
 static void	*dinner(void *arg)
