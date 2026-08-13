@@ -6,11 +6,12 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 13:00:11 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 14:49:57 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <stdint.h>
 
 static void	discard_chopsticks(t_table *tbl, int max_chopsticks)
 {
@@ -69,10 +70,14 @@ static void	cleanup_table(t_table *table, int max_chopsticks)
 
 int	exit_cleanup(t_sim *sim, char *err_msg, int exit_status)
 {
+	int64_t	t_dinner_start;
+
+	t_dinner_start = -1;
 	if (sim)
 	{
 		if (sim->table)
 		{
+			t_dinner_start = sim->table->t_dinner_start;
 			cleanup_table(sim->table, sim->args->n_philo);
 			free(sim->table);
 		}
@@ -85,6 +90,8 @@ int	exit_cleanup(t_sim *sim, char *err_msg, int exit_status)
 	}
 	if (err_msg)
 		ft_putstr_fd(STDERR_FILENO, err_msg);
+	if (t_dinner_start != -1)
+		printf("%" PRId64 " ", time_in_ms() - t_dinner_start);
 	printf("Dinner simulation has ended.\n");
 	return (exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 12:01:56 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 14:56:05 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,13 @@ static int	sit_philos(t_sim *sim)
 			return (CALLOC_ERR);
 		p->philo_id = i + 1;
 		p->alive = true;
-		p->call_server = &sim->pass->rail[i / 2];
+		p->call_server = NULL;
+		if (i % 2 == 0 && i < n_philo - 1)
+			p->call_server = &sim->pass->rail[i / 2];
 		p->l_chopstick = &sim->table->chopsticks[i];
 		p->r_chopstick = &sim->table->chopsticks[(i + 1) % n_philo]; // TODO: handle case n_philo = 1
 		p->t_last_meal = sim->table->t_dinner_start;
 		p->meals = 0;
-		p->sated = false;
 		p->table = &sim->table;
 		// TODO: separate function to link nodes?
 		p->previous = prev;
@@ -132,7 +133,7 @@ void	mise_en_place(t_sim *sim)
 		sim->valid = CALLOC_ERR;
 		return ;
 	}
-	sim->pass->max_chits = (sim->args->n_philo / 2) + (sim->args->n_philo % 2);
+	sim->pass->max_chits = (sim->args->n_philo / 2);
 	sim->pass->rail = ft_calloc(sim->pass->max_chits, sizeof(pthread_mutex_t));
 	if (!sim->pass->rail)
 	{

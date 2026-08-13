@@ -120,7 +120,7 @@ https://www.man7.org/linux/man-pages/man3/pthread_mutex_init.3.html
 
 
 Gold!: https://diningphilosophers.eu/
-The implementation used in this project is the Fair Waiter Solution: https://diningphilosophers.eu/waiter/#:~:text=Fair%20Waiter%20Solution
+The implementation used in this project is the Multiple Token Solution: https://diningphilosophers.eu/token/#:~:text=Multiple%20Token%20Solution
 
 
 Helgrind: a thread error detector: https://valgrind.org/docs/manual/hg-manual.html

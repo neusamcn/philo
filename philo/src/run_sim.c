@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 13:48:34 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 14:55:30 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,23 @@ static void	ph_sleep(t_philo *p)
 	usleep_precise((*p->table)->sim->args->t_sleep, *p->table);	
 }
 
+static void	pass_token(t_philo *p)
+{
+	while (dinner_is_over(*p->table) == false)
+	{
+		pthread_mutex_lock(&(*p->table)->sim->pass->run_dish);
+		if (p->call_server != NULL && p->next->call_server == NULL)
+		{
+			p->next->call_server = p->call_server;
+			p->call_server = NULL;
+			pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
+			return ;
+		}
+		pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
+		usleep(100);
+	}	
+}
+
 static void	take_plate(t_philo *p)
 {
 	if (p->philo_id % 2 == 0)
@@ -77,7 +94,8 @@ static void	take_plate(t_philo *p)
 		pthread_mutex_unlock(&*p->r_chopstick);
 		pthread_mutex_unlock(&*p->l_chopstick);
 	}
-	pthread_mutex_unlock(&*p->call_server); // TODO: rethink how this works ?
+	pass_token(p);
+	// pthread_mutex_unlock(&*p->call_server); // TODO: rethink how this works ?
 }
 
 static void	eat(t_philo *p)
@@ -91,9 +109,27 @@ static void	eat(t_philo *p)
 	usleep_precise((*p->table)->sim->args->t_eat, *p->table);
 }
 
-static void	order_meal(t_philo *p)
+static bool	wait_for_token(t_philo *p)
 {
-	pthread_mutex_lock(&*p->call_server); // TODO: rethink how this works ?
+	while (dinner_is_over(*p->table) == false)
+	{
+		pthread_mutex_lock(&(*p->table)->sim->pass->run_dish);
+		if (p->call_server != NULL)
+		{
+			pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
+			return (true);
+		}
+		pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
+		usleep(100);
+	}
+	return (false);
+}
+
+static bool	order_meal(t_philo *p)
+{
+	// pthread_mutex_lock(&*p->call_server); // TODO: rethink how this works ?
+	if (wait_for_token(p) == false)
+		return (false);
 	if (p->philo_id % 2 == 0)
 	{
 		pthread_mutex_lock(&*p->l_chopstick);
@@ -107,6 +143,7 @@ static void	order_meal(t_philo *p)
 		pthread_mutex_lock(&*p->l_chopstick);
 	}
 	state_log(p, "has taken a fork");
+	return (true);
 }
 
 static void	*dinner(void *arg)
@@ -121,7 +158,8 @@ static void	*dinner(void *arg)
 	// 	eat_or_wait(p);
 	while (dinner_is_over(*p->table) == false) // all ph are alive and if max meals for all haven't been reached
 	{
-		order_meal(p);
+		if (order_meal(p) == false)
+			break ;
 		eat(p);
 		take_plate(p);
 		ph_sleep(p);

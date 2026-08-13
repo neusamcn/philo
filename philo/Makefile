@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/13 12:30:07 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/13 14:52:52 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,11 +32,11 @@ DB_FLAGS	= -g
 
 RM 			= rm -f
 
-N_PHILO			= 5
-T_DIE			= 800
+N_PHILO			= 4
+T_DIE			= 310
 T_EAT			= 200
-T_SLEEP			= 200
-N_EATS_X_PHILO	= 7
+T_SLEEP			= 100
+N_EATS_X_PHILO	= 0
 ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
 
 TEST_DIR		= test_logs

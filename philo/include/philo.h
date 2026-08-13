@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 12:07:58 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 14:55:17 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ typedef struct s_philo
 	pthread_mutex_t	*r_chopstick;
 	int64_t			t_last_meal;
 	int				meals;
-	bool			sated; // TODO: needed? delete?
 	t_philo			*previous;
 	t_philo			*next;
 	t_table			**table;
