@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 15:00:24 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 15:09:00 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ int	exit_cleanup(t_sim *sim, char *err_msg, int exit_status)
 {
 	int64_t	t_dinner_start;
 
-	t_dinner_start = -1;
+	t_dinner_start = -1; // TODO: keep?
 	if (sim)
 	{
 		if (sim->table)
 		{
-			t_dinner_start = sim->table->t_dinner_start;
+			t_dinner_start = sim->table->t_dinner_start; // TODO: keep?
 			cleanup_table(sim->table, sim->args->n_philo);
 			free(sim->table);
 		}
@@ -89,8 +89,8 @@ int	exit_cleanup(t_sim *sim, char *err_msg, int exit_status)
 	}
 	if (err_msg)
 		ft_putstr_fd(STDERR_FILENO, err_msg);
-	if (t_dinner_start != -1)
-		printf("%" PRId64 " ", time_in_ms() - t_dinner_start);
+	if (t_dinner_start != -1) // TODO: keep?
+		printf("%" PRId64 " ", time_in_ms() - t_dinner_start); // TODO: keep?
 	printf("Dinner simulation has ended.\n");
 	return (exit_status);
 }

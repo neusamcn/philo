@@ -6,14 +6,14 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 14:55:17 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 15:10:56 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-// # define _GNU_SOURCE
+// # define _GNU_SOURCE // TODO: keep?
 /* Standard libraries */
 # include <stdint.h>
 # include <stdlib.h>
@@ -22,7 +22,6 @@
 # include <string.h>
 # include <stdbool.h>
 # include <sys/time.h>
-// # include <signal.h> // TODO: REMOVE TESTER
 # include <pthread.h>
 // # include <bits/pthreadtypes.h> // TODO: DELETE ?
 // # include <bits/types/struct_timeval.h> // TODO: DELETE ?
@@ -126,7 +125,5 @@ void	ft_putstr_fd(int fd, char *s);
 void	ft_puts_fd(int fd, char *s); // TODO: Needed? delete?
 int64_t time_in_ms(void);
 void    usleep_precise(int64_t t_ms, t_table *tbl);
-
-// extern volatile sig_atomic_t	g_stop; // TODO: REMOVE TESTER
 
 #endif

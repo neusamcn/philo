@@ -6,20 +6,11 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 22:42:57 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 15:32:01 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-// TODO: REMOVE TESTER
-// volatile sig_atomic_t	g_stop = 0;
-//
-// static void	handle_sigint(int sig)
-// {
-// 	(void)sig;
-// 	g_stop = 1;
-// }
 
 // TODO: add to /utils if there isn't enough space here
 static int	validate_args(char **av)
@@ -41,60 +32,6 @@ static int	validate_args(char **av)
 	}
 	return (VALID);
 }
-
-// TODO: update according to new structure
-// TODO: DELETE TESTER
-// static void	print_p_struct(t_philo *philo)
-// {
-// 	int	i;
-// 	int	mtx_lock_st;
-// 
-// 	i = 0;
-// 	while (i < philo->args->n_philo)
-// 	{
-// 		printf("philo->pt_id[%d] = %ld\n", i, philo->pt_ids[i]);
-// 		i++;
-// 	}
-// 	printf("\nphilo->valid = %d", philo->valid);
-// 	printf("\nphilo->tokens = %d\n\n", philo->tokens);
-// 	i = 0;
-// 	while (i < philo->args->n_philo)
-// 	{
-// 		mtx_lock_st = pthread_mutex_trylock(&philo->chopsticks[i]);
-// 		if (mtx_lock_st == 0)
-// 		{
-// 			printf("philo->chopsticks[%d] is unlocked\n", i);
-// 			pthread_mutex_unlock(&philo->chopsticks[i]);
-// 		}
-// 		else if (mtx_lock_st == EBUSY)
-// 			printf("philo->chopsticks[%d] is locked\n", i);
-// 		else
-// 			printf("philo->chopsticks[%d] with errno %d\n", i, mtx_lock_st);
-// 		i++;
-// 	}
-// 	printf("\n");
-// }
-// TODO: DELETE TESTER
-// static void	print_table(t_table *tbl)
-// {
-// 	t_philo	*p;
-//
-//	p = tbl->philo_turn;
-//	while (p)
-//	{
-//		printf("philo_id: %d\n", p->philo_id);
-//		// printf("thread_id: %ld\n", p->thread_id);
-//		printf("has_tkn: %d\n", p->has_tkn);
-//		printf("meals: %d\n", p->meals);
-//		if (p->next)
-//			printf("next philo_id: %d\n", p->next->philo_id);
-//		if (p->previous)
-//			printf("previous philo_id: %d\n", p->previous->philo_id);
-//		p = p->next;
-//		if (p == tbl->philo_turn)
-//			break ;
-//	}
-// }
 
 static bool	philo_dead(t_sim *sim)
 {
@@ -159,13 +96,13 @@ int	main(int ac, char **av)
 {
 	t_sim	*sim;
 
-	// signal(SIGINT, handle_sigint); // TODO: REMOVE TESTER
 	sim = NULL;
 	if (ac < 5 || ac > 6 || validate_args(av) != VALID)
 		return (exit_msg("Incorrect arguments.", NULL, sim, EXIT_FAILURE));
+	printf("%s", BANNER);
 	sim = ft_calloc(1, sizeof(t_sim));
 	if (!sim)
-		return (exit_cleanup(sim, "Simulation ft_calloc()", EXIT_FAILURE));
+		return (exit_cleanup(sim, "Failed *sim ft_calloc()", EXIT_FAILURE));
 	pthread_mutex_init(&sim->print_log, NULL);
 	pthread_mutex_init(&sim->end_sim, NULL);
 	setup_sim_args(sim, av);
@@ -179,10 +116,6 @@ int	main(int ac, char **av)
 	if (!sim->table || sim->valid != VALID
 		|| (sim->table && (sim->table->valid != VALID || (*sim->table->philo_head)->philo_id != 1)))
 		return (exit_cleanup(sim, "Failed setting table", EXIT_FAILURE));
-	// print_table(sim->table); // TODO: DELETE TESTER
-	// TODO: DELETE TESTER
-	// print_p_struct(table);
-	// TODO: philos' stuff
 	sim->valid = VALID;
 	if (start_dinner(sim) != VALID)
 		return (exit_cleanup(sim, "Dinner couldn't start", EXIT_FAILURE));

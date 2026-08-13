@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 14:56:05 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 15:44:22 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	print_philos(t_sim_args *sim_args)
 {
-	printf("Simulation starting with the following parameters:\n");
+	printf("Simu- erm... Dinner starting with:\n");
 	printf(HOT_PINK"number_of_philosophers: "CLR_RST"%d", sim_args->n_philo);
 	if (sim_args->n_philo < 9999999)
 		printf("\t");

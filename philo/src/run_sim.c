@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 14:55:30 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 15:07:04 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,6 @@ void	state_log(t_philo *p, char *state)
 			time_in_ms() - t_dinner_start, p->philo_id, state);
 	pthread_mutex_unlock(&(*p->table)->sim->print_log);
 }
-
-// TODO: DELETE TESTER
-// static int	lock_fork(pthread_mutex_t *fork)
-// {
-// 	while (!g_stop)
-// 	{
-// 		if (pthread_mutex_trylock(fork) == 0)
-// 			return (1);
-// 		usleep(100);
-// 	}
-// 	return (0);
-// }
-//
-// // TODO: DELETE TESTER
-// static void	stop_aware_sleep(int ms)
-// {
-// 	int	elapsed;
-//
-// 	elapsed = 0;
-// 	while (!g_stop && elapsed < ms)
-// 	{
-// 		usleep(1000);
-// 		elapsed++;
-// 	}
-// }
 
 static void	ph_sleep(t_philo *p)
 {
@@ -95,12 +70,10 @@ static void	take_plate(t_philo *p)
 		pthread_mutex_unlock(&*p->l_chopstick);
 	}
 	pass_token(p);
-	// pthread_mutex_unlock(&*p->call_server); // TODO: rethink how this works ?
 }
 
 static void	eat(t_philo *p)
 {
-	// TODO: should i (un)lock tkns here?
 	pthread_mutex_lock(&(*p->table)->sim->pass->run_dish);
 	p->t_last_meal = time_in_ms();
 	state_log(p, "is eating");
@@ -127,7 +100,6 @@ static bool	wait_for_token(t_philo *p)
 
 static bool	order_meal(t_philo *p)
 {
-	// pthread_mutex_lock(&*p->call_server); // TODO: rethink how this works ?
 	if (wait_for_token(p) == false)
 		return (false);
 	if (p->philo_id % 2 == 0)
@@ -153,10 +125,7 @@ static void	*dinner(void *arg)
 	p = (t_philo *)arg;
 	if (p->philo_id % 2 == 0)
 		usleep(1);
-	// TODO: REMOVE TESTER
-	// while (!g_stop && p->alive == 1)
-	// 	eat_or_wait(p);
-	while (dinner_is_over(*p->table) == false) // all ph are alive and if max meals for all haven't been reached
+	while (dinner_is_over(*p->table) == false)
 	{
 		if (order_meal(p) == false)
 			break ;

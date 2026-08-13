@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   flair.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 23:27:47 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/07/16 23:38:16 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 15:45:06 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FLAIR_H
 # define FLAIR_H
 
+/* ANSI text formatting codes */
+# define ITALIC          "\033[3m"
+# define FMT_RST         "\033[0m"
+
 /* ANSI color codes */
-// TODO: add color reset mode
 # define HOT_PINK        "\x1b[38;2;255;105;180m"
 # define DEEP_PINK       "\x1b[38;2;255;20;147m"
-# define LIGHT_PINK      "\x1b[38;2;255;182;193m" // banner
-
-/* PALE VIOLED READ */
+# define LIGHT_PINK      "\x1b[38;2;255;182;193m"
 # define ERR             "\x1b[38;2;219;112;147m"
 # define ORCHID          "\x1b[38;2;218;112;214m"
 # define MEDIUM_ORCHID   "\x1b[38;2;186;85;211m"
@@ -32,14 +33,13 @@
 # define DARK_VIOLET     "\x1b[38;2;148;0;211m"
 # define REBECCA_PURPLE  "\x1b[38;2;102;51;153m"
 # define INDIGO          "\x1b[38;2;75;0;130m"
-# define CLR_RST     "\x1b[0m"
+# define CLR_RST         "\x1b[0m"
 
-# define BANNER          "\n\
-                    __ \n\
-         .,-;-;-,. /'_\\ \n\
-       _/_/_/_|_\\_\\) / \n\
-     '-<_><_><_><_>=/\\ \n\
-       `/_/====/_/-'\\_\\ \n\
-        \"\"     \"\"    \"\" \n\n"
+# define BANNER          "\n\nWelcome to \
+" ITALIC DEEP_PINK" The Restaur" CLR_RST LIGHT_PINK"4" CLR_RST DEEP_PINK \
+"n" CLR_RST LIGHT_PINK"2" CLR_RST FMT_RST "...\n\
+Where " PLUM "philosophers" CLR_RST " come to dine succulent chinese meals \
+until they're " LIGHT_PINK "satisfied" CLR_RST " or... " BLUE_VIOLET "dead" CLR_RST "!\n\
+Enjoy!\n\n"
 
 #endif
