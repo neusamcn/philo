@@ -6,12 +6,11 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 14:49:57 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 15:00:24 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-#include <stdint.h>
 
 static void	discard_chopsticks(t_table *tbl, int max_chopsticks)
 {
