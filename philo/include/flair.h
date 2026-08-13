@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 23:27:47 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 15:45:06 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 15:47:32 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define INDIGO          "\x1b[38;2;75;0;130m"
 # define CLR_RST         "\x1b[0m"
 
-# define BANNER          "\n\nWelcome to \
+# define BANNER          "\nWelcome to \
 " ITALIC DEEP_PINK" The Restaur" CLR_RST LIGHT_PINK"4" CLR_RST DEEP_PINK \
 "n" CLR_RST LIGHT_PINK"2" CLR_RST FMT_RST "...\n\
 Where " PLUM "philosophers" CLR_RST " come to dine succulent chinese meals \
