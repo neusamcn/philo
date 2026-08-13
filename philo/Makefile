@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/13 14:52:52 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/13 15:52:10 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,9 @@ OBJ_DB 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR_DB)/%.o,$(SRC))
 
 HEADERS 	= $(addprefix include/, philo.h flair.h)
 
-CC			= cc -pthread # TODO: should -pthread go here or in CFLAGS?
+CC			= cc
 CPPFLAGS	= -Iinclude
-CFLAGS		= -Wall -Werror -Wextra
+CFLAGS		= -Wall -Werror -Wextra -pthread
 DB_FLAGS	= -g
 
 RM 			= rm -f
