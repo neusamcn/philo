@@ -24,6 +24,10 @@ Exception: C[N - 1] can be used by P[N - 1] and P[0];
 
 ## Instructions
 
+This project can be compiled with the exact requirements or with additional flair. For an improved experience, I recommend the following changes in `flair.h`:
+- `FLAIR` to `ON`
+- `UTENSIL` to ` chopstick`
+
 1. Compile the project with `make` or `make all`.
 2. Run the project with `make run`, `make print` if you want the simulation log in a file, or
 	```

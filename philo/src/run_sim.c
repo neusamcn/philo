@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:41:17 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 15:07:04 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 23:04:11 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ bool	dinner_is_over(t_table *tbl)
 	return (end_dinner);
 }
 
-void	state_log(t_philo *p, char *state)
+void	state_log(t_philo *p, char *state, char *utensil)
 {
 	int64_t	t_dinner_start;
 
 	pthread_mutex_lock(&(*p->table)->sim->print_log);
 	t_dinner_start = (*p->table)->t_dinner_start;
 	if (dinner_is_over(*p->table) == false)
-		printf("%" PRId64 " %d %s\n",
-			time_in_ms() - t_dinner_start, p->philo_id, state);
+		printf("%" PRId64 " %d %s%s\n",
+			time_in_ms() - t_dinner_start, p->philo_id, state, utensil);
 	pthread_mutex_unlock(&(*p->table)->sim->print_log);
 }
 
 static void	ph_sleep(t_philo *p)
 {
-	state_log(p, "is sleeping");
+	state_log(p, "is sleeping", "");
 	usleep_precise((*p->table)->sim->args->t_sleep, *p->table);	
 }
 
@@ -76,7 +76,7 @@ static void	eat(t_philo *p)
 {
 	pthread_mutex_lock(&(*p->table)->sim->pass->run_dish);
 	p->t_last_meal = time_in_ms();
-	state_log(p, "is eating");
+	state_log(p, "is eating", "");
 	p->meals++;
 	pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
 	usleep_precise((*p->table)->sim->args->t_eat, *p->table);
@@ -105,16 +105,16 @@ static bool	order_meal(t_philo *p)
 	if (p->philo_id % 2 == 0)
 	{
 		pthread_mutex_lock(&*p->l_chopstick);
-		state_log(p, "has taken a fork");
+		state_log(p, "has taken a", UTENSIL);
 		pthread_mutex_lock(&*p->r_chopstick);
 	}
 	else
 	{
 		pthread_mutex_lock(&*p->r_chopstick);
-		state_log(p, "has taken a fork");
+		state_log(p, "has taken a", UTENSIL);
 		pthread_mutex_lock(&*p->l_chopstick);
 	}
-	state_log(p, "has taken a fork");
+	state_log(p, "has taken a", UTENSIL);
 	return (true);
 }
 
@@ -132,7 +132,7 @@ static void	*dinner(void *arg)
 		eat(p);
 		take_plate(p);
 		ph_sleep(p);
-		state_log(p, "is thinking");
+		state_log(p, "is thinking", "");
 	}
 	return (NULL);
 }

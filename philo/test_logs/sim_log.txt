@@ -1,24 +1,17 @@
-Simulation starting with the following parameters:
-[38;2;255;105;180mnumber_of_philosophers: [0m4	[38;2;255;105;180m
-time_to_die: [0m310 ms[38;2;255;105;180m
-time_to_eat: [0m200 ms[38;2;255;105;180m
-time_to_sleep: [0m100 ms
-
 0 1 has taken a fork
 0 1 has taken a fork
+0 3 has taken a fork
+0 3 has taken a fork
 0 1 is eating
-0 3 has taken a fork
-0 3 has taken a fork
 0 3 is eating
-200 1 is sleeping
 200 3 is sleeping
-200 4 has taken a fork
-200 4 has taken a fork
-200 4 is eating
+200 1 is sleeping
 200 2 has taken a fork
 200 2 has taken a fork
 200 2 is eating
-300 3 is thinking
+200 4 has taken a fork
+200 4 has taken a fork
+200 4 is eating
 300 1 is thinking
+300 3 is thinking
 310 1 died
-310 Dinner simulation has ended.

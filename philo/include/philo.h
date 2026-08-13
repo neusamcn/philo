@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 15:10:56 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 23:50:27 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,11 @@ typedef struct s_philo
 
 /* Main simulation functions */
 void	setup_sim_args(t_sim *sim, char **av);
-void	mise_en_place(t_sim *sim);
-void	set_table(t_sim *sim);
+t_err	mise_en_place(t_sim *sim);
+t_err	set_table(t_sim *sim);
 int		exit_cleanup(t_sim *sim, char *err_msg, int exit_status);
 int		exit_msg(char *out_msg, char *err_msg, t_sim *sim, int exit_status);
-void	state_log(t_philo *p, char *state);
+void	state_log(t_philo *p, char *state, char *utensil);
 t_err	start_dinner(t_sim *sim);
 bool	dinner_is_over(t_table *tbl);
 void	update_end_dinner_status(t_table *tbl, bool new_status);

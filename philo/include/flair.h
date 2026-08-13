@@ -6,12 +6,21 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 23:27:47 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 15:58:06 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 23:04:43 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FLAIR_H
 # define FLAIR_H
+
+typedef enum e_flair
+{
+    ON,
+    OFF
+}   t_flair;
+
+# define FLAIR      OFF
+# define UTENSIL    " fork"
 
 /* ANSI text formatting codes */
 # define ITALIC          "\033[3m"

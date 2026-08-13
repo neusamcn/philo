@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 15:44:22 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 23:52:41 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ void	setup_sim_args(t_sim *sim, char **av)
 	sim->args->t_sleep = ft_atoi(av[4]);
 	if (av[5])
 		sim->args->n_eats_x_philo = ft_atoi(av[5]);
-	print_philos(sim->args);
+	if (FLAIR == ON)
+		print_philos(sim->args);
 	return ;
 }
 
@@ -123,55 +124,41 @@ static int	place_chopsticks(t_sim *sim)
 	return (VALID);
 }
 
-void	mise_en_place(t_sim *sim)
+t_err	mise_en_place(t_sim *sim)
 {
 	int	i;
 
 	sim->pass = ft_calloc(1, sizeof(t_pass));
 	if (!sim->pass)
-	{
-		sim->valid = CALLOC_ERR;
-		return ;
-	}
+		return (CALLOC_ERR);
 	sim->pass->max_chits = (sim->args->n_philo / 2);
 	sim->pass->rail = ft_calloc(sim->pass->max_chits, sizeof(pthread_mutex_t));
 	if (!sim->pass->rail)
-	{
-		sim->pass->valid = CALLOC_ERR;
-		return ;
-	}
+		return (CALLOC_ERR);
 	i = 0;
 	while (i < sim->pass->max_chits)
-	{
-		pthread_mutex_init(&sim->pass->rail[i], NULL);
-		i++;
-	}
+		pthread_mutex_init(&sim->pass->rail[i++], NULL);
 	pthread_mutex_init(&sim->pass->run_dish, NULL);
 	sim->pass->valid = VALID;
+	return (sim->pass->valid);
 }
 
-void	set_table(t_sim *sim)
+t_err	set_table(t_sim *sim)
 {
 	sim->table = ft_calloc(1, sizeof(t_table));
 	if (!sim->table)
-		return ;
+		return (CALLOC_ERR);
 	sim->table->valid = place_chopsticks(sim);
 	if (sim->table->valid != VALID)
-		return ;
+		return (sim->table->valid);
 	sim->table->t_dinner_start = time_in_ms();
 	if (sim->table->t_dinner_start == TIME_ERR)
-	{
-		sim->table->valid = TIME_ERR;
-		return ;
-	}
+		return (sim->table->t_dinner_start);
 	sim->table->end_dinner = false;
 	sim->table->philo_head = ft_calloc(1, sizeof(t_philo *)); // TODO: needed?
 	if (!sim->table->philo_head)
-	{
-		sim->table->valid = CALLOC_ERR;
-		return ;
-	}
+		return (CALLOC_ERR);
 	sim->table->sim = sim;
 	sim->table->valid = sit_philos(sim);
-	return ;
+	return (sim->table->valid);
 }

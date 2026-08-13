@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 15:58:17 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 23:53:40 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static bool	philo_dead(t_sim *sim)
 		t_since_last_meal = time_in_ms() - curr_p->t_last_meal;
 		if (t_since_last_meal >= sim->args->t_die)
 		{
-			state_log(curr_p, "died");
+			state_log(curr_p, "died", "");
 			update_end_dinner_status(sim->table, true);
 			return (true);
 		}
@@ -91,7 +91,6 @@ static void	monitor_dinner(t_sim *sim)
 	}
 }
 
-// TODO: create validation functions(s)?
 int	main(int ac, char **av)
 {
 	t_sim	*sim;
@@ -99,7 +98,8 @@ int	main(int ac, char **av)
 	sim = NULL;
 	if (ac < 5 || ac > 6 || validate_args(av) != VALID)
 		return (exit_msg("Incorrect arguments.", NULL, sim, EXIT_FAILURE));
-	printf("%s", WELCOME);
+	if (FLAIR == ON)
+		printf("%s", WELCOME);
 	sim = ft_calloc(1, sizeof(t_sim));
 	if (!sim)
 		return (exit_cleanup(sim, "Failed *sim ft_calloc()", EXIT_FAILURE));
@@ -108,13 +108,9 @@ int	main(int ac, char **av)
 	setup_sim_args(sim, av);
 	if (!sim->args || sim->valid != VALID)
 		return (exit_cleanup(sim, "Failed sim->args setup", EXIT_FAILURE));
-	mise_en_place(sim);
-	if (!sim->pass || sim->valid != VALID
-		|| (sim->pass && sim->pass->valid != VALID))
+	if (mise_en_place(sim) != VALID || sim->valid != VALID)
 		return (exit_cleanup(sim, "Failed mise en place", EXIT_FAILURE));
-	set_table(sim);
-	if (!sim->table || sim->valid != VALID
-		|| (sim->table && (sim->table->valid != VALID || (*sim->table->philo_head)->philo_id != 1)))
+	if (set_table(sim) != VALID || sim->valid != VALID)
 		return (exit_cleanup(sim, "Failed setting table", EXIT_FAILURE));
 	sim->valid = VALID;
 	if (start_dinner(sim) != VALID)
