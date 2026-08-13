@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 17:11:29 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 12:01:56 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,40 +148,6 @@ void	mise_en_place(t_sim *sim)
 	pthread_mutex_init(&sim->pass->run_dish, NULL);
 	sim->pass->valid = VALID;
 }
-// ABOVE FUNCTION REPLACED prep_chits() and expo_clock_in()
-// static int	prep_chits(t_table *tbl)
-// {
-// 	int	max_chits;
-// 	int	i;
-//
-// 	max_chits = (tbl->args->n_philo / 2) + (tbl->args->n_philo % 2);
-// 	tbl->rail = ft_calloc(max_chits, sizeof(pthread_mutex_t));
-// 	if (!tbl->rail)
-// 		return (CALLOC_ERR);
-// 	i = 0;
-// 	while (i < max_chits)
-// 	{
-// 		pthread_mutex_init(&tbl->rail[i], NULL);
-// 		i++;
-// 	}
-// 	return (VALID);
-// }
-//
-// static int	expo_clock_in(t_table *tbl)
-// {
-// 	int	i;
-//
-// 	tbl->expo = ft_calloc(3, sizeof(pthread_mutex_t));
-// 	if (!tbl->expo)
-// 		return (CALLOC_ERR);
-// 	i = 0;
-// 	while (i < 3)
-// 	{
-// 		pthread_mutex_init(&tbl->expo[i], NULL);
-// 		i++;
-// 	}
-// 	return (VALID);
-// }
 
 void	set_table(t_sim *sim)
 {
@@ -197,7 +163,6 @@ void	set_table(t_sim *sim)
 		sim->table->valid = TIME_ERR;
 		return ;
 	}
-	sim->table->meals_x_ph = 0; // TODO: needed? delete?
 	sim->table->end_dinner = false;
 	sim->table->philo_head = ft_calloc(1, sizeof(t_philo *)); // TODO: needed?
 	if (!sim->table->philo_head)

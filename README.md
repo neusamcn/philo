@@ -1,5 +1,7 @@
 *This project has been created as part of the 42 curriculum by ncruz-ne.*
 
+# 42 Lisboa Common Core | Milestone 3: Philosophers
+
 ## Description
 
 These silly philosophers say that they'll die if they only have 1 fork to eat spaghetti... That seems a bit dramatic... So let's give them chopsticks and noodles instead so they can truly worry about their mortal coil :) [*gleeful witchy cackle*]
@@ -7,7 +9,7 @@ i.e. the subject refers to 'forks' and 'spaghetti', we will be talking about 'ch
 
 ...
 
-Our philosophers and chopsticks are listed in arrays in a way that:
+Our philosophers are organised in a circular linked list and our chopsticks are listed in an array in a way that:
 ```
 P = philosopher;
 C = chopstick;
@@ -23,7 +25,7 @@ Exception: C[N - 1] can be used by P[N - 1] and P[0];
 ## Instructions
 
 1. Compile the project with `make` or `make all`.
-2. Run the project with `make run` or
+2. Run the project with `make run`, `make print` if you want the simulation log in a file, or
 	```
 	./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 	```
@@ -32,8 +34,9 @@ Exception: C[N - 1] can be used by P[N - 1] and P[0];
 5. Use `make re` to rebuild the project from scratch.
 6. Testing rules — using `ARGS` in `Makefile`:
 	1. `make valg` runs `valgrind`;
-	2. `make db` starts debugging session `gdbtui`;
-	3. `make test` runs first `valgrind` and after initiates a `gdbtui` session.
+	2. `make hel` runs `helgrind`;
+	3. `make db` starts `gdbtui` debugging session;
+	4. `make test` runs first `valgrind`, followed by `helgrind` and lastly initiates a `gdbtui` session.
 7. `make tclean` will remove only testing files and directories.
 8. Use `make norm` to download the most updated version of 42 Norm.
 
@@ -55,7 +58,8 @@ Note that though all positive integer values are valid, the program shouldn't be
 
 `EXIT_FAILURE` is also the return status when any error occurs during program execution. Information will be added to **standard error** regarding the error that triggered the program's exit.
 
-Testing output will be available in the directory defined in `Makefile` as `TEST_DIR`.
+Testing output will be available in the directory defined in `Makefile` as `TEST_DIR`, under the filenames set in `VALG_LOG` and `HELG_LOG`.
+The simulation log filename can also be defined in `Makefile` under `SIM_LOG`.
 
 
 ## Resources
@@ -116,7 +120,7 @@ https://www.man7.org/linux/man-pages/man3/pthread_mutex_init.3.html
 
 
 Gold!: https://diningphilosophers.eu/
-The implementation used in this project is the Multiple Token Solution: https://diningphilosophers.eu/token/#:~:text=Global%20Animation-,Multiple%20Token%20Solution,-The%20Global%20Token
+The implementation used in this project is the Fair Waiter Solution: https://diningphilosophers.eu/waiter/#:~:text=Fair%20Waiter%20Solution
 
 
 Helgrind: a thread error detector: https://valgrind.org/docs/manual/hg-manual.html
@@ -166,14 +170,4 @@ AI (LLMs) was used as a study and research support, to find more information on 
 
 
 Disorganised notes:
-monitor threads for deaths
-mutex prints can have some delay depending on how usleep is used
-will have to calculate microseconds to miliseconds from gettimeofday()
-
-before printing need to lock and unlock
-
-use algorithm that determines how chopsticks are used depending on left or right chopstick
-
-main() is also a thread
-
 Restaurant: The Ford et Tu, The Ford/Fort Ate Too, The For Tea Ate Too, The Restaur4n2

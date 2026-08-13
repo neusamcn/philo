@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncruz-ne <ncruz-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 19:49:40 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/06/13 22:48:17 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 11:30:21 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_putstr_fd(int fd, char *s)
 		ft_putchar_fd(fd, s[i++]);
 }
 
+// TODO: needed? delete?
 void	ft_puts_fd(int fd, char *s)
 {
 	ft_putstr_fd(fd, s);

@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 22:42:46 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/13 13:00:11 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ static void	cleanup_table(t_table *table, int max_chopsticks)
 				curr_p = next_p;
 			}
 		}
-		free(table->philo_head); // TODO: does this free the ptr (double free) or double ptr?
-		// maybe delete the calloc for the double ptr?
+		free(table->philo_head); // TODO: maybe delete the calloc for the double ptr?
 	}
 	discard_chopsticks(table, max_chopsticks);
 }

@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/12 17:53:37 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/13 12:30:07 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,9 @@ N_EATS_X_PHILO	= 7
 ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
 
 TEST_DIR		= test_logs
+SIM_LOG			= sim_log
+VALG_LOG		= valg_out
+HELG_LOG		= helg_out
 
 ESC             := $(shell printf '\033')
 COLOR_RESET     := $(ESC)[0m
@@ -63,7 +66,6 @@ PATH_COLOR      := $(ESC)[38;2;221;160;221m
 
 all: $(NAME)
 
-# should I add a rule for setting ulimit -s ? or LD_ASSUME_KERNEL ?
 $(NAME): $(OBJ)
 	@$(CC) $(OBJ) -o $@
 	@printf "%b compiled.\n" "$(GREEN)$@$(COLOR_RESET)"
@@ -88,11 +90,17 @@ run: re $(NAME)
 	@printf "Running $(VIOLET)./$(NAME) $(ARGS)$(COLOR_RESET)\n\n"
 	@./$(NAME) $(ARGS)
 
+print: re $(NAME)
+	@printf "Running $(VIOLET)./$(NAME) $(ARGS)$(COLOR_RESET)\n\n"
+	@./$(NAME) $(ARGS) > $(TEST_DIR)/$(SIM_LOG).txt
+	@printf "See simulation logs in $(PATH_COLOR)$(TEST_DIR)/$(SIM_LOG).txt$(COLOR_RESET).\n"
+
 norm:
-	@curl -L -o "../en.norm.pdf" "https://raw.githubusercontent.com/neusamcn/philo/main/en.norm.pdf"
+	@curl -L -o "../en.norm.pdf" \
+	"https://raw.githubusercontent.com/neusamcn/philo/main/en.norm.pdf"
 
 
-######################## RULES FOR TESTING ########################
+#################################### RULES FOR TESTING ####################################
 $(NAME_DB): $(OBJ_DB)
 	@$(CC) $(OBJ_DB) -o $@
 	@printf "%b for debugging compiled.\n" "$(GREEN)$@$(COLOR_RESET)"
@@ -111,19 +119,15 @@ db:
 
 valg: $(NAME_DB) $(TEST_DIR)
 	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all -s \
-	--log-file=$(TEST_DIR)/valg_out.log ./$(NAME_DB) $(ARGS) > $(TEST_DIR)/valg_print_sim_log.txt
-	@echo "Valgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/valg_out.log$(COLOR_RESET)."
+	--log-file=$(TEST_DIR)/$(VALG_LOG).log ./$(NAME_DB) $(ARGS)
+	@printf "Valgrind run concluded. \
+	See output in $(PATH_COLOR)$(TEST_DIR)/$(VALG_LOG).log$(COLOR_RESET).\n"
 
 hel: $(NAME_DB) $(TEST_DIR)
-	@valgrind --tool=helgrind --track-destroy=all -s --log-file=$(TEST_DIR)/helg_out.log \
-	./$(NAME_DB) $(ARGS) > $(TEST_DIR)/helg_print_sim_log.txt
-	@echo "Helgrind run concluded. See output in $(PATH_COLOR)$(TEST_DIR)/helg_out.log$(COLOR_RESET)."
-
-print: re $(NAME)
-	@printf "Running $(VIOLET)./$(NAME) $(ARGS)$(COLOR_RESET)\n\n"
-	@./$(NAME) $(ARGS) > $(TEST_DIR)/print_sim_log.txt
-	@echo "See simulation logs in $(PATH_COLOR)$(TEST_DIR)/helg_print_sim_log.txt$(COLOR_RESET)."
-
+	@valgrind --tool=helgrind --track-destroy=all -s --log-file=$(TEST_DIR)/$(HELG_LOG).log \
+	./$(NAME_DB) $(ARGS)
+	@printf "Helgrind run concluded. \
+	See output in $(PATH_COLOR)$(TEST_DIR)/$(HELG_LOG).log$(COLOR_RESET).\n"
 
 test: tclean valg hel db
 
@@ -135,4 +139,4 @@ tclean:
 	@printf "$(INFO)Debugging executable and object files removed.$(COLOR_RESET)\n"
 
 
-.PHONY: all clean fclean re run norm db valg hel test tclean print
+.PHONY: all clean fclean re run print norm db valg hel test tclean
