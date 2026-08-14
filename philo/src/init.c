@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 23:52:41 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 10:19:44 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,36 @@ static void	print_philos(t_sim_args *sim_args)
 	printf("\n");
 }
 
-// TODO: norm fix
+static t_philo	*arrange_seats(t_philo *p, t_philo *prev, t_sim *sim)
+{
+	p->previous = prev;
+	p->next = NULL;
+	if (prev)
+		prev->next = p;
+	else
+		*sim->table->philo_head = p;
+	p->valid = VALID;
+	prev = p;
+	return (prev);
+}
+
+static void	sit_philo(t_philo *p, int i, t_sim *sim)
+{
+	int	n_philo;
+
+	n_philo = sim->args->n_philo;
+	p->philo_id = i + 1;
+	p->alive = true;
+	p->call_server = NULL;
+	if (i % 2 == 0 && i < n_philo - 1)
+		p->call_server = &sim->pass->rail[i / 2];
+	p->l_chopstick = &sim->table->chopsticks[i];
+	p->r_chopstick = &sim->table->chopsticks[(i + 1) % n_philo];
+	p->t_last_meal = sim->table->t_dinner_start;
+	p->meals = 0;
+	p->table = &sim->table;
+}
+
 static int	sit_philos(t_sim *sim)
 {
 	int		i;
@@ -58,25 +87,8 @@ static int	sit_philos(t_sim *sim)
 		p = ft_calloc(1, sizeof(t_philo));
 		if (!p)
 			return (CALLOC_ERR);
-		p->philo_id = i + 1;
-		p->alive = true;
-		p->call_server = NULL;
-		if (i % 2 == 0 && i < n_philo - 1)
-			p->call_server = &sim->pass->rail[i / 2];
-		p->l_chopstick = &sim->table->chopsticks[i];
-		p->r_chopstick = &sim->table->chopsticks[(i + 1) % n_philo]; // TODO: handle case n_philo = 1
-		p->t_last_meal = sim->table->t_dinner_start;
-		p->meals = 0;
-		p->table = &sim->table;
-		// TODO: separate function to link nodes?
-		p->previous = prev;
-		p->next = NULL;
-		if (prev)
-			prev->next = p;
-		else
-		 	*sim->table->philo_head = p;
-		p->valid = VALID;
-		prev = p;
+		sit_philo(p, i, sim);
+		prev = arrange_seats(p, prev, sim);
 		i++;
 	}
 	if (prev && *sim->table->philo_head)

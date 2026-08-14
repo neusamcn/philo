@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/13 15:52:10 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/14 09:34:36 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,6 +128,8 @@ hel: $(NAME_DB) $(TEST_DIR)
 	./$(NAME_DB) $(ARGS)
 	@printf "Helgrind run concluded. \
 	See output in $(PATH_COLOR)$(TEST_DIR)/$(HELG_LOG).log$(COLOR_RESET).\n"
+
+# TODO: make rule to check stderr?
 
 test: tclean valg hel db
 
