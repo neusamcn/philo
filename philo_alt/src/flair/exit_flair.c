@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dinner_tokens.c                                    :+:      :+:    :+:   */
+/*   exit_flair.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/14 11:15:58 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 12:52:04 by ncruz-ne         ###   ########.fr       */
+/*   Created: 2026/08/14 10:58:42 by ncruz-ne          #+#    #+#             */
+/*   Updated: 2026/08/14 11:01:12 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
+#include "../../include/philo.h"
 
-bool	server_takes_order(t_philo *p)
+int	exit_msg(char *out_msg, char *err_msg, t_sim *sim, int exit_status)
 {
-	while (dinner_is_over(*p->table) == false)
+	if (FLAIR == ON)
 	{
-		pthread_mutex_lock(&(*p->table)->sim->pass->run_dish);
-		if (p->call_server != NULL)
-		{
-			pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
-			return (true);
-		}
-		pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
-		usleep(100);
+		printf(ERR"%s\nSee "CLR_RST, out_msg);
+		printf("<project root>/README.md");
+		printf(ERR" for instructions.\n"CLR_RST);
 	}
-	return (false);
+	if (out_msg && !err_msg)
+		err_msg = out_msg;
+	return (exit_cleanup(sim, err_msg, exit_status));
 }

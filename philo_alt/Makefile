@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/14 12:56:57 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/14 11:45:33 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,8 @@ DB_FLAGS	= -g
 
 RM 			= rm -f
 
-N_PHILO			= 1
-T_DIE			= 800
+N_PHILO			= 4
+T_DIE			= 310
 T_EAT			= 200
 T_SLEEP			= 100
 N_EATS_X_PHILO	= 0

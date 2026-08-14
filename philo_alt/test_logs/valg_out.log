@@ -1,0 +1,16 @@
+==469570== Memcheck, a memory error detector
+==469570== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
+==469570== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
+==469570== Command: ./philo_db 4 310 200 100 0
+==469570== Parent PID: 469367
+==469570== 
+==469570== 
+==469570== FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+==469570== 
+==469570== HEAP SUMMARY:
+==469570==     in use at exit: 0 bytes in 0 blocks
+==469570==   total heap usage: 16 allocs, 16 frees, 3,060 bytes allocated
+==469570== 
+==469570== All heap blocks were freed -- no leaks are possible
+==469570== 
+==469570== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
