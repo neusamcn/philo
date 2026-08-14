@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 11:30:00 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 11:51:46 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 15:57:16 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ph_sleep(t_philo *p)
 	usleep_precise((*p->table)->sim->args->t_sleep, *p->table);	
 }
 
-static void	switch_ph_turn(t_philo *p)
+static void	finish_meal(t_philo *p)
 {
 	if (p->philo_id % 2 == 0)
 	{
@@ -30,7 +30,7 @@ static void	switch_ph_turn(t_philo *p)
 		pthread_mutex_unlock(&*p->r_chopstick);
 		pthread_mutex_unlock(&*p->l_chopstick);
 	}
-	pass_token(p);
+	pass_server(p);
 }
 
 static void	eat(t_philo *p)
@@ -45,7 +45,7 @@ static void	eat(t_philo *p)
 
 static bool	ph_new_eating_turn(t_philo *p)
 {
-	if (wait_for_token(p) == false)
+	if (wait_for_server(p) == false)
 		return (false);
 	if (p->philo_id % 2 == 0)
 	{
@@ -75,7 +75,7 @@ void	*dinner(void *arg)
 		if (ph_new_eating_turn(p) == false)
 			break ;
 		eat(p);
-		switch_ph_turn(p);
+		finish_meal(p);
 		ph_sleep(p);
 		state_log(p, "is thinking", "");
 	}
