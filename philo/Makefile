@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/14 13:33:22 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/14 13:48:14 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ UTILS_SRC	= $(addprefix $(SRC_DIR)/utils/, ft_ato_.c ft_is_.c ft_calloc.c \
 				write.c)
 FLAIR_SRC	= $(addprefix $(SRC_DIR)/flair/, init_flair.c exit_flair.c)
 SRC			= $(addprefix $(SRC_DIR)/, philo.c set_table.c init.c time.c \
-				dinner.c order_meal.c monitor.c print_logs.c exit.c) \
+				dinner.c monitor.c print_logs.c exit.c) \
 				$(UTILS_SRC) $(FLAIR_SRC)
 OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 OBJ_DB 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR_DB)/%.o,$(SRC))
@@ -35,7 +35,7 @@ DB_FLAGS	= -g
 
 RM 			= rm -f
 
-N_PHILO			= 5
+N_PHILO			= 1
 T_DIE			= 800
 T_EAT			= 200
 T_SLEEP			= 100

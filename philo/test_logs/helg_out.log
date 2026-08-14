@@ -1,14 +1,14 @@
-==1381169== Helgrind, a thread error detector
-==1381169== Copyright (C) 2007-2026, and GNU GPL'd, by OpenWorks LLP et al.
-==1381169== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
-==1381169== Command: ./philo_db 5 800 200 100 0
-==1381169== Parent PID: 1381167
-==1381169== 
-==1381169== 
-==1381169== Use --history-level=approx or =none to gain increased speed, at
-==1381169== the cost of reduced accuracy of conflicting-access information
-==1381169== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 162105 from 58)
---1381169-- 
---1381169-- used_suppression: 162105 helgrind-glibc2X-005 /snap/valgrind/188/usr/libexec/valgrind/default.supp:1022
-==1381169== 
-==1381169== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 162105 from 58)
+==1467875== Helgrind, a thread error detector
+==1467875== Copyright (C) 2007-2026, and GNU GPL'd, by OpenWorks LLP et al.
+==1467875== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
+==1467875== Command: ./philo_db 1 800 200 100 0
+==1467875== Parent PID: 1467866
+==1467875== 
+==1467875== 
+==1467875== Use --history-level=approx or =none to gain increased speed, at
+==1467875== the cost of reduced accuracy of conflicting-access information
+==1467875== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 33 from 16)
+--1467875-- 
+--1467875-- used_suppression:     33 helgrind-glibc2X-005 /snap/valgrind/188/usr/libexec/valgrind/default.supp:1022
+==1467875== 
+==1467875== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 33 from 16)

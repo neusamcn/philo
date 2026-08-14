@@ -1,16 +1,16 @@
-==1381551== Memcheck, a memory error detector
-==1381551== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
-==1381551== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
-==1381551== Command: ./philo_db 5 800 200 100 0
-==1381551== Parent PID: 1381549
-==1381551== 
-==1381551== 
-==1381551== FILE DESCRIPTORS: 3 open (3 inherited) at exit.
-==1381551== 
-==1381551== HEAP SUMMARY:
-==1381551==     in use at exit: 0 bytes in 0 blocks
-==1381551==   total heap usage: 17 allocs, 17 frees, 3,412 bytes allocated
-==1381551== 
-==1381551== All heap blocks were freed -- no leaks are possible
-==1381551== 
-==1381551== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1467156== Memcheck, a memory error detector
+==1467156== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
+==1467156== Using Valgrind-3.27.0 and LibVEX; rerun with -h for copyright info
+==1467156== Command: ./philo_db 1 800 200 100 0
+==1467156== Parent PID: 1467077
+==1467156== 
+==1467156== 
+==1467156== FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+==1467156== 
+==1467156== HEAP SUMMARY:
+==1467156==     in use at exit: 0 bytes in 0 blocks
+==1467156==   total heap usage: 9 allocs, 9 frees, 1,748 bytes allocated
+==1467156== 
+==1467156== All heap blocks were freed -- no leaks are possible
+==1467156== 
+==1467156== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
