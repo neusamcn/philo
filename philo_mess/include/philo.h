@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 15:16:42 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 13:48:21 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ typedef struct s_sim_args
 
 typedef struct s_pass
 {
-	int				max_chits;
-	pthread_mutex_t	*rail;
+	pthread_mutex_t	server;
 	pthread_mutex_t	run_dish;
 	t_err			valid;
 }	t_pass;
@@ -108,8 +107,6 @@ int		exit_cleanup(t_sim *sim, char *err_msg, int exit_status);
 void	state_log(t_philo *p, char *state, char *utensil);
 t_err	start_dinner(t_sim *sim);
 void	*dinner(void *arg);
-bool	wait_for_token(t_philo *p);
-void	pass_token(t_philo *p);
 void	monitor_dinner(t_sim *sim);
 bool	dinner_is_over(t_table *tbl);
 void	update_end_dinner_status(t_table *tbl, bool new_status);

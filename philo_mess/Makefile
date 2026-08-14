@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/14 15:26:03 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/14 13:55:44 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ UTILS_SRC	= $(addprefix $(SRC_DIR)/utils/, ft_ato_.c ft_is_.c ft_calloc.c \
 				write.c)
 FLAIR_SRC	= $(addprefix $(SRC_DIR)/flair/, init_flair.c exit_flair.c)
 SRC			= $(addprefix $(SRC_DIR)/, philo.c set_table.c init.c time.c \
-				dinner.c dinner_tokens.c monitor.c print_logs.c exit.c) \
+				dinner.c monitor.c print_logs.c exit.c) \
 				$(UTILS_SRC) $(FLAIR_SRC)
 OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 OBJ_DB 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR_DB)/%.o,$(SRC))
@@ -39,7 +39,7 @@ N_PHILO			= 5
 T_DIE			= 800
 T_EAT			= 200
 T_SLEEP			= 200
-N_EATS_X_PHILO	= 0
+N_EATS_X_PHILO	= 7
 ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
 
 TEST_DIR		= test_logs
@@ -139,7 +139,7 @@ hel: $(NAME_DB) $(TEST_DIR)
 	@printf "\nHelgrind run concluded. \
 	See output in $(PATH_COLOR)$(TEST_DIR)/$(HELG_LOG).log$(COLOR_RESET).\n"
 
-test: tclean print stderr valg hel db
+test: tclean print stderr valg hel
 
 tclean:
 	@$(RM) -r $(TEST_DIR)

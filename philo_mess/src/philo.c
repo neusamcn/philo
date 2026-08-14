@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 11:34:48 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 13:32:13 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,10 @@ static int	validate_args(char **av)
 
 static t_err	mise_en_place(t_sim *sim)
 {
-	int	i;
-
 	sim->pass = ft_calloc(1, sizeof(t_pass));
 	if (!sim->pass)
 		return (CALLOC_ERR);
-	sim->pass->max_chits = (sim->args->n_philo / 2);
-	sim->pass->rail = ft_calloc(sim->pass->max_chits, sizeof(pthread_mutex_t));
-	if (!sim->pass->rail)
-		return (CALLOC_ERR);
-	i = 0;
-	while (i < sim->pass->max_chits)
-		pthread_mutex_init(&sim->pass->rail[i++], NULL);
+	pthread_mutex_init(&sim->pass->server, NULL);
 	pthread_mutex_init(&sim->pass->run_dish, NULL);
 	sim->pass->valid = VALID;
 	return (sim->pass->valid);
