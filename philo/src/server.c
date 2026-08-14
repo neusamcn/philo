@@ -6,13 +6,13 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 11:15:58 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 15:54:06 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 16:03:20 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	pass_server(t_philo *p)
+void	serve_next_ph(t_philo *p)
 {
 	while (dinner_is_over(*p->table) == false)
 	{

@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 11:30:00 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 15:57:16 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 16:03:20 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	finish_meal(t_philo *p)
 		pthread_mutex_unlock(&*p->r_chopstick);
 		pthread_mutex_unlock(&*p->l_chopstick);
 	}
-	pass_server(p);
+	serve_next_ph(p);
 }
 
 static void	eat(t_philo *p)
