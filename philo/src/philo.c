@@ -6,13 +6,12 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 10:41:35 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 11:34:48 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-// TODO: add to /utils if there isn't enough space here
 static int	validate_args(char **av)
 {
 	int	i;
@@ -33,62 +32,42 @@ static int	validate_args(char **av)
 	return (VALID);
 }
 
-static bool	philo_dead(t_sim *sim)
+static t_err	mise_en_place(t_sim *sim)
 {
-	t_philo	*curr_p;
-	int		start;
-	int64_t	t_since_last_meal;
+	int	i;
 
-	curr_p = *sim->table->philo_head;
-	start = 1;
-	while (curr_p && (start || curr_p != *sim->table->philo_head))
-	{
-		start = 0;
-		t_since_last_meal = time_in_ms() - curr_p->t_last_meal;
-		if (t_since_last_meal >= sim->args->t_die)
-		{
-			state_log(curr_p, "died", "");
-			update_end_dinner_status(sim->table, true);
-			return (true);
-		}
-		curr_p = curr_p->next;
-	}
-	return (false);
+	sim->pass = ft_calloc(1, sizeof(t_pass));
+	if (!sim->pass)
+		return (CALLOC_ERR);
+	sim->pass->max_chits = (sim->args->n_philo / 2);
+	sim->pass->rail = ft_calloc(sim->pass->max_chits, sizeof(pthread_mutex_t));
+	if (!sim->pass->rail)
+		return (CALLOC_ERR);
+	i = 0;
+	while (i < sim->pass->max_chits)
+		pthread_mutex_init(&sim->pass->rail[i++], NULL);
+	pthread_mutex_init(&sim->pass->run_dish, NULL);
+	sim->pass->valid = VALID;
+	return (sim->pass->valid);
 }
 
-static bool	philos_sated(t_sim *sim)
+static void	setup_sim_args(t_sim *sim, char **av)
 {
-	t_philo	*curr_p;
-	int		start;
-
-	if (sim->args->n_eats_x_philo == 0)
-		return (false);
-	curr_p = *sim->table->philo_head;
-	start = 1;
-	while (curr_p && (start || curr_p != *sim->table->philo_head))
+	sim->args = ft_calloc(1, sizeof(t_sim_args));
+	if (!sim->args)
 	{
-		start = 0;
-		if (curr_p->meals < sim->args->n_eats_x_philo)
-			return (false);
-		curr_p = curr_p->next;
+		sim->valid = CALLOC_ERR;
+		return ;
 	}
-	update_end_dinner_status(sim->table, true);
-	return (true);
-}
-
-static void	monitor_dinner(t_sim *sim)
-{
-	bool	dinner_ended;
-
-	dinner_ended = false;
-	while (dinner_ended == false)
-	{
-		pthread_mutex_lock(&sim->pass->run_dish);
-		if (philo_dead(sim) == true || philos_sated(sim) == true)
-			dinner_ended = true;
-		pthread_mutex_unlock(&sim->pass->run_dish);
-		usleep(1);
-	}
+	sim->args->n_philo = ft_atoi(av[1]);
+	sim->args->t_die = ft_atoi(av[2]);
+	sim->args->t_eat = ft_atoi(av[3]);
+	sim->args->t_sleep = ft_atoi(av[4]);
+	if (av[5])
+		sim->args->n_eats_x_philo = ft_atoi(av[5]);
+	if (FLAIR == ON)
+		print_philos(sim->args);
+	return ;
 }
 
 int	main(int ac, char **av)

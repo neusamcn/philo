@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:57:31 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 23:50:27 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 11:44:10 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_sim_args
 typedef struct s_pass
 {
 	int				max_chits;
-	pthread_mutex_t	*rail; // == available tokens/chits
+	pthread_mutex_t	*rail;
 	pthread_mutex_t	run_dish;
 	t_err			valid;
 }	t_pass;
@@ -91,7 +91,7 @@ typedef struct s_philo
 	int				philo_id;
 	pthread_t		thread_id;
 	bool			alive;
-	pthread_mutex_t	*call_server; // will point to the chit for order that server took == token
+	pthread_mutex_t	*call_server;
 	pthread_mutex_t	*l_chopstick;
 	pthread_mutex_t	*r_chopstick;
 	int64_t			t_last_meal;
@@ -103,13 +103,16 @@ typedef struct s_philo
 }	t_philo;
 
 /* Main simulation functions */
-void	setup_sim_args(t_sim *sim, char **av);
-t_err	mise_en_place(t_sim *sim);
+// void	setup_sim_args(t_sim *sim, char **av);
+// t_err	mise_en_place(t_sim *sim);
 t_err	set_table(t_sim *sim);
 int		exit_cleanup(t_sim *sim, char *err_msg, int exit_status);
-int		exit_msg(char *out_msg, char *err_msg, t_sim *sim, int exit_status);
 void	state_log(t_philo *p, char *state, char *utensil);
 t_err	start_dinner(t_sim *sim);
+void	*dinner(void *arg);
+bool	wait_for_token(t_philo *p);
+void	pass_token(t_philo *p);
+void	monitor_dinner(t_sim *sim);
 bool	dinner_is_over(t_table *tbl);
 void	update_end_dinner_status(t_table *tbl, bool new_status);
 
@@ -122,8 +125,11 @@ long	ft_atol(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_putchar_fd(int fd, char c);
 void	ft_putstr_fd(int fd, char *s);
-void	ft_puts_fd(int fd, char *s); // TODO: Needed? delete?
 int64_t time_in_ms(void);
 void    usleep_precise(int64_t t_ms, t_table *tbl);
+
+/* Flair */
+void	print_philos(t_sim_args *sim_args);
+int		exit_msg(char *out_msg, char *err_msg, t_sim *sim, int exit_status);
 
 #endif

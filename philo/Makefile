@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/14 10:51:38 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/14 11:45:33 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,12 @@ SRC_DIR 	= src
 OBJ_DIR 	= obj
 OBJ_DIR_DB 	= obj_db
 
-UTILS_SRC	= $(addprefix $(SRC_DIR)/utils/, ft_ato_.c ft_calloc.c ft_is_.c \
-				time.c write.c)
-SRC			= $(addprefix $(SRC_DIR)/, philo.c init.c run_sim.c exit.c) $(UTILS_SRC)
+UTILS_SRC	= $(addprefix $(SRC_DIR)/utils/, ft_ato_.c ft_is_.c ft_calloc.c \
+				write.c)
+FLAIR_SRC	= $(addprefix $(SRC_DIR)/flair/, init_flair.c exit_flair.c)
+SRC			= $(addprefix $(SRC_DIR)/, philo.c set_table.c init.c time.c \
+				dinner.c dinner_tokens.c monitor.c print_logs.c exit.c) \
+				$(UTILS_SRC) $(FLAIR_SRC)
 OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 OBJ_DB 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR_DB)/%.o,$(SRC))
 

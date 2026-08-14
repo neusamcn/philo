@@ -6,11 +6,11 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 13:37:18 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/12 22:34:35 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 11:01:39 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/philo.h"
+#include "../include/philo.h"
 
 int64_t   time_in_ms(void)
 {

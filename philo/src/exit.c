@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 10:40:55 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 10:58:10 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	cleanup_table(t_table *table, int max_chopsticks)
 				curr_p = next_p;
 			}
 		}
-		free(table->philo_head); // TODO: maybe delete the calloc for the double ptr?
+		free(table->philo_head);
 	}
 	discard_chopsticks(table, max_chopsticks);
 }
@@ -104,17 +104,4 @@ int	exit_cleanup(t_sim *sim, char *err_msg, int exit_status)
 		printf("Dinner simulation ended.\n");
 	}
 	return (exit_status);
-}
-
-int	exit_msg(char *out_msg, char *err_msg, t_sim *sim, int exit_status)
-{
-	if (FLAIR == ON)
-	{
-		printf(ERR"%s\nSee "CLR_RST, out_msg);
-		printf("<project root>/README.md");
-		printf(ERR" for instructions.\n"CLR_RST);
-	}
-	if (out_msg && !err_msg)
-		err_msg = out_msg;
-	return (exit_cleanup(sim, err_msg, exit_status));
 }
