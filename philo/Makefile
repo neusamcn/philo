@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/14 10:37:27 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/14 10:51:38 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ T_DIE			= 310
 T_EAT			= 200
 T_SLEEP			= 100
 N_EATS_X_PHILO	= 0
-ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO) 7
+ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
 
 TEST_DIR		= test_logs
 SIM_LOG			= sim_log
@@ -91,11 +91,6 @@ run: re $(NAME)
 	@printf "Running $(VIOLET)./$(NAME) $(ARGS)$(COLOR_RESET)\n\n"
 	@./$(NAME) $(ARGS)
 
-print: re $(NAME)
-	@printf "Running $(VIOLET)./$(NAME) $(ARGS)$(COLOR_RESET)\n\n"
-	@./$(NAME) $(ARGS) > $(TEST_DIR)/$(SIM_LOG).txt
-	@printf "See simulation logs in $(PATH_COLOR)$(TEST_DIR)/$(SIM_LOG).txt$(COLOR_RESET).\n"
-
 norm:
 	@curl -L -o "../en.norm.pdf" \
 	"https://raw.githubusercontent.com/neusamcn/philo/main/en.norm.pdf"
@@ -115,7 +110,12 @@ $(TEST_DIR):
 	@mkdir -p $@
 	@printf "%b created.\n" "$(SUCCESS)/$@$(COLOR_RESET)"
 
-stderr: re $(NAME)
+print: re $(NAME) $(TEST_DIR)
+	@printf "Running $(VIOLET)./$(NAME) $(ARGS)$(COLOR_RESET)\n\n"
+	@./$(NAME) $(ARGS) > $(TEST_DIR)/$(SIM_LOG).txt
+	@printf "See simulation logs in $(PATH_COLOR)$(TEST_DIR)/$(SIM_LOG).txt$(COLOR_RESET).\n"
+
+stderr: re $(NAME) $(TEST_DIR)
 	@printf "Running $(VIOLET)./$(NAME) $(ARGS)$(COLOR_RESET) to check for errors.\n\n"
 	@./$(NAME) $(ARGS) 2> $(TEST_DIR)/$(STDERR_LOG).txt
 	@printf "\nRun concluded. \
@@ -136,7 +136,7 @@ hel: $(NAME_DB) $(TEST_DIR)
 	@printf "\nHelgrind run concluded. \
 	See output in $(PATH_COLOR)$(TEST_DIR)/$(HELG_LOG).log$(COLOR_RESET).\n"
 
-test: stderr tclean valg hel db
+test: tclean print stderr valg hel db
 
 tclean:
 	@$(RM) -r $(TEST_DIR)
@@ -146,4 +146,4 @@ tclean:
 	@printf "$(INFO)Debugging executable and object files removed.$(COLOR_RESET)\n"
 
 
-.PHONY: all clean fclean re run print norm stderr db valg hel test tclean
+.PHONY: all clean fclean re run norm print stderr db valg hel test tclean
