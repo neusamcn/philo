@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 11:30:00 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 14:28:02 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 15:01:04 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,22 @@ static void	finish_meal(t_philo *p)
 		pthread_mutex_unlock(&*p->r_chopstick);
 		pthread_mutex_unlock(&*p->l_chopstick);
 	}
+	pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
 }
 
 static void	eat(t_philo *p)
 {
-	pthread_mutex_lock(&(*p->table)->sim->pass->run_dish);
+	// pthread_mutex_lock(&(*p->table)->sim->pass->run_dish);
 	p->t_last_meal = time_in_ms();
 	state_log(p, "is eating", "");
 	p->meals++;
-	pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
+	// pthread_mutex_unlock(&(*p->table)->sim->pass->run_dish);
 	usleep_precise((*p->table)->sim->args->t_eat, *p->table);
 }
 
 static bool	order_meal(t_philo *p)
 {
+	pthread_mutex_lock(&(*p->table)->sim->pass->run_dish);
     if (p->r_chopstick == p->l_chopstick)
     {
   		pthread_mutex_lock(&*p->l_chopstick);
