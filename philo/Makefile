@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/14 09:34:36 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/14 10:37:27 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,10 +37,11 @@ T_DIE			= 310
 T_EAT			= 200
 T_SLEEP			= 100
 N_EATS_X_PHILO	= 0
-ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
+ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO) 7
 
 TEST_DIR		= test_logs
 SIM_LOG			= sim_log
+STDERR_LOG		= sim_stderr
 VALG_LOG		= valg_out
 HELG_LOG		= helg_out
 
@@ -114,24 +115,28 @@ $(TEST_DIR):
 	@mkdir -p $@
 	@printf "%b created.\n" "$(SUCCESS)/$@$(COLOR_RESET)"
 
+stderr: re $(NAME)
+	@printf "Running $(VIOLET)./$(NAME) $(ARGS)$(COLOR_RESET) to check for errors.\n\n"
+	@./$(NAME) $(ARGS) 2> $(TEST_DIR)/$(STDERR_LOG).txt
+	@printf "\nRun concluded. \
+	See output in $(PATH_COLOR)$(TEST_DIR)/$(STDERR_LOG).txt$(COLOR_RESET).\n"
+
 db:
 	@gdbtui --args ./$(NAME_DB) $(ARGS)
 
 valg: $(NAME_DB) $(TEST_DIR)
 	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all -s \
 	--log-file=$(TEST_DIR)/$(VALG_LOG).log ./$(NAME_DB) $(ARGS)
-	@printf "Valgrind run concluded. \
+	@printf "\nValgrind run concluded. \
 	See output in $(PATH_COLOR)$(TEST_DIR)/$(VALG_LOG).log$(COLOR_RESET).\n"
 
 hel: $(NAME_DB) $(TEST_DIR)
 	@valgrind --tool=helgrind --track-destroy=all -s --log-file=$(TEST_DIR)/$(HELG_LOG).log \
 	./$(NAME_DB) $(ARGS)
-	@printf "Helgrind run concluded. \
+	@printf "\nHelgrind run concluded. \
 	See output in $(PATH_COLOR)$(TEST_DIR)/$(HELG_LOG).log$(COLOR_RESET).\n"
 
-# TODO: make rule to check stderr?
-
-test: tclean valg hel db
+test: stderr tclean valg hel db
 
 tclean:
 	@$(RM) -r $(TEST_DIR)
@@ -141,4 +146,4 @@ tclean:
 	@printf "$(INFO)Debugging executable and object files removed.$(COLOR_RESET)\n"
 
 
-.PHONY: all clean fclean re run print norm db valg hel test tclean
+.PHONY: all clean fclean re run print norm stderr db valg hel test tclean

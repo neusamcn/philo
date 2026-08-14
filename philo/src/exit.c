@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 23:24:26 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 10:40:55 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,7 @@ int	exit_msg(char *out_msg, char *err_msg, t_sim *sim, int exit_status)
 		printf("<project root>/README.md");
 		printf(ERR" for instructions.\n"CLR_RST);
 	}
+	if (out_msg && !err_msg)
+		err_msg = out_msg;
 	return (exit_cleanup(sim, err_msg, exit_status));
 }

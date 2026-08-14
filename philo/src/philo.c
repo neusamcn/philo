@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:23 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/13 23:53:40 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 10:41:35 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	main(int ac, char **av)
 
 	sim = NULL;
 	if (ac < 5 || ac > 6 || validate_args(av) != VALID)
-		return (exit_msg("Incorrect arguments.", NULL, sim, EXIT_FAILURE));
+		return (exit_msg("Incorrect arguments", NULL, sim, EXIT_FAILURE));
 	if (FLAIR == ON)
 		printf("%s", WELCOME);
 	sim = ft_calloc(1, sizeof(t_sim));
