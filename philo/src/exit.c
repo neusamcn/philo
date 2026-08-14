@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 20:47:12 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 12:50:29 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 13:32:26 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,9 @@ static void	discard_chopsticks(t_table *tbl, int max_chopsticks)
 
 static void	clear_pass(t_pass *pass)
 {
-	// int	i;
-
 	if (!pass)
 		return ;
-	// i = 0;
-	// while (i < pass->max_chits)
 	pthread_mutex_destroy(&pass->server);
-	// free(pass->server);
 	pthread_mutex_destroy(&pass->run_dish);
 	free(pass);
 }
