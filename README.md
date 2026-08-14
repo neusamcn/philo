@@ -7,26 +7,33 @@
 These silly philosophers say that they'll die if they only have 1 fork to eat spaghetti... That seems a bit dramatic... So let's give them chopsticks and noodles instead so they can truly worry about their mortal coil :) [*gleeful witchy cackle*]
 i.e. the subject refers to 'forks' and 'spaghetti', we will be talking about 'chopsticks' and 'noodles' here.
 
-...
+### Setting the room...
+One or more philosophers are sitting in a round table, there's a large bowl of noodles in the middle of the tabble, there is only 1 chopstick between each philosopher (meaning that we have as many chopsticks as philosophers).
 
-Our philosophers are organised in a circular linked list and our chopsticks are listed in an array in a way that:
-```
-P = philosopher;
-C = chopstick;
-N = total number of philosophers and chopsticks;
+### What's going to happen?
+These philosophers can only do 1 thing at a time and are very specific with their routine:
+So each and every philosopher will eat -> sleep -> think -> eat ... This goes on until philosophers are all satisfied or until one of them dies from starvation.
 
-P[index] can use C[index] and C[index - 1];
-Exception: P[0] can use C[0] and C[N - 1];
+### What's the catch?
+It's very impractical to eat with only 1 chopstick, so for a philosopher to be able to eat, they'll need to pick up 2 chopsticks, and the only ones available for a philosopher are the ones to the right and left of each one of them.
 
-C[index] can be used by P[index] and P[index + 1].
-Exception: C[N - 1] can be used by P[N - 1] and P[0];
-```
+If you want a further and more detailed description of the rules, read the subject for this project.
+
+### How did I set up *my* room?
+In this simulation, our philosophers are organised in a circular linked list and our chopsticks are listed in an array in a way that:
+- For a simulation with `N` philosophers, `Philosopher 1` will be at the head of the linked list, followed by consecutive philosophers and `Philosopher N` will be at the tail.
+- For a `Philosopher i` in a simulation with `N` philosophers, its node will have a pointer next that points to `Philosopher i + 1` (with the exception for `Philosopher N`) and a pointer previous that points to `Philosopher i - 1` (with the exception of `Philosopher 1`).
+- Considering an array of chopsticks with indexes `0` to `N - 1`, for a `Philosopher i` their left chopstick will have `index i - 1` and their right chopstick will have index `i`. Again we have exceptions for Philosopher 1 and Philosopher N, following the same logic as before: `Philosopher 1` will have their left chopstick in `Chopstick[N - 1]` and `Philosopher N` will have their right chopstick in `Chopstick[0]`.
+
+### How did I work this through?
+I considered mainly the [Multiple Token Solution](https://diningphilosophers.eu/token/#:~:text=Multiple%20Token%20Solution) and thought of it as a way to decide who the server in this philosophers' restautant would allow to eat at any given time.
+
 
 ## Instructions
 
 This project can be compiled with the exact requirements or with additional flair. For an improved experience, I recommend the following changes in `flair.h`:
 - `FLAIR` to `ON`
-- `UTENSIL` to ` chopstick`
+- `UTENSIL` to `" chopstick"`
 
 1. Compile the project with `make` or `make all`.
 2. Run the project with `make run`, `make print` if you want the simulation log in a file, or
@@ -69,109 +76,55 @@ The simulation log filename can also be defined in `Makefile` under `SIM_LOG`.
 ## Resources
 
 ### Allowed functions
-memset: https://www.man7.org/linux/man-pages/man3/memset.3.html
-
-printf: https://man7.org/linux/man-pages/man3/printf.3.html
-
-malloc, free: https://man7.org/linux/man-pages/man3/malloc.3.html
-
-write: https://man7.org/linux/man-pages/man2/write.2.html
-
-usleep: https://man7.org/linux/man-pages/man3/usleep.3.html
-
-gettimeofday: https://man7.org/linux/man-pages/man3/gettimeofday.3p.html
-
-https://www.man7.org/linux/man-pages/man7/pthreads.7.html
-cancellation points and how write() and printf() relate
-nice value
-NPTL: resource limits, interval timers, alternate signal stack, stack size soft resource limit, RLIMIT_STACK, ulimit -s, getconf GNU_LIBPTHREAD_VERSION, LD_ASSUME_KERNEL
-
-pthread_create: https://www.man7.org/linux/man-pages/man3/pthread_create.3.html
-
-pthread_detach: https://www.man7.org/linux/man-pages/man3/pthread_detach.3.html
-
-pthread_join: https://www.man7.org/linux/man-pages/man3/pthread_join.3.html
+- [memset](https://www.man7.org/linux/man-pages/man3/memset.3.html)
+- [printf](https://man7.org/linux/man-pages/man3/printf.3.html)
+- [malloc, free](https://man7.org/linux/man-pages/man3/malloc.3.html)
+- [write](https://man7.org/linux/man-pages/man2/write.2.html)
+- [usleep](https://man7.org/linux/man-pages/man3/usleep.3.html)
+- [gettimeofday](https://man7.org/linux/man-pages/man3/gettimeofday.3p.html)
+- [pthread_create](https://www.man7.org/linux/man-pages/man3/pthread_create.3.html)
+- [pthread_detach](https://www.man7.org/linux/man-pages/man3/pthread_detach.3.html)
+- [pthread_join](https://www.man7.org/linux/man-pages/man3/pthread_join.3.html)
+- [pthread_mutex_init, pthread_mutex_destroy, pthread_mutex_lock, pthread_mutex_unlock](https://www.man7.org/linux/man-pages/man3/pthread_mutex_init.3.html)
 
 
 ### Important concepts
 
-Multithreading in C: https://www.geeksforgeeks.org/c/multithreading-in-c/
-
-Thread Management Functions in C: https://www.geeksforgeeks.org/c/thread-functions-in-c-c/
-
-Inter-Process Communication (IPC): https://www.geeksforgeeks.org/operating-systems/inter-process-communication-ipc/
-
-Introduction to Process Synchronization: https://www.geeksforgeeks.org/operating-systems/introduction-of-process-synchronization/
-
-Mutual Exclusion in Synchronization: https://www.geeksforgeeks.org/operating-systems/mutual-exclusion-in-synchronization/
-
-Priority Inversion in Operating Systems: https://www.geeksforgeeks.org/operating-systems/priority-inversion/
-
-Introduction of Deadlock in Operating System: https://www.geeksforgeeks.org/operating-systems/introduction-of-deadlock-in-operating-system/
-
-Semaphores in Process Synchronization: https://www.geeksforgeeks.org/operating-systems/semaphores-in-process-synchronization/
-
-Mutex vs Semaphore: https://www.geeksforgeeks.org/operating-systems/mutex-vs-semaphore/
-
-Spinlock: https://en.wikipedia.org/wiki/Spinlock
+- [Multithreading in C](https://www.geeksforgeeks.org/c/multithreading-in-c/)
+- [Thread Management Functions in C](https://www.geeksforgeeks.org/c/thread-functions-in-c-c/)
+- [Inter-Process Communication (IPC)](https://www.geeksforgeeks.org/operating-systems/inter-process-communication-ipc/)
+- [Introduction to Process Synchronization](https://www.geeksforgeeks.org/operating-systems/introduction-of-process-synchronization/)
+- [Mutual Exclusion in Synchronization](https://www.geeksforgeeks.org/operating-systems/mutual-exclusion-in-synchronization/)
+- [Priority Inversion in Operating Systems](https://www.geeksforgeeks.org/operating-systems/priority-inversion/)
+- [Introduction of Deadlock in Operating System](https://www.geeksforgeeks.org/operating-systems/introduction-of-deadlock-in-operating-system/)
+- [Semaphores in Process Synchronization](https://www.geeksforgeeks.org/operating-systems/semaphores-in-process-synchronization/)
+- [Mutex vs Semaphore](https://www.geeksforgeeks.org/operating-systems/mutex-vs-semaphore/)
+- [Spinlock](https://en.wikipedia.org/wiki/Spinlock)
 
 
-Operations on mutexes:
+### Additional great resources
 
-pthread_mutex_init, pthread_mutex_destroy,
-pthread_mutex_lock, pthread_mutex_unlock:
-https://www.man7.org/linux/man-pages/man3/pthread_mutex_init.3.html
-
-
-Gold!: https://diningphilosophers.eu/
-The implementation used in this project is the Multiple Token Solution: https://diningphilosophers.eu/token/#:~:text=Multiple%20Token%20Solution
-
-
-Helgrind: a thread error detector: https://valgrind.org/docs/manual/hg-manual.html
-
-#### Why do I have usleep_precise() ?
-- `usleep_precise` is used so a philosopher thread waits for a given number of milliseconds but wakes up frequently (every 100 µs) to check whether the simulation should stop — this keeps threads responsive and improves timing accuracy compared to a single long sleep.
-
-Why that's necessary (key reasons)
-- Prompt termination: if the monitor detects a death or that all meals are done, threads sleeping inside `eat()` or `ph_sleep()` must stop quickly. A single long usleep(ms*1000) could leave threads blocked for the whole interval and delay shutdown/logging.
-- Correctness of the simulation: the project requires that actions stop as soon as the simulation ends (e.g., no further "is eating" or "is thinking" messages after a death). Frequent wake-ups let threads observe the shared dinner->dining flag and exit early.
-- Better effective timing: splitting a long sleep into many short sleeps generally gives finer-grained responsiveness and can reduce oversleep caused by scheduler delays, making small durations (ms-level) more precise for this simulation.
-- Simplicity: it’s an easy-to-read solution that only uses portable primitives (gettimeofday + usleep + mutex-protected flag) without adding more complex synchronization.
-
-Tradeoffs and alternatives
-- Tradeoff: more wake-ups increases context switches and small overhead (but sleeping 100 µs avoids busy-waiting).
-- Alternatives that avoid periodic polling: condition variables or futex-like notifications, pthread_cond_timedwait/clock_nanosleep with absolute time, or having the monitor signal threads when dining changes. Those can be more efficient but add complexity.
-  
-Bottom line
-- `usleep_precise` balances simplicity and correctness: it ensures threads stop quickly when the simulation ends and gives more consistent millisecond-level timing for the philosophers.
-
-
-TODO: https://pt.wikipedia.org/wiki/Exclus%C3%A3o_m%C3%BAtua
-https://stackoverflow.com/questions/34524/what-is-a-mutex
+- [MVP](https://diningphilosophers.eu/)
+- [Helgrind: a thread error detector](https://valgrind.org/docs/manual/hg-manual.html)
 
 
 ### Interesting rabbit holes I went through while working on this project...
 
-Learning from Wikipedia on a tight schedule is always a gamble... I knew about The Year 2000 Problem, but learning about Epochs opened a whole new can of shiny worms for me. Wanna take your chance? Click here. https://en.wikipedia.org/wiki/Epoch_(computing)
+Learning from Wikipedia on a tight schedule is always a gamble... I knew about The Year 2000 Problem, but learning about Epochs opened a whole new can of shiny worms for me. Wanna take your chance? [Click here](https://en.wikipedia.org/wiki/Epoch_(computing)).
 
-Though related to the main concepts explored during this project, microkernels aren't an essential read. However, this is very interesting and useful to understand. Have a look here to start your journey: Microkernel in Operating Systems: https://www.geeksforgeeks.org/operating-systems/microkernel-in-operating-systems/
+Though related to the main concepts explored during this project, microkernels aren't an essential read. However, this is very interesting and useful to understand. Have a look here to start your journey: [Microkernel in Operating Systems](https://www.geeksforgeeks.org/operating-systems/microkernel-in-operating-systems/)
 
 Professional kitchen lingo was a fun and useful way to help me organise this project and name my variables:
-https://www.webstaurantstore.com/article/511/kitchen-slang-phrases.html?srsltid=AfmBOop-4NBlJYLfwhyFTRSqtXx04c-K_S0arZ36thQ8fB62ycA93oMd
-https://www.reddit.com/r/KitchenConfidential/comments/eytwy6/made_a_list_of_slang_for_new_staff_looking_for/
+- [Webstaurant's article: Kitchen Slang Phrases](https://www.webstaurantstore.com/article/511/kitchen-slang-phrases.html?srsltid=AfmBOop-4NBlJYLfwhyFTRSqtXx04c-K_S0arZ36thQ8fB62ycA93oMd)
+- [Reddit post @ r/KitchenConfidential by u/MNGrrl: Made a list of slang for new staff, looking for feedback](https://www.reddit.com/r/KitchenConfidential/comments/eytwy6/made_a_list_of_slang_for_new_staff_looking_for/)
 
-If you haven't worked in a kitchen but watched The Bear, these terms will be familiar.
+If you haven't worked in a kitchen but watched *The Bear*, these terms will be familiar.
 
-Bonus rabbit hole / fun fact (just because this was on my mind a lot for some reason...): https://en.wikipedia.org/wiki/Democracy_Manifest
-https://youtu.be/PeihcfYft9w?si=xeRVQsNubFrNYeZ3
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/PeihcfYft9w?si=kCkhw2hJYr1p-rW5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+Bonus rabbit hole / fun fact (just because this was on my mind a lot for some reason...):
+- [Democracy Manifest @ Wikipedia](https://en.wikipedia.org/wiki/Democracy_Manifest)
+- [Democracy Manifest @ YouTube](https://youtu.be/PeihcfYft9w?si=xeRVQsNubFrNYeZ3)
 
 
 ### AI Usage
 
 AI (LLMs) was used as a study and research support, to find more information on the various concepts I needed to learn and to assist in interpretation of technical texts.
-
-
-Disorganised notes:
-Restaurant: The Ford et Tu, The Ford/Fort Ate Too, The For Tea Ate Too, The Restaur4n2
