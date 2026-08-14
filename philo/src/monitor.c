@@ -6,11 +6,13 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 11:23:27 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 11:29:16 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 14:14:33 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <pthread.h>
+#include <stdint.h>
 
 bool	dinner_is_over(t_table *tbl)
 {
@@ -26,15 +28,19 @@ static bool	philo_dead(t_sim *sim)
 {
 	t_philo	*curr_p;
 	int		start;
-	int64_t	t_since_last_meal;
+	int64_t	t_last_meal;
+	// int64_t	t_since_last_meal;
 
 	curr_p = *sim->table->philo_head;
 	start = 1;
 	while (curr_p && (start || curr_p != *sim->table->philo_head))
 	{
 		start = 0;
-		t_since_last_meal = time_in_ms() - curr_p->t_last_meal;
-		if (t_since_last_meal >= sim->args->t_die)
+		pthread_mutex_lock(&sim->pass->run_dish);
+		t_last_meal = curr_p->t_last_meal;
+		pthread_mutex_unlock(&sim->pass->run_dish);
+		// t_since_last_meal = time_in_ms() - t_last_meal;
+		if (time_in_ms() - t_last_meal >= sim->args->t_die)
 		{
 			state_log(curr_p, "died", "");
 			update_end_dinner_status(sim->table, true);
@@ -64,8 +70,13 @@ static bool	philos_sated(t_sim *sim)
 	while (curr_p && (start || curr_p != *sim->table->philo_head))
 	{
 		start = 0;
+		pthread_mutex_lock(&sim->pass->run_dish);
 		if (curr_p->meals < sim->args->n_eats_x_philo)
+		{
+			pthread_mutex_unlock(&sim->pass->run_dish);
 			return (false);
+		}
+		pthread_mutex_unlock(&sim->pass->run_dish);
 		curr_p = curr_p->next;
 	}
 	update_end_dinner_status(sim->table, true);

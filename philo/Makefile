@@ -6,7 +6,7 @@
 #    By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/13 17:22:31 by ncruz-ne          #+#    #+#              #
-#    Updated: 2026/08/14 13:48:14 by ncruz-ne         ###   ########.fr        #
+#    Updated: 2026/08/14 13:55:44 by ncruz-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,11 +35,11 @@ DB_FLAGS	= -g
 
 RM 			= rm -f
 
-N_PHILO			= 1
+N_PHILO			= 5
 T_DIE			= 800
 T_EAT			= 200
-T_SLEEP			= 100
-N_EATS_X_PHILO	= 0
+T_SLEEP			= 200
+N_EATS_X_PHILO	= 7
 ARGS			= $(N_PHILO) $(T_DIE) $(T_EAT) $(T_SLEEP) $(N_EATS_X_PHILO)
 
 TEST_DIR		= test_logs
@@ -139,7 +139,7 @@ hel: $(NAME_DB) $(TEST_DIR)
 	@printf "\nHelgrind run concluded. \
 	See output in $(PATH_COLOR)$(TEST_DIR)/$(HELG_LOG).log$(COLOR_RESET).\n"
 
-test: tclean print stderr valg hel db
+test: tclean print stderr valg hel
 
 tclean:
 	@$(RM) -r $(TEST_DIR)

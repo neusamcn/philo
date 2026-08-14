@@ -6,7 +6,7 @@
 /*   By: ncruz-ne <ncruz-ne@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 23:03:03 by ncruz-ne          #+#    #+#             */
-/*   Updated: 2026/08/14 12:41:25 by ncruz-ne         ###   ########.fr       */
+/*   Updated: 2026/08/14 14:01:23 by ncruz-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	sit_philo(t_philo *p, int i, t_sim *sim)
 	n_philo = sim->args->n_philo;
 	p->philo_id = i + 1;
 	p->alive = true;
-	// p->call_server = NULL;
 	p->call_server = &sim->pass->server;
 	p->l_chopstick = &sim->table->chopsticks[i];
 	p->r_chopstick = &sim->table->chopsticks[(i + 1) % n_philo];
